@@ -6,6 +6,7 @@ struct TodoController: RouteCollection {
         let todos = routes.grouped("todos")
         todos.get(use: index)
         todos.post(use: create)
+        
         todos.group(":todoID") { todo in
             todo.delete(use: delete)
         }
@@ -16,7 +17,12 @@ struct TodoController: RouteCollection {
     }
 
     func create(req: Request) throws -> EventLoopFuture<Todo> {
+        print(req.body)
+        print(req.content)
+        print(req.method)
+        print(req.parameters)
         let todo = try req.content.decode(Todo.self)
+        print(todo.title)
         return todo.save(on: req.db).map { todo }
     }
 
