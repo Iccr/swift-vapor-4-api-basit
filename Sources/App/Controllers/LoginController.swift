@@ -10,6 +10,7 @@ import Foundation
 
 import Fluent
 import Vapor
+import JWT
 
 struct LoginController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
@@ -23,10 +24,34 @@ struct LoginController: RouteCollection {
     }
 
     func create(req: Request) throws -> EventLoopFuture<User> {
+    
+        
+        
         let model = try req.content.decode(UserContainer.self)
-        print(model.user?.token ?? "")
-        return req.eventLoop.makeSucceededFuture(model.user!)
+
+    
+        let fetch = User.find(1, on: req.db)
+       
+        return fetch.flatMapThrowing { user ->  User in
+                if let user = user {
+                    print(user)
+                   return user
+                }
+                
+                let payload = JwtModel(
+                        subject: "vapor",
+                    expiration: .init(value: .distantFuture),
+                        isAdmin: true
+                    )
+                let generatedToken = try req.jwt.sign(payload)
+                print(model.user?.token ?? "")
+                model.user?.authToken = generatedToken
+                return model.user!
+        }
+        
+        
 //        return model.save(on: req.db).map { todo }
+//        return .ok
     }
 
     func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {

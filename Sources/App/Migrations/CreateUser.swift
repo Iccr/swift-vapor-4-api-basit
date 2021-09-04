@@ -8,11 +8,9 @@ struct CreateUser: Migration {
             .field("imageurl", .string)
             .field("imageurl", .string)
             .field("token", .string, .required)
-            .field("user_id", .int, .required)
+//            .field("user_id", .int, .required)
             .field("provider", .int, .required)
             .create()
-        
-        
     }
 
     func revert(on database: Database) -> EventLoopFuture<Void> {
