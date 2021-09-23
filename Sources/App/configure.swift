@@ -12,7 +12,6 @@ public func configure(_ app: Application) throws {
     app.logger.logLevel = .trace
     
     app.jwt.signers.use(.hs512(key: "mrZTowKXaSvY6QgWHkFxeXXNWnF4ptzQex8COj4zqWnA0dogSR98oCX8/3u/wDj+"))
-//    app.jwt.signers.use(.hs256(key: "mrZTowKXaSvY6QgWHkFxeXXNWnF4ptzQex8COj4zqWnA0dogSR98oCX8/3u/wDj+"))
     app.databases.use(
         .postgres(
             hostname: "localhost",
@@ -22,11 +21,7 @@ public func configure(_ app: Application) throws {
             database: "finder"),
         
         as: .psql)
-
-//    app.databases.use(try .postgres(url: Application.databaseUrl), as: .psql)
     app.migrations.add(CreateUser())
-    
-
     try routes(app)
 }
 
