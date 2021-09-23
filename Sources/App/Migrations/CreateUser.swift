@@ -6,10 +6,10 @@ struct CreateUser: Migration {
             .id()
             .field("email", .string)
             .field("imageurl", .string)
-            .field("imageurl", .string)
+            .field("name", .string)
             .field("token", .string, .required)
 //            .field("user_id", .int, .required)
-            .field("provider", .int, .required)
+            .field("provider", .string, .required)
             .create()
     }
 
