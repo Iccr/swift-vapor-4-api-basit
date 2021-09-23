@@ -10,6 +10,8 @@ public func configure(_ app: Application) throws {
 
     // register routes
     app.logger.logLevel = .trace
+    app.views.use(.leaf)
+
     
     app.jwt.signers.use(.hs512(key: "mrZTowKXaSvY6QgWHkFxeXXNWnF4ptzQex8COj4zqWnA0dogSR98oCX8/3u/wDj+"))
     app.databases.use(
