@@ -18,8 +18,14 @@ struct ImperialController: RouteCollection {
 
 
 class SocialSession {
-    func verify(token: String, provider: String, req: Request) throws -> GoogleAuthResponseModel {
-        return try verifyGoogle(token: token, req: req).wait()
+    func verify(token: String, provider: String, req: Request) throws ->  EventLoopFuture<GoogleAuthResponseModel> {
+        let result =   verifyGoogle(token: token, req: req)
+        return result.flatMapThrowing { response in
+            if let _ = response.error {
+                throw Abort(.unauthorized)
+            }
+            return response
+        }
  
         
     }

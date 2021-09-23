@@ -57,6 +57,9 @@ final class User : Model, Content {
     var token : String?
     
     
+    @Field(key: "fcm")
+    var fcm : String?
+    
     var authToken: String?
       
     
@@ -66,6 +69,13 @@ final class User : Model, Content {
     @Field(key: "provider")
     var provider : String?
     
+    @Timestamp(key: "inserted_at", on: .create)
+        var createdAt: Date?
+
+    // When this Planet was last updated.
+    @Timestamp(key: "updated_at", on: .update)
+    var updatedAt: Date?
+    
 
     init() { }
     
@@ -74,13 +84,15 @@ final class User : Model, Content {
          imageurl: String,
          name : String?,
          token : String?,
-         provider : String? ) {
-        
+         provider : String?,
+         fcm: String?) {
+        self.email = email
         self.id = id
         self.imageurl = imageurl
         self.name = name
         self.token = token
         self.provider = provider
+        self.fcm = fcm
     }
     
     
@@ -160,7 +172,7 @@ struct GoogleAuthResponseModel : Codable {
     }
     
     var user: User {
-        return User(id: nil, email: email ?? "", imageurl: picture ?? "", name: name ?? "", token: nil, provider: nil)
+        return User(id: nil, email: email ?? "", imageurl: picture ?? "", name: name ?? "", token: nil, provider: nil, fcm: "")
     }
 
     init(from decoder: Decoder) throws {
@@ -177,6 +189,7 @@ struct GoogleAuthResponseModel : Codable {
     }
 
 }
+
 
 
 struct TestPayload: JWTPayload {
