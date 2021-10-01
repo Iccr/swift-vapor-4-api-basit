@@ -14,7 +14,7 @@ struct CreateRoom: Migration {
             .id()
             .field("price", .double, .required)
             .field("images", .array(of: .string), .required)
-            .field("userId", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+//            .field("userId", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
             .field("type", .string, .required)
             .field("noOfRooms", .int, .required)
             .field("kitchen", .string, .required)

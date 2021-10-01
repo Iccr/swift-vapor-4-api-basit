@@ -11,13 +11,7 @@ import Vapor
 
 struct RoomController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-//        let todos = routes.grouped("todos")
-//        todos.get(use: index)
-//        todos.post(use: create)
-//
-//        todos.group(":todoID") { todo in
-//            todo.delete(use: delete)
-//        }
+
     }
 
     func index(req: Request) throws -> EventLoopFuture<[Room]> {

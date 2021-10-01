@@ -23,8 +23,8 @@ public func configure(_ app: Application) throws {
             database: Env.database),
         
         as: .psql)
-    app.migrations.add(CreateUser())
+//    app.migrations.add(CreateUser())
     app.migrations.add(CreateRoom())
-//    try app.autoMigrate().wait()
+    try app.autoMigrate().wait()
     try routes(app)
 }

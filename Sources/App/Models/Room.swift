@@ -27,8 +27,8 @@ final class Room: Codable, Model, Content {
     @Field(key: "images")
     var images : [String]?
     
-    @Field(key: "userId")
-    var userId : Int?
+//    @Field(key: "userId")
+//    var userId : Int?
     
     @Field(key: "type")
     var type : String?
@@ -90,14 +90,16 @@ final class Room: Codable, Model, Content {
     @Timestamp(key: "updatedAt", on: .update)
     var updatedAt: Date?
     
-    init(id: Int? = nil, price: Double, images: [String], userId: Int, type: String, noOfRooms: Int, kitchen: String,
+    init(id: Int? = nil, price: Double, images: [String],
+//         userId: Int,
+         type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
          parking: String,  water: String, internet: String, phone: String, description: String,
          occupied: Bool, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
         self.id = id
         self.price = price
         self.images = images
-        self.userId = userId
+//        self.userId = userId
         self.type = type
         self.noOfRooms = noOfRooms
         self.kitchen = kitchen
@@ -119,7 +121,7 @@ final class Room: Codable, Model, Content {
             case id = "id"
             case price = "price"
             case images = "images"
-            case userId = "userId"
+//            case userId = "userId"
             case type = "type"
             case noOfRooms = "noOfRooms"
             case kitchen = "kitchen"
@@ -147,7 +149,7 @@ final class Room: Codable, Model, Content {
             id = try values.decodeIfPresent(Int.self, forKey: .id)
             price = try values.decodeIfPresent(Double.self, forKey: .price)
             images = try values.decodeIfPresent(Array<String>.self, forKey: .images)
-            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
+//            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
             type = try values.decodeIfPresent(String.self, forKey: .type)
             noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
             kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)

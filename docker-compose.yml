@@ -1,7 +1,7 @@
 version: '3.5'
 networks:
-  chautari:
-    name: backend_chautari
+  vRoomfinder:
+    name: backend_roomfinder
 
 services:
     # finder:
@@ -29,18 +29,18 @@ services:
     #     volumes:
     #       - /opt/chautari/uploads:/live/chautari/uploads
 
-    db:
+    vdb:
         restart: always
         image: postgres:13.1
         ports:
         - 1002:5432
         container_name: v_postgres_db
         networks:
-          - chautari
+          - vRoomfinder
         environment: 
            POSTGRES_USER: deploy
            POSTGRES_PASSWORD: P@ssword
-           POSTGRES_DB: vfinder
+           POSTGRES_DB: postgres
            POSTGRES_HOSTNAME: localhost
            POSTGRES_POOLSIZE: 10
         # volumes:
@@ -55,6 +55,6 @@ services:
       hostname: v_postgres_db
       container_name: vfinder_adminer
       networks:
-        - chautari
+        - vRoomfinder
       ports:
         - 1001:8080
