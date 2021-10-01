@@ -25,7 +25,7 @@ struct LoginController: RouteCollection {
     
     func create(req: Request) throws -> EventLoopFuture<User> {
         let input = try req.content.decode(UserContainer.self).user
-        req.jwt.apple.verify(input?.email ?? "", applicationIdentifier: <#T##String?#>)
+        
         let result =  try! SocialSession().verify(token: input?.token ?? "", provider: "google", req: req)
         return result.flatMap { response in
             let user = response.user

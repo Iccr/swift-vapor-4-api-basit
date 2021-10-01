@@ -16,7 +16,7 @@ struct CreateRoom: Migration {
             .field("images", .array(of: .string), .required)
             .field("userId", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
             .field("type", .string, .required)
-            .field("noOfRooms", Int, .required)
+            .field("noOfRooms", .int, .required)
             .field("kitchen", .string, .required)
             .field("floor", .string, .required)
             .field("lat", .double, .required)
@@ -30,10 +30,11 @@ struct CreateRoom: Migration {
             .field("internet", .string, .required)
             .field("phone", .string, .required)
             .field("description", .string, .required)
-            .field("occupied", .bool, .sql(false))
+            .field("occupied", .bool, .sql(.default(false)))
             .field("preference", .string, .required)
             .field("createdAt", .datetime, .required)
             .field("updatedAt", .datetime, .required)
+            .create()
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {

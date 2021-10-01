@@ -14,6 +14,10 @@ func routes(_ app: Application) throws {
     app.post("login") {req -> EventLoopFuture<User>  in
         return try LoginController().create(req: req)
     }
+    
+    app.get("rooms") { req in
+        return try RoomController().index(req: req)
+    }
 }
 
 

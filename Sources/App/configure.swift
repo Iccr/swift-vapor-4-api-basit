@@ -17,22 +17,14 @@ public func configure(_ app: Application) throws {
     app.databases.use(
         .postgres(
             hostname: "localhost",
-            port: 4001,
+            port: 1000,
             username: "deploy",
             password: "P@ssword",
-            database: "vaporFinder"),
+            database: "vfinder"),
         
         as: .psql)
     app.migrations.add(CreateUser())
     app.migrations.add(CreateRoom())
-    try app.autoMigrate().wait()
+//    try app.autoMigrate().wait()
     try routes(app)
-}
-
-
-
-
-extension Application {
-    
-    static let databaseUrl = URL(string: "postgres://deploy:P@ssword@localhost:40001/finder")!
 }

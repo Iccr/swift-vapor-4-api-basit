@@ -1,74 +1,60 @@
-# Docker Compose file for Vapor
-#
-# Install Docker on your system to run and test
-# your Vapor app in a production-like environment.
-#
-# Note: This file is intended for testing and does not
-# implement best practices for a production deployment.
-#
-# Learn more: https://docs.docker.com/compose/reference/
-#
-#   Build images: docker-compose build
-#      Start app: docker-compose up app
-# Start database: docker-compose up db
-# Run migrations: docker-compose run migrate
-#       Stop all: docker-compose down (add -v to wipe db)
-#
-version: '3.7'
-
-volumes:
-  db_data:
-
-x-shared_environment: &shared_environment
-  LOG_LEVEL: ${LOG_LEVEL:-debug}
-  DATABASE_HOST: db
-  DATABASE_NAME: vapor_database
-  DATABASE_USERNAME: vapor_username
-  DATABASE_PASSWORD: vapor_password
+version: '3.5'
+networks:
+  chautari:
+    name: backend_chautari
 
 services:
-  app:
-    image: :latest
-    build:
-      context: .
-    environment:
-      <<: *shared_environment
-    depends_on:
-      - db
-    ports:
-      - '8080:8080'
-    # user: '0' # uncomment to run as root for testing purposes even though Dockerfile defines 'vapor' user.
-    command: ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
-  migrate:
-    image: :latest
-    build:
-      context: .
-    environment:
-      <<: *shared_environment
-    depends_on:
-      - db
-    command: ["migrate", "--yes"]
-    deploy:
-      replicas: 0
-  revert:
-    image: :latest
-    build:
-      context: .
-    environment:
-      <<: *shared_environment
-    depends_on:
-      - db
-    command: ["migrate", "--revert", "--yes"]
-    deploy:
-      replicas: 0
-  db:
-    image: postgres:12-alpine
-    volumes:
-      - db_data:/var/lib/postgresql/data/pgdata
-    environment:
-      PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_USER: vapor_username
-      POSTGRES_PASSWORD: vapor_password
-      POSTGRES_DB: vapor_database
-    ports:
-      - '5432:5432'
+    # finder:
+    #     image: chautari
+    #     build: .
+    #     restart: always
+    #     command: bash -c "/usr/wait-for-it.sh --timeout=0 db:5432 && _build/prod/rel/finder/bin/finder eval 'Finder.Release.migrate' &&  _build/prod/rel/finder/bin/finder eval 'Finder.Release.seed' &&  _build/prod/rel/finder/bin/finder start"
+    #     container_name: finder_api
+    #     depends_on:
+    #       - db
+    #     environment: 
+    #       DATABASE_URL:  ecto://deploy:P@ssword@db/finder
+    #       SECRET_KEY_BASE: GYjWGHDHDe3Ob+Qivj7NBPP+8FU429wAJrVl9XWM78lXLpZ/2HcTKuc5BJ+hPvpq
+
+    #       DATABASE_HOST: db
+    #       USER: deploy
+    #       PASSWORD: P@ssword
+    #       DATABASE: finder_dev
+    #       DIALECT: 'postgres'
+    #       PORT: 4000
+    #     ports:
+    #       - 4002:4000
+    #     networks:
+    #       - chautari
+    #     volumes:
+    #       - /opt/chautari/uploads:/live/chautari/uploads
+
+    db:
+        restart: always
+        image: postgres:13.1
+        ports:
+        - 1002:5432
+        container_name: v_postgres_db
+        networks:
+          - chautari
+        environment: 
+           POSTGRES_USER: deploy
+           POSTGRES_PASSWORD: P@ssword
+           POSTGRES_DB: vfinder
+           POSTGRES_HOSTNAME: localhost
+           POSTGRES_POOLSIZE: 10
+        # volumes:
+          # - /tmp/.s.PGSQL.5432:/var/run/postgresql/.s.PGSQL.5432
+        volumes:
+          - /opt/dev/postgres_dump:/docker-entrypoint-initdb.d
+          - /opt/dev/postgres:/var/lib/postgresql/data
+
+    adminer:
+      image: adminer
+      restart: always
+      hostname: v_postgres_db
+      container_name: vfinder_adminer
+      networks:
+        - chautari
+      ports:
+        - 1001:8080
