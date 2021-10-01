@@ -13,14 +13,14 @@ public func configure(_ app: Application) throws {
     app.views.use(.leaf)
     
     
-    app.jwt.signers.use(.hs512(key: "mrZTowKXaSvY6QgWHkFxeXXNWnF4ptzQex8COj4zqWnA0dogSR98oCX8/3u/wDj+"))
+    app.jwt.signers.use(.hs512(key: Env.jwtSecret))
     app.databases.use(
         .postgres(
-            hostname: "localhost",
-            port: 1000,
-            username: "deploy",
-            password: "P@ssword",
-            database: "vfinder"),
+            hostname: Env.hostname,
+            port: Env.port,
+            username: Env.username,
+            password: Env.password,
+            database: Env.database),
         
         as: .psql)
     app.migrations.add(CreateUser())

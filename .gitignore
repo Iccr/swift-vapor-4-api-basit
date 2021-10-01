@@ -6,5 +6,5 @@ DerivedData/
 .DS_Store
 db.sqlite
 .swiftpm
-Sources/Environment.swift
+Sources/App/Environment.swift
 
