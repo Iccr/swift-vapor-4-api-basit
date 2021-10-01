@@ -11,27 +11,9 @@ func routes(_ app: Application) throws {
         return req.view.render("index", ["title": "Hello Vapor!"])
     }
     
-    app.get { req in
-        return "It works!"
-    }
-
-    app.get("todos") { req -> EventLoopFuture<[User]> in
-        return try TodoController().index(req: req)
-    }
-    
-    app.post("todos") { req -> HTTPResponseStatus in
-        let greeting = try req.content.decode(Todos.self)
-        print(greeting.title) // "world"
-        return HTTPStatus.ok
-    }
-    
     app.post("login") {req -> EventLoopFuture<User>  in
         return try LoginController().create(req: req)
     }
-    
-    
-//    http://{{baseurl}}/api/v1/login
-    
 }
 
 
