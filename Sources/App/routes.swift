@@ -18,6 +18,11 @@ func routes(_ app: Application) throws {
     app.get("rooms") { req in
         return try RoomController().index(req: req)
     }
+    
+    
+    app.post("rooms") { req in
+        return try RoomController().create(req: req)
+    }
 }
 
 

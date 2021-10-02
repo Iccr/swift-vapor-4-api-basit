@@ -9,10 +9,12 @@ public func configure(_ app: Application) throws {
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // register routes
-    app.logger.logLevel = .trace
+    app.routes.defaultMaxBodySize = "10mb"
+    app.logger.logLevel = .debug
     app.views.use(.leaf)
     
-    
+    let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
+    app.middleware.use(file)
     app.jwt.signers.use(.hs512(key: Env.jwtSecret))
     app.databases.use(
         .postgres(

@@ -29,25 +29,27 @@ services:
     #     volumes:
     #       - /opt/chautari/uploads:/live/chautari/uploads
 
-    vdb:
-        restart: always
-        image: postgres:13.1
-        ports:
-        - 1002:5432
-        container_name: v_postgres_db
-        networks:
-          - vRoomfinder
-        environment: 
-           POSTGRES_USER: deploy
-           POSTGRES_PASSWORD: P@ssword
-           POSTGRES_DB: postgres
-           POSTGRES_HOSTNAME: localhost
-           POSTGRES_POOLSIZE: 10
-        # volumes:
-          # - /tmp/.s.PGSQL.5432:/var/run/postgresql/.s.PGSQL.5432
-        volumes:
-          - /opt/dev/postgres_dump:/docker-entrypoint-initdb.d
-          - /opt/dev/postgres:/var/lib/postgresql/data
+    # vdb:
+    #     restart: always
+    #     image: postgres:13.1
+    #     ports:
+    #     - 1002:5432
+    #     container_name: v_postgres_db
+    #     networks:
+    #       - vRoomfinder
+
+    #     environment: 
+    #        POSTGRES_USER: ccr
+    #        POSTGRES_PASSWORD: P@ssword
+    #        POSTGRES_DB: vfinder
+    #        POSTGRES_HOSTNAME: localhost
+    #        POSTGRES_POOLSIZE: 10
+    #        PORT: 5432
+    #     # volumes:
+    #       # - /tmp/.s.PGSQL.5432:/var/run/postgresql/.s.PGSQL.5432
+    #     volumes:
+    #       - /opt/dev/postgres_dump:/docker-entrypoint-initdb.d
+    #       - /opt/dev/postgres:/var/lib/postgresql/data
 
     adminer:
       image: adminer

@@ -10,22 +10,15 @@ import Vapor
 import Fluent
 
 final class Room: Codable, Model, Content {
-    init() {
-        
-    }
-    
-
-    
     static let schema: String = "rooms"
-    
     @ID(custom: "id")
-    var id : Int?
+    var id: Int?
     
     @Field(key: "price")
     var price : Double?
     
-    @Field(key: "images")
-    var images : [String]?
+    @Field(key: "vimages")
+    var vimages : [String]
     
 //    @Field(key: "userId")
 //    var userId : Int?
@@ -33,7 +26,7 @@ final class Room: Codable, Model, Content {
     @Field(key: "type")
     var type : String?
     
-    @Field(key: "noOfRooms")
+    @Field(key: "no_of_rooms")
     var noOfRooms : Int?
     
     @Field(key: "kitchen")
@@ -83,22 +76,24 @@ final class Room: Codable, Model, Content {
     var preference : String?
     
     
-    @Timestamp(key: "createdAt", on: .create)
+    @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
     // When this Planet was last updated.
-    @Timestamp(key: "updatedAt", on: .update)
+    @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
     
-    init(id: Int? = nil, price: Double, images: [String],
+    init(id: Int? = nil, price: Double, vimages: [String],
 //         userId: Int,
          type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
          parking: String,  water: String, internet: String, phone: String, description: String,
          occupied: Bool, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
         self.id = id
+        
         self.price = price
-        self.images = images
+        self.vimages = vimages
+//        self.vimages = vimages ?? ["sadfasdf"]
 //        self.userId = userId
         self.type = type
         self.noOfRooms = noOfRooms
@@ -116,14 +111,15 @@ final class Room: Codable, Model, Content {
     }
     
     
+    init() { }
     
         enum CodingKeys: String, CodingKey {
             case id = "id"
             case price = "price"
-            case images = "images"
+            case vimages = "vimages"
 //            case userId = "userId"
             case type = "type"
-            case noOfRooms = "noOfRooms"
+            case noOfRooms = "no_of_rooms"
             case kitchen = "kitchen"
             case floor = "floor"
             case lat = "lat"
@@ -131,7 +127,7 @@ final class Room: Codable, Model, Content {
             case address = "address"
             case district = "district"
             case state = "state"
-            case localGov = "localGov"
+            case localGov = "local_gov"
             case parking = "parking"
             case water = "water"
             case internet = "internet"
@@ -140,15 +136,15 @@ final class Room: Codable, Model, Content {
             case occupied = "occupied"
             case preference = "preference"
     
-            case createdAt = "createdAt"
-            case updatedAt = "updatedAt"
+            case createdAt = "created_at"
+            case updatedAt = "updated_at"
         }
     
         init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
             id = try values.decodeIfPresent(Int.self, forKey: .id)
             price = try values.decodeIfPresent(Double.self, forKey: .price)
-            images = try values.decodeIfPresent(Array<String>.self, forKey: .images)
+            vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
 //            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
             type = try values.decodeIfPresent(String.self, forKey: .type)
             noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
@@ -170,6 +166,8 @@ final class Room: Codable, Model, Content {
             createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
             updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
         }
+    
+     
     
     
 }
