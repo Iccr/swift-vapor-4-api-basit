@@ -28,6 +28,28 @@ struct RoomController: RouteCollection {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
         let filename = "\(Date().timeIntervalSince1970)_" + image.filename.replacingOccurrences(of: " ", with: "")
         
+        let uploadFutures = input.files
+                .filter { $0.data.readableBytes > 0 }
+                .map { file -> EventLoopFuture<UploadedFile> in
+                    let fileName = prefix + file.filename
+                    let path = app.directory.publicDirectory + fileName
+                    let isImage = ["png", "jpeg", "jpg", "gif"].contains(file.extension?.lowercased())
+                    
+                    return req.application.fileio.openFile(path: path,
+                                                           mode: .write,
+                                                           flags: .allowFileCreation(posixMode: 0x744),
+                                                           eventLoop: req.eventLoop)
+                        .flatMap { handle in
+                            req.application.fileio.write(fileHandle: handle,
+                                                         buffer: file.data,
+                                                         eventLoop: req.eventLoop)
+                                .flatMapThrowing { _ in
+                                    try handle.close()
+                                    return UploadedFile(url: fileName, isImage: isImage)
+                                }
+                            
+                        }
+                }
         
         return req.fileio.writeFile(
             image.data,
