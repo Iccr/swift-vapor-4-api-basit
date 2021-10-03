@@ -28,8 +28,9 @@ public func configure(_ app: Application) throws {
 //    app.migrations.add(CreateUser())
     app.migrations.add(CreateCity())
     app.migrations.add(CreateRoom())
+    app.migrations.add(CreateBanner())
     
-    try seed(app.db)
+    seed(app.db)
     try app.autoMigrate().wait()
     try routes(app)
 }
@@ -47,13 +48,29 @@ func seed(_ db: Database)  {
         description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     )
     
-    db.query(City.self).count()
+    _ = db.query(City.self).count()
         .flatMapThrowing { count in
         if count == 0 {
-            _ = try kathmandu.create(on: db).and(pokhara.create(on: db))
+            _ =  kathmandu.create(on: db).and(pokhara.create(on: db))
         }
     }
     
+    
+    // banner
+    
+    let b1 = Banner( title: "Start Earning", image: "/samples/kathmandu.jpg", subtitle: "List a place", type: "property", value: "1")
+    
+    let b2 = Banner( title: "Monetary Parntership", image: "/samples/kathmandu.jpg", subtitle: "List second place", type: "property", value: "2")
+    
+    _ = db.query(Banner.self).count()
+        .flatMapThrowing { count in
+        if count == 0 {
+            _ =  b1.create(on: db).and(b2.create(on: db))
+        }
+    }
+    
+    
+   
   
    
     

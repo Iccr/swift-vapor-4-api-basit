@@ -16,6 +16,7 @@ import Foundation
 //}
 //
 import Fluent
+import Vapor
 
 final class Banner: Codable, Model {
     static let schema: String = "banners"
@@ -78,5 +79,23 @@ final class Banner: Codable, Model {
         type = try values.decodeIfPresent(String.self, forKey: .type)
         value = try values.decodeIfPresent(String.self, forKey: .value)
     }
+    
+    struct Output: Content {
+        var id: Int?
+        var title : String?
+        var image : String?
+        var subtitle : String?
+        var value : String?
+        var type : String?
+    }
 
+}
+
+
+
+extension Banner {
+    func responseFrom(baseUrl: String)-> Banner.Output {
+        return .init(id: self.id, title: self.title, image: baseUrl + (self.image ?? ""), subtitle: self.subtitle, value: self.value, type: self.type)
+
+    }
 }

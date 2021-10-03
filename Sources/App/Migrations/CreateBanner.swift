@@ -18,6 +18,8 @@ struct CreateBanner: Migration {
             .field("image_url", .string, .required)
             .field("type", .string, .required)
             .field("value", .string, .required)
+            .field("created_at", .datetime)
+            .field("updated_at", .datetime)
             .create()
     }
     
