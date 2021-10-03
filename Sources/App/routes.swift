@@ -20,9 +20,19 @@ func routes(_ app: Application) throws {
     }
     
     
+    app.get("cities") { req in
+        return try RoomController().index(req: req)
+    }
+    
+    app.get("banners") { req in
+        return try RoomController().index(req: req)
+    }
+    
     app.post("rooms") { req in
         return try RoomController().create(req: req)
     }
+    
+    
 }
 
 
