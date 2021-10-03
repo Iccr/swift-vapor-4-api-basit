@@ -39,7 +39,7 @@ struct RoomController: RouteCollection {
     //        }
     //    }
     
-    func create(req: Request) throws -> EventLoopFuture<Room> {
+    func create(req: Request) throws -> EventLoopFuture<Room.Response> {
         struct Entity: Content {
             var images: [File]
         }
@@ -54,7 +54,9 @@ struct RoomController: RouteCollection {
         }.flatten(on: req.eventLoop).map { filenames in
             room.vimages = filenames
         }.flatMap { _ in
-            return room.save(on: req.db).map {room}
+            return room.save(on: req.db).map {
+                room.responseFrom(r: room, req: req)
+            }
         }
     }
 }

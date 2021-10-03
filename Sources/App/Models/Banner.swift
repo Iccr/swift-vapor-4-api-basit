@@ -26,7 +26,7 @@ final class Banner: Codable, Model {
     @Field(key: "title")
     var title : String?
     
-    @Field(key: "image")
+    @Field(key: "image_url")
     var image : String?
     
     @Field(key: "subtitle")
