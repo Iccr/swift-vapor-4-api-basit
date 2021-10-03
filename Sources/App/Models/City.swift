@@ -60,13 +60,23 @@ final class City : Codable, Model, Content {
         description = try values.decodeIfPresent(String.self, forKey: .description)
     }
     
-     struct Response: Content {
+    
+     struct Output: Content {
         var id: Int?
         var name : String?
         var imageUrl : String?
         var description : String?
         var createdAt: Date?
         var updatedAt: Date?
+        
+        
     }
 
+}
+
+extension City {
+    func response(baseUrl: String) -> City.Output {
+        let city = self
+        return .init(id: city.id , name: city.name, imageUrl: baseUrl + (city.imageUrl ?? ""), description: city.description)
+    }
 }

@@ -16,9 +16,9 @@ struct CityController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[City.Response]> {
-        return City.query(on: req.db).all().mapEach { city -> City.Response in
-            return .init(id: city.id , name: city.name, imageUrl: (req.baseUrl + (city.imageUrl ?? "")), description: city.description)
+    func index(req: Request) throws -> EventLoopFuture<[City.Output]> {
+        return City.query(on: req.db).all().mapEach { city -> City.Output in
+            return city.response(baseUrl: req.baseUrl)
         }
     }
     

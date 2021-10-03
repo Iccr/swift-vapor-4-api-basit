@@ -174,10 +174,7 @@ final class Room: Codable, Model, Content {
             updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
         }
     
-    func responseFrom(r: Room, req: Request)-> Room.Output {
-         .init( city: nil, id: r.id, price: r.price, vimages: r.vimages.map {req.baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
 
-    }
      
     struct Output: Content {
         var city: City?
@@ -235,4 +232,13 @@ final class Room: Codable, Model, Content {
         }
     }
     
+}
+
+
+extension Room {
+    func responseFrom(baseUrl: String)-> Room.Output {
+        let r = self
+         return .init( city: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
+
+    }
 }
