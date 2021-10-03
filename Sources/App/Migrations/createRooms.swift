@@ -34,7 +34,6 @@ struct CreateRoom: Migration {
             .field("preference", .string)
             .field("created_at", .datetime)
             .field("updated_at", .datetime)
-            
             .create()
     }
     

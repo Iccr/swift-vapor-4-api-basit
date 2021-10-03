@@ -15,7 +15,7 @@ struct RoomController: RouteCollection {
     }
     
     func index(req: Request) throws -> EventLoopFuture<[Room]> {
-        return Room.query(on: req.db).all()
+        return Room.query(on: req.db).with(\.$city).all()
     }
     
     //    func create(req: Request) throws -> EventLoopFuture<Room> {
@@ -39,24 +39,42 @@ struct RoomController: RouteCollection {
     //        }
     //    }
     
-    func create(req: Request) throws -> EventLoopFuture<Room.Response> {
+    func create(req: Request) throws -> EventLoopFuture<Room.Output> {
         struct Entity: Content {
             var images: [File]
+            var city_id: Int
         }
+        
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
         
         let room = try req.content.decode(Room.self)
-        let file = try req.content.decode(Entity.self)
-        return file.images.map { file -> EventLoopFuture<String> in
+        let input = try req.content.decode(Entity.self)
+        
+        return input.images.map { file -> EventLoopFuture<String> in
             let filename = "\(Date().timeIntervalSince1970)_" + file.filename.replacingOccurrences(of: " ", with: "")
             return req.fileio.writeFile(file.data, at: uploadPath + filename ).map { filename }
             
         }.flatten(on: req.eventLoop).map { filenames in
             room.vimages = filenames
         }.flatMap { _ in
-            return room.save(on: req.db).map {
-                room.responseFrom(r: room, req: req)
+            return City.query(on: req.db)
+                .filter(\.$id == input.city_id)
+                .first()
+        }.flatMap { city in
+//            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
+             room.$city.id = city?.id ?? -1
+            return room.create(on: req.db).map {
+                return room.responseFrom(r: room, req: req)
             }
         }
+        
+//        .flatMapThrowing { cityOptional in
+//            guard let city = try cityOptional else { throw Abort(.notFound, reason: "City id not found")}
+//            room.$city.value = city
+//            return room.create(on: req.db).map {
+//                room.responseFrom(r: room, req: req)
+//            }
+//        }
+
     }
 }

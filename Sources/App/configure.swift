@@ -34,7 +34,7 @@ public func configure(_ app: Application) throws {
     try routes(app)
 }
 
-func seed(_ db: Database) throws {
+func seed(_ db: Database)  {
     let kathmandu = City(
         name: "Kathmandu",
         image: "/samples/kathmandu.jpg",
@@ -47,6 +47,15 @@ func seed(_ db: Database) throws {
         description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     )
     
-    _ = try kathmandu.create(on: db).and(pokhara.create(on: db)).wait()
+    db.query(City.self).count()
+        .flatMapThrowing { count in
+        if count == 0 {
+            _ = try kathmandu.create(on: db).and(pokhara.create(on: db))
+        }
+    }
+    
+  
+   
+    
     
 }
