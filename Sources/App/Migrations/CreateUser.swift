@@ -17,3 +17,4 @@ struct CreateUser: Migration {
         return database.schema("users").delete()
     }
 }
+

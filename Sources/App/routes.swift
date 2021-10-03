@@ -11,26 +11,27 @@ func routes(_ app: Application) throws {
         return req.view.render("index", ["title": "Hello Vapor!"])
     }
     
-    app.get { req in
-        return "It works!"
-    }
-
-    app.get("todos") { req -> EventLoopFuture<[User]> in
-        return try TodoController().index(req: req)
-    }
-    
-    app.post("todos") { req -> HTTPResponseStatus in
-        let greeting = try req.content.decode(Todos.self)
-        print(greeting.title) // "world"
-        return HTTPStatus.ok
-    }
-    
     app.post("login") {req -> EventLoopFuture<User>  in
         return try LoginController().create(req: req)
     }
     
+    app.get("rooms") { req in
+        return try RoomController().index(req: req)
+    }
     
-//    http://{{baseurl}}/api/v1/login
+    
+    app.get("cities") { req in
+        return try CityController().index(req: req)
+    }
+    
+    app.get("banners") { req in
+        return try BannerController().index(req: req)
+    }
+    
+    app.post("rooms") { req in
+        return try RoomController().create(req: req)
+    }
+    
     
 }
 

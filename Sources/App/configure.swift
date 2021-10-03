@@ -9,26 +9,70 @@ public func configure(_ app: Application) throws {
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // register routes
-    app.logger.logLevel = .trace
+    app.routes.defaultMaxBodySize = "10mb"
+    app.logger.logLevel = .debug
+    app.views.use(.leaf)
     
-    app.jwt.signers.use(.hs512(key: "mrZTowKXaSvY6QgWHkFxeXXNWnF4ptzQex8COj4zqWnA0dogSR98oCX8/3u/wDj+"))
+    let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
+    app.middleware.use(file)
+    app.jwt.signers.use(.hs512(key: Env.jwtSecret))
     app.databases.use(
         .postgres(
-            hostname: "localhost",
-            port: 4001,
-            username: "deploy",
-            password: "P@ssword",
-            database: "finder"),
+            hostname: Env.hostname,
+            port: Env.port,
+            username: Env.username,
+            password: Env.password,
+            database: Env.database),
         
         as: .psql)
-    app.migrations.add(CreateUser())
+//    app.migrations.add(CreateUser())
+    app.migrations.add(CreateCity())
+    app.migrations.add(CreateRoom())
+    app.migrations.add(CreateBanner())
+    
+    seed(app.db)
+    try app.autoMigrate().wait()
     try routes(app)
 }
 
-
-
-
-extension Application {
+func seed(_ db: Database)  {
+    let kathmandu = City(
+        name: "Kathmandu",
+        image: "/samples/kathmandu.jpg",
+        description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    )
     
-    static let databaseUrl = URL(string: "postgres://deploy:P@ssword@localhost:40001/finder")!
+    let pokhara = City(
+        name: "Pokhara",
+        image: "/samples/kathmandu.jpg",
+        description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    )
+    
+    _ = db.query(City.self).count()
+        .flatMapThrowing { count in
+        if count == 0 {
+            _ =  kathmandu.create(on: db).and(pokhara.create(on: db))
+        }
+    }
+    
+    
+    // banner
+    
+    let b1 = Banner( title: "Start Earning", image: "/samples/kathmandu.jpg", subtitle: "List a place", type: "property", value: "1")
+    
+    let b2 = Banner( title: "Monetary Parntership", image: "/samples/kathmandu.jpg", subtitle: "List second place", type: "property", value: "2")
+    
+    _ = db.query(Banner.self).count()
+        .flatMapThrowing { count in
+        if count == 0 {
+            _ =  b1.create(on: db).and(b2.create(on: db))
+        }
+    }
+    
+    
+   
+  
+   
+    
+    
 }

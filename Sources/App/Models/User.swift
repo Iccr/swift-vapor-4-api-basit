@@ -94,11 +94,7 @@ final class User : Model, Content {
         self.provider = provider
         self.fcm = fcm
     }
-    
-    
-    
-   
-    
+ 
 }
 
 //{
