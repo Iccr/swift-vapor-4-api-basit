@@ -14,6 +14,8 @@ struct CreateCity: Migration {
             .field("name", .string, .required)
             .field("image_url", .string, .required)
             .field("description", .string, .required)
+            .field("created_at", .datetime)
+            .field("updated_at", .datetime)
             .create()
     }
     

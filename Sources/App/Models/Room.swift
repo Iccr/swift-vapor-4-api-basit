@@ -11,6 +11,10 @@ import Fluent
 
 final class Room: Codable, Model, Content {
     static let schema: String = "rooms"
+    
+    @Parent(key: "city_id")
+    var city: City
+    
     @ID(custom: "id")
     var id: Int?
     
@@ -84,7 +88,7 @@ final class Room: Codable, Model, Content {
     var updatedAt: Date?
     
     init(id: Int? = nil, price: Double, vimages: [String],
-//         userId: Int,
+         cityId: Int,
          type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
          parking: String,  water: String, internet: String, phone: String, description: String,
@@ -107,7 +111,7 @@ final class Room: Codable, Model, Content {
         self.preference = preference
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        
+        self.$city.id = cityId
     }
     
     

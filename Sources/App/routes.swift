@@ -21,7 +21,7 @@ func routes(_ app: Application) throws {
     
     
     app.get("cities") { req in
-        return try RoomController().index(req: req)
+        return try CityController().index(req: req)
     }
     
     app.get("banners") { req in

@@ -26,7 +26,27 @@ public func configure(_ app: Application) throws {
         
         as: .psql)
 //    app.migrations.add(CreateUser())
+    app.migrations.add(CreateCity())
     app.migrations.add(CreateRoom())
+    
+    try seed(app.db)
     try app.autoMigrate().wait()
     try routes(app)
+}
+
+func seed(_ db: Database) throws {
+    let kathmandu = City(
+        name: "Kathmandu",
+        image: "/samples/kathmandu.jpg",
+        description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    )
+    
+    let pokhara = City(
+        name: "Pokhara",
+        image: "/samples/kathmandu.jpg",
+        description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    )
+    
+    _ = try kathmandu.create(on: db).and(pokhara.create(on: db)).wait()
+    
 }

@@ -16,9 +16,22 @@ struct CityController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[City]> {
-        return City.query(on: req.db).all()
+    func index(req: Request) throws -> EventLoopFuture<[City.Response]> {
+        return City.query(on: req.db).all().mapEach { city -> City.Response in
+            return .init(id: city.id , name: city.name, imageUrl: (req.baseUrl + (city.imageUrl ?? "")), description: city.description)
+        }
     }
     
    
+}
+
+
+extension Request {
+    var baseUrl: String {
+        let configuration = application.http.server.configuration
+        let scheme = configuration.tlsConfiguration == nil ? "http" : "https"
+        let host = configuration.hostname
+        let port = configuration.port
+        return "\(scheme)://\(host):\(port)"
+    }
 }
