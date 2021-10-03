@@ -15,10 +15,48 @@ struct RoomController: RouteCollection {
     }
     
     func index(req: Request) throws -> EventLoopFuture<[Room]> {
-        return Room.query(on: req.db)
-            .with(\.$city)
-            .all()
+        print(req.parameters)
+        
+        let params = try req.query.decode(Room.Querry.self)
+        return City.query(on: req.db)
+            .with(\.$rooms)
+            .filter(\.$id == (params.city_id ?? -1))
+            .first()
+            .flatMap { city in
+                if let city = city {
+                    let query =  city.$rooms.query(on: req.db)
+                   return querries(query: query, params: params).all()
+                    
+                    
+                }else {
+                    let query = Room.query(on: req.db)
+                        .with(\.$city)
+                    return querries(query: query, params: params).all()
+                }
+            }
+    
     }
+    
+    func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
+        query
+            .filter(\.$type ~~ (params.type ?? ""))
+            .filter(\.$kitchen ~~ (params.kitchen ?? ""))
+            .filter(\.$floor ~~ (params.floor ?? ""))
+            .filter(\.$address ~~ (params.address ?? ""))
+            .filter(\.$district ~~ (params.district ?? ""))
+            .filter(\.$state ~~ (params.state ?? ""))
+            .filter(\.$localGov ~~ (params.localGov ?? ""))
+            .filter(\.$parking ~~ (params.parking ?? ""))
+            .filter(\.$water ~~ (params.water ?? ""))
+            .filter(\.$internet ~~ (params.internet ?? ""))
+            .filter(\.$preference ~~ (params.preference ?? ""))
+            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
+            .filter(\.$price <= (params.upperPrice ?? 0))
+    }
+    
+    
+    
+   
     
     //    func create(req: Request) throws -> EventLoopFuture<Room> {
     //        struct Entity: Content {

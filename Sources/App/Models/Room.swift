@@ -232,6 +232,30 @@ final class Room: Codable, Model, Content {
         }
     }
     
+    struct Querry: Content {
+        var city_id: Int?
+        var id: Int?
+        var lowerPrice : Double?
+        var upperPrice : Double?
+        var type : String?
+        var noOfRooms : Int?
+        var kitchen : String?
+        var floor : String?
+        var lat : Double?
+        var long : Double?
+        var address : String?
+        var district : String?
+        var state : String?
+        var localGov : String?
+        var parking : String?
+        var water : String?
+        var internet : String?
+        var phone : String?
+        var description : String?
+        var occupied : Bool?
+        var preference : String?
+    }
+    
 }
 
 
