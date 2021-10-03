@@ -25,16 +25,14 @@ struct RoomController: RouteCollection {
             .flatMap { city in
                 if let city = city {
                     let query =  city.$rooms.query(on: req.db)
-                   return querries(query: query, params: params).all()
-                    
-                    
+                    return querries(query: query, params: params).all()
                 }else {
-                    let query = Room.query(on: req.db)
+                    let query =
+                    Room.query(on: req.db)
                         .with(\.$city)
                     return querries(query: query, params: params).all()
                 }
             }
-    
     }
     
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
@@ -53,10 +51,6 @@ struct RoomController: RouteCollection {
             .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
             .filter(\.$price <= (params.upperPrice ?? 0))
     }
-    
-    
-    
-   
     
     //    func create(req: Request) throws -> EventLoopFuture<Room> {
     //        struct Entity: Content {
@@ -98,8 +92,8 @@ struct RoomController: RouteCollection {
                 .filter(\.$id == input.city_id)
                 .first()
         }.flatMap { city in
-//            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
-             room.$city.id = city?.id ?? -1
+            //            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
+            room.$city.id = city?.id ?? -1
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
             }
