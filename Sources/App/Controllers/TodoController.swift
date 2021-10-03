@@ -12,8 +12,8 @@ struct TodoController: RouteCollection {
         }
     }
 
-    func index(req: Request) throws -> EventLoopFuture<[Todo]> {
-        return Todo.query(on: req.db).all()
+    func index(req: Request) throws -> EventLoopFuture<[User]> {
+        return User.query(on: req.db).all()
     }
 
     func create(req: Request) throws -> EventLoopFuture<Todo> {
