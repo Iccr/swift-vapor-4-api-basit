@@ -9,12 +9,13 @@ public func configure(_ app: Application) throws {
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
     // register routes
-    app.routes.defaultMaxBodySize = "10mb"
+    
     app.logger.logLevel = .debug
     app.views.use(.leaf)
     
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
     app.middleware.use(file)
+    app.routes.defaultMaxBodySize = "10mb"
     app.jwt.signers.use(.hs512(key: Env.jwtSecret))
     app.databases.use(
         .postgres(
@@ -48,10 +49,12 @@ func seed(_ db: Database)  {
         description: "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
     )
     
+   
+    
     _ = db.query(City.self).count()
         .flatMapThrowing { count in
         if count == 0 {
-            _ =  kathmandu.create(on: db).and(pokhara.create(on: db))
+            _ =   [kathmandu, pokhara].create(on: db)
         }
     }
     
@@ -65,7 +68,7 @@ func seed(_ db: Database)  {
     _ = db.query(Banner.self).count()
         .flatMapThrowing { count in
         if count == 0 {
-            _ =  b1.create(on: db).and(b2.create(on: db))
+            _ =   [b1, b2].create(on: db)
         }
     }
     

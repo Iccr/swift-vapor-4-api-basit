@@ -11,9 +11,7 @@ import Fluent
 
 final class Room: Codable, Model, Content {
     static let schema: String = "rooms"
-    
-    
-    
+
     @Parent(key: "city_id")
     var city: City
     
@@ -26,8 +24,8 @@ final class Room: Codable, Model, Content {
     @Field(key: "vimages")
     var vimages : [String]
     
-//    @Field(key: "userId")
-//    var userId : Int?
+    //    @Field(key: "userId")
+    //    var userId : Int?
     
     @Field(key: "type")
     var type : String?
@@ -77,7 +75,6 @@ final class Room: Codable, Model, Content {
     @Field(key: "occupied")
     var occupied : Bool?
     
-    
     @Field(key: "preference")
     var preference : String?
     
@@ -85,7 +82,6 @@ final class Room: Codable, Model, Content {
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
-    // When this Planet was last updated.
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
     
@@ -99,8 +95,8 @@ final class Room: Codable, Model, Content {
         
         self.price = price
         self.vimages = vimages
-//        self.vimages = vimages ?? ["sadfasdf"]
-//        self.userId = userId
+        //        self.vimages = vimages ?? ["sadfasdf"]
+        //        self.userId = userId
         self.city = city
         self.type = type
         self.noOfRooms = noOfRooms
@@ -114,68 +110,63 @@ final class Room: Codable, Model, Content {
         self.preference = preference
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        
     }
-    
     
     init() { }
     
-        enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case price = "price"
-            case vimages = "vimages"
-//            case userId = "userId"
-            case type = "type"
-            case noOfRooms = "no_of_rooms"
-            case kitchen = "kitchen"
-            case floor = "floor"
-            case lat = "lat"
-            case long = "long"
-            case address = "address"
-            case district = "district"
-            case state = "state"
-            case localGov = "local_gov"
-            case parking = "parking"
-            case water = "water"
-            case internet = "internet"
-            case phone = "phone"
-            case description = "description"
-            case occupied = "occupied"
-            case preference = "preference"
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case price = "price"
+        case vimages = "vimages"
+        //            case userId = "userId"
+        case type = "type"
+        case noOfRooms = "no_of_rooms"
+        case kitchen = "kitchen"
+        case floor = "floor"
+        case lat = "lat"
+        case long = "long"
+        case address = "address"
+        case district = "district"
+        case state = "state"
+        case localGov = "local_gov"
+        case parking = "parking"
+        case water = "water"
+        case internet = "internet"
+        case phone = "phone"
+        case description = "description"
+        case occupied = "occupied"
+        case preference = "preference"
+        case createdAt = "created_at"
+        case updatedAt = "updated_at"
+    }
     
-            case createdAt = "created_at"
-            case updatedAt = "updated_at"
-        }
-    
-        init(from decoder: Decoder) throws {
-            let values = try decoder.container(keyedBy: CodingKeys.self)
-            id = try values.decodeIfPresent(Int.self, forKey: .id)
-            price = try values.decodeIfPresent(Double.self, forKey: .price)
-            vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
-//            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
-            type = try values.decodeIfPresent(String.self, forKey: .type)
-            noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
-            kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)
-            floor = try values.decodeIfPresent(String.self, forKey: .floor)
-            lat = try values.decodeIfPresent(Double.self, forKey: .lat)
-            long = try values.decodeIfPresent(Double.self, forKey: .long)
-            address = try values.decodeIfPresent(String.self, forKey: .address)
-            district = try values.decodeIfPresent(String.self, forKey: .district)
-            state = try values.decodeIfPresent(String.self, forKey: .state)
-            localGov = try values.decodeIfPresent(String.self, forKey: .localGov)
-            parking = try values.decodeIfPresent(String.self, forKey: .parking)
-            water = try values.decodeIfPresent(String.self, forKey: .water)
-            internet = try values.decodeIfPresent(String.self, forKey: .internet)
-            phone = try values.decodeIfPresent(String.self, forKey: .phone)
-            description = try values.decodeIfPresent(String.self, forKey: .description)
-            occupied = try values.decodeIfPresent(Bool.self, forKey: .occupied)
-            preference = try values.decodeIfPresent(String.self, forKey: .preference)
-            createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
-            updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
-        }
-    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        id = try values.decodeIfPresent(Int.self, forKey: .id)
+        price = try values.decodeIfPresent(Double.self, forKey: .price)
+        vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
+        //            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
+        type = try values.decodeIfPresent(String.self, forKey: .type)
+        noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
+        kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)
+        floor = try values.decodeIfPresent(String.self, forKey: .floor)
+        lat = try values.decodeIfPresent(Double.self, forKey: .lat)
+        long = try values.decodeIfPresent(Double.self, forKey: .long)
+        address = try values.decodeIfPresent(String.self, forKey: .address)
+        district = try values.decodeIfPresent(String.self, forKey: .district)
+        state = try values.decodeIfPresent(String.self, forKey: .state)
+        localGov = try values.decodeIfPresent(String.self, forKey: .localGov)
+        parking = try values.decodeIfPresent(String.self, forKey: .parking)
+        water = try values.decodeIfPresent(String.self, forKey: .water)
+        internet = try values.decodeIfPresent(String.self, forKey: .internet)
+        phone = try values.decodeIfPresent(String.self, forKey: .phone)
+        description = try values.decodeIfPresent(String.self, forKey: .description)
+        occupied = try values.decodeIfPresent(Bool.self, forKey: .occupied)
+        preference = try values.decodeIfPresent(String.self, forKey: .preference)
+        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
+        updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
+    }
 
-     
     struct Output: Content {
         var city: City?
         var id: Int?
@@ -255,14 +246,11 @@ final class Room: Codable, Model, Content {
         var occupied : Bool?
         var preference : String?
     }
-    
 }
-
 
 extension Room {
     func responseFrom(baseUrl: String)-> Room.Output {
         let r = self
-         return .init( city: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
-
+        return .init( city: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
     }
 }

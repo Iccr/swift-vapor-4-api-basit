@@ -94,6 +94,7 @@ struct RoomController: RouteCollection {
         }.flatMap { city in
             //            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
             room.$city.id = city?.id ?? -1
+            
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
             }
