@@ -27,7 +27,9 @@ public func configure(_ app: Application) throws {
             database: Env.database),
         
         as: .psql)
+    
     app.migrations.add(CreateUser())
+    app.migrations.add(TokenMigration())
     app.migrations.add(CreateCity())
     app.migrations.add(CreateRoom())
     app.migrations.add(CreateBanner())

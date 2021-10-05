@@ -49,26 +49,18 @@ struct LoginController: RouteCollection {
     
     func signUpWithGoogle(req: Request, input: User?)  -> EventLoopFuture<User> {
         
-        
         let result =   SocialSession().verifyGoogle(token: input?.token ?? "", req: req)
-        //            .verify(token: input?.token ?? "", provider: "google", req: req, input: input)
-        
         return result.flatMap { response in
             let user = response.user
-            
             let first = User.query(on: req.db)
                 .filter(\.$email == response.user.email)
                 .first()
-            
-            
-            
             return first.flatMap { oUser -> EventLoopFuture<User> in
                 if let user = oUser {
                     user.fcm = user.fcm
                     return user.update(on: req.db).map {
                         return user
                     }
-                    
                 }
                 return user.create(on: req.db).flatMapThrowing {
                     let payload = JwtModel(
@@ -76,9 +68,7 @@ struct LoginController: RouteCollection {
                         expiration: .init(value: .distantFuture)
                     )
                     let generatedToken = try req.jwt.sign(payload)
-                    //                    print(user.token ?? "")
                     user.token = generatedToken
-                    // return response
                     return  user
                 }
             }
@@ -100,9 +90,9 @@ struct LoginController: RouteCollection {
                             req: req
                         )
                     } else {
-                        return LoginController.signIn(
+                        return LoginController.signInWithEmail(
                             appleIdentifier: nil,
-                            email: _user?.email,
+                            email: _user?.email ?? "",
                             name: _user?.name,
                             req: req
                         )
@@ -130,12 +120,11 @@ extension LoginController {
             User.findByAppleIdentifier(appleIdentityToken.subject.value, req: req)
                 .flatMap { user in
                     var name: String? = nil
-                        if let firstname = userBody.firstName, let lastname = userBody.lastName {
+                    if let firstname = userBody.firstName, let lastname = userBody.lastName {
                         name = firstname +  " " + lastname
                     }
                     if user == nil {
-                        
-                        guard let email = appleIdentityToken.email else {
+                        guard let _ = appleIdentityToken.email else {
                             return req.eventLoop.makeFailedFuture(UserError.siwaEmailMissing)
                         }
                         
@@ -146,18 +135,12 @@ extension LoginController {
                             provider: AuthProvider.apple.rawValue,
                             req: req)
                     } else {
-                        return LoginController.signIn(
+                        return LoginController.signInWithApple(
                             appleIdentifier: appleIdentityToken.subject.value,
                             email: appleIdentityToken.email,
                             name: name,
                             req: req
                         )
-//                        return LoginController.signIn(
-//                            appleIdentityToken: appleIdentityToken,
-//                            firstName: userBody.firstName,
-//                            lastName: userBody.lastName,
-//                            req: req
-//                        )
                     }
                 }
         }
@@ -171,43 +154,34 @@ extension LoginController {
         provider: String,
         req: Request
     ) -> EventLoopFuture<User> {
-        // 2
-       
-        // 3
         return User.assertUniqueEmail(email ?? "", req: req).flatMap {
-            // 4
-//            var name: String? = nil
-//            if let firstname = firstName, let lastname = lastName {
-//                name = firstname +  " " + lastname
-//            }
-            
             let user: User = .init( id: nil, email: email ?? "", imageurl: nil, name: name, token: nil, appleUserIdentifier: appleUserIdentifier, provider: provider, fcm: nil)
             // 5
             return user.save(on: req.db)
                 .flatMap {
-                    // 6
                     guard let accessToken = try? user.createAccessToken(req: req) else {
                         return req.eventLoop.future(error: Abort(.internalServerError))
                     }
-                    // 7
-                    return accessToken.save(on: req.db).flatMapThrowing {
-                        // 8
-                        User.init( id: nil, email: email ?? "", imageurl: nil, name: name, token: nil, appleUserIdentifier: appleUserIdentifier, provider: nil, fcm: nil)
+                    return accessToken.save(on: req.db).flatMap {
+                        user.token = accessToken.value
+                        return user.update(on: req.db).map {
+                            user
+                        }
                     }
                 }
         }
     }
     
-    // 1
-    static func signIn(
-        appleIdentifier: String? = nil,
+    static func signInWithApple(
+        appleIdentifier: String,
         email: String? = nil,
         name: String? = nil,
-       
+        
         req: Request
-    ) -> EventLoopFuture<User> {
+    )  -> EventLoopFuture<User> {
         // 2
-        User.findByAppleIdentifier(appleIdentifier ?? "", req: req)
+        
+        return User.findByAppleIdentifier(appleIdentifier, req: req)
             // 3
             .unwrap(or: Abort(.notFound))
             .flatMap { user -> EventLoopFuture<User> in
@@ -235,7 +209,32 @@ extension LoginController {
             }
     }
     
-    
+    static func signInWithEmail(
+        appleIdentifier: String? = nil,
+        email: String,
+        name: String? = nil,
+        
+        req: Request
+    )  -> EventLoopFuture<User> {
+        return  User.findByEmail(email, req: req)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { user -> EventLoopFuture<User> in
+                user.email = email
+                if let name = name {
+                    user.name = name
+                }
+                return user.update(on: req.db).transform(to: user)
+            }
+            .flatMap { user in
+                guard let accessToken = try? user.createAccessToken(req: req) else {
+                    return req.eventLoop.future(error: Abort(.internalServerError))
+                }
+                return accessToken.save(on: req.db).flatMapThrowing {
+                    user.token = accessToken.value
+                    return user
+                }
+            }
+    }
     
     func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return Todo.find(req.parameters.get("todoID"), on: req.db)
@@ -245,20 +244,14 @@ extension LoginController {
     }
 }
 
-
-
-
-
-
-
 enum UserError {
     case emailTaken
     case siwaEmailMissing
     case siwaInvalidState
 }
+
 extension UserError: AbortError {
     var description: String { reason }
-    
     var status: HTTPResponseStatus {
         switch self {
             case .emailTaken: return .conflict
