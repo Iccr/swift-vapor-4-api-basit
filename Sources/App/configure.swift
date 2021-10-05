@@ -17,7 +17,8 @@ public func configure(_ app: Application) throws {
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
-//    try app.jwt.signers.use(.rs256(key: .public(pem: Env.kid)))
+    app.jwt.signers.use(.hs256(key: Env.jwtSecret))
+
     app.databases.use(
         .postgres(
             hostname: Env.hostname,

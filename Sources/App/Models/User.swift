@@ -11,6 +11,20 @@ import Vapor
 import JWT
 
 
+final class UserContainer : Codable {
+    let user : User?
+
+    enum CodingKeys: String, CodingKey {
+
+        case user = "user"
+    }
+
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        user = try values.decodeIfPresent(User.self, forKey: .user)
+    }
+
+}
 
 
 final class User : Model, Content {
@@ -79,13 +93,25 @@ final class User : Model, Content {
  
 }
 
+
+
+
+
+
 // MARK: - Token Creation
 extension User {
   func createAccessToken(req: Request) throws -> Token {
     let expiryDate = Date() + Env.AccessToken.expirationTime
+    let payload = JwtModel(
+        subject: SubjectClaim(value: "\(self.id!)"),
+        expiration: .init(value: .distantFuture)
+    )
+    
+    let generatedToken = try req.jwt.sign(payload)
+    
     return try Token(
       userID: requireID(),
-      token: [UInt8].random(count: 32).base64,
+      token: generatedToken,
       expiresAt: expiryDate
     )
   }
@@ -125,19 +151,18 @@ extension User {
     }
 }
 
+extension User: Authenticatable {}
 
+struct UserAuthenticator: BearerAuthenticator {
+    typealias User = App.User
 
-final class UserContainer : Codable {
-    let user : User?
-
-    enum CodingKeys: String, CodingKey {
-
-        case user = "user"
-    }
-
-    required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        user = try values.decodeIfPresent(User.self, forKey: .user)
-    }
-
+    func authenticate(
+        bearer: BearerAuthorization,
+        for request: Request
+    ) -> EventLoopFuture<Void> {
+       if bearer.token == "foo" {
+           request.auth.login(User())
+       }
+       return request.eventLoop.makeSucceededFuture(())
+   }
 }

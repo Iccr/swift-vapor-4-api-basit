@@ -7,6 +7,9 @@ struct Todos: Content {
 }
 
 func routes(_ app: Application) throws {
+    let protected = app.grouped(UserAuthenticator())
+        .grouped(User.guardMiddleware())
+    
     app.get { req in
         return req.view.render("index", ["title": "Hello Vapor!"])
     }
@@ -15,7 +18,7 @@ func routes(_ app: Application) throws {
         return try LoginController().create(req: req)
     }
     
-    app.get("api/v1/rooms") { req in
+    protected.get("rooms") { req in
         return try RoomController().index(req: req)
     }
     
