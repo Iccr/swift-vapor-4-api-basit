@@ -15,7 +15,7 @@ func routes(_ app: Application) throws {
         return try LoginController().create(req: req)
     }
     
-    app.get("rooms") { req in
+    app.get("api/v1/rooms") { req in
         return try RoomController().index(req: req)
     }
     

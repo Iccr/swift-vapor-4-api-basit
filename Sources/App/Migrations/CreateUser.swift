@@ -8,7 +8,9 @@ struct CreateUser: Migration {
             .field("imageurl", .string)
             .field("name", .string)
             .field("token", .string, .required)
+            .field("appleUserIdentifier", .string)
 //            .field("user_id", .int, .required)
+        
             .field("provider", .string, .required)
             .create()
     }

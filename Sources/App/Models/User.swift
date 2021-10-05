@@ -56,6 +56,22 @@ final class User : Model, Content {
     @Field(key: "token")
     var token : String?
     
+    @Field(key: "appleUserIdentifier")
+    var appleUserIdentifier: String?
+    
+//
+//    @Field(key: "email")
+//    var email: String
+//
+//    @Field(key: "firstName")
+//    var firstName: String?
+//
+//    @Field(key: "lastName")
+//    var lastName: String?
+//
+//    @Field(key: "appleUserIdentifier")
+//    var appleUserIdentifier: String?
+    
     
     @Field(key: "fcm")
     var fcm : String?
@@ -79,11 +95,19 @@ final class User : Model, Content {
 
     init() { }
     
+    init(user: User) throws {
+      self.id = try user.requireID()
+      self.email = user.email
+      self.name = user.name
+      
+    }
+    
     init(id: Int?,
          email: String,
-         imageurl: String,
+         imageurl: String?,
          name : String?,
          token : String?,
+         appleUserIdentifier: String?,
          provider : String?,
          fcm: String?) {
         self.email = email
@@ -91,6 +115,7 @@ final class User : Model, Content {
         self.imageurl = imageurl
         self.name = name
         self.token = token
+        self.appleUserIdentifier = appleUserIdentifier
         self.provider = provider
         self.fcm = fcm
     }
@@ -108,7 +133,6 @@ final class User : Model, Content {
 //  "typ": "access"
 //}
 
-
 // JWT payload structure.
 struct JwtModel: JWTPayload {
     // Maps the longer Swift property names to the
@@ -116,24 +140,14 @@ struct JwtModel: JWTPayload {
     enum CodingKeys: String, CodingKey {
         case subject = "sub"
         case expiration = "exp"
+        
     }
 
-    // The "sub" (subject) claim identifies the principal that is the
-    // subject of the JWT.
+    
     var subject: SubjectClaim
 
-    // The "exp" (expiration time) claim identifies the expiration time on
-    // or after which the JWT MUST NOT be accepted for processing.
+
     var expiration: ExpirationClaim
-
-    // Custom data.
-    // If true, the user is an admin.
-    
-
-    // Run any additional verification logic beyond
-    // signature verification here.
-    // Since we have an ExpirationClaim, we will
-    // call its verify method.
     func verify(using signer: JWTSigner) throws {
         try self.expiration.verifyNotExpired()
     }
@@ -168,7 +182,7 @@ struct GoogleAuthResponseModel : Codable {
     }
     
     var user: User {
-        return User(id: nil, email: email ?? "", imageurl: picture ?? "", name: name ?? "", token: nil, provider: nil, fcm: "")
+        return User(id: nil, email: email ?? "", imageurl: picture ?? "", name: name ?? "", token: nil, appleUserIdentifier: nil, provider: nil, fcm: "")
     }
 
     init(from decoder: Decoder) throws {
@@ -218,3 +232,103 @@ struct TestPayload: JWTPayload {
     }
 }
 
+
+
+
+
+
+// MARK: - Token Creation
+extension User {
+  func createAccessToken(req: Request) throws -> Token {
+    let expiryDate = Date() + Env.AccessToken.expirationTime
+    return try Token(
+      userID: requireID(),
+      token: [UInt8].random(count: 32).base64,
+      expiresAt: expiryDate
+    )
+  }
+}
+
+// MARK: - Helpers
+extension User {
+  static func assertUniqueEmail(_ email: String, req: Request) -> EventLoopFuture<Void> {
+    findByEmail(email, req: req)
+      .flatMap {
+        guard $0 == nil else {
+          return req.eventLoop.makeFailedFuture(UserError.emailTaken)
+        }
+        return req.eventLoop.future()
+    }
+  }
+
+  static func findByEmail(_ email: String, req: Request) -> EventLoopFuture<User?> {
+    User.query(on: req.db)
+      .filter(\.$email == email)
+      .first()
+  }
+
+  static func findByAppleIdentifier(_ identifier: String, req: Request) -> EventLoopFuture<User?> {
+    User.query(on: req.db)
+      .filter(\.$appleUserIdentifier == identifier)
+      .first()
+  }
+}
+
+
+
+
+
+final class Token: Model {
+  static let schema = "tokens"
+
+  @ID(custom: "id")
+  var id: Int?
+
+  @Parent(key: "userID")
+  var user: User
+
+  @Field(key: "value")
+  var value: String
+
+  @Field(key: "expiresAt")
+  var expiresAt: Date?
+
+  @Timestamp(key: "createdAt", on: .create)
+  var createdAt: Date?
+
+  init() {}
+
+  init(
+    id: Int? = nil,
+    userID: User.IDValue,
+    token: String,
+    expiresAt: Date?
+  ) {
+    self.id = id
+    self.$user.id = userID
+    self.value = token
+    self.expiresAt = expiresAt
+  }
+}
+
+// MARK: - ModelTokenAuthenticatable
+extension Token: ModelTokenAuthenticatable {
+    typealias User = Token
+  static let valueKey = \Token.$value
+  static let userKey = \Token.$user
+
+  var isValid: Bool {
+    guard let expiryDate = expiresAt else {
+      return true
+    }
+
+    return expiryDate > Date()
+  }
+}
+
+
+extension User {
+    static func getUser(from: FacebookResponseModel) -> User {
+        return User.init(id: nil, email: from.email ?? "", imageurl: nil, name: from.first_name, token: nil, appleUserIdentifier: nil, provider: "facebook", fcm: nil)
+    }
+}
