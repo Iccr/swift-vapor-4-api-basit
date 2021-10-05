@@ -12,9 +12,9 @@ struct FacebookResponseModel : Codable {
     let first_name : String?
     let last_name : String?
     let email : String?
-//    let picture : FacebookResponseModel.Picture?
+    let picture : FacebookResponseModel.Picture?
     let id : String?
-//    let error: FbErrorResponse?
+    let error: FbErrorResponse?
     
     
     
@@ -24,9 +24,9 @@ struct FacebookResponseModel : Codable {
         case first_name = "first_name"
         case last_name = "last_name"
         case email = "email"
-//        case picture = "picture"
+        case picture = "picture"
         case id = "id"
-//        case error = "error"
+        case error = "error"
     }
 
     init(from decoder: Decoder) throws {
@@ -35,9 +35,9 @@ struct FacebookResponseModel : Codable {
         first_name = try values.decodeIfPresent(String.self, forKey: .first_name)
         last_name = try values.decodeIfPresent(String.self, forKey: .last_name)
         email = try values.decodeIfPresent(String.self, forKey: .email)
-//        picture = try values.decodeIfPresent(FacebookResponseModel.Picture.self, forKey: .picture)
+        picture = try values.decodeIfPresent(FacebookResponseModel.Picture.self, forKey: .picture)
         id = try values.decodeIfPresent(String.self, forKey: .id)
-//        error = try  values.decodeIfPresent(FacebookResponseModel.FbErrorResponse.self, forKey: .error)
+        error = try  values.decodeIfPresent(FacebookResponseModel.FbErrorResponse.self, forKey: .error)
     }
 
 }

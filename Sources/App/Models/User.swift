@@ -85,7 +85,7 @@ final class User : Model, Content {
     @Field(key: "provider")
     var provider : String?
     
-    @Timestamp(key: "inserted_at", on: .create)
+    @Timestamp(key: "created_at", on: .create)
         var createdAt: Date?
 
     // When this Planet was last updated.
@@ -261,17 +261,19 @@ extension User {
     }
   }
 
-  static func findByEmail(_ email: String, req: Request) -> EventLoopFuture<User?> {
-    User.query(on: req.db)
-      .filter(\.$email == email)
-      .first()
-  }
+
 
   static func findByAppleIdentifier(_ identifier: String, req: Request) -> EventLoopFuture<User?> {
     User.query(on: req.db)
       .filter(\.$appleUserIdentifier == identifier)
       .first()
   }
+    
+    static func findByEmail(_ email: String, req: Request) -> EventLoopFuture<User?> {
+      User.query(on: req.db)
+        .filter(\.$email == email)
+        .first()
+    }
 }
 
 
@@ -329,6 +331,6 @@ extension Token: ModelTokenAuthenticatable {
 
 extension User {
     static func getUser(from: FacebookResponseModel) -> User {
-        return User.init(id: nil, email: from.email ?? "", imageurl: nil, name: from.first_name, token: nil, appleUserIdentifier: nil, provider: "facebook", fcm: nil)
+        return User.init(id: nil, email: from.email ?? "", imageurl: from.picture?.data?.url, name: from.first_name, token: nil, appleUserIdentifier: nil, provider: "facebook", fcm: nil)
     }
 }
