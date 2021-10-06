@@ -10,6 +10,19 @@ func routes(_ app: Application) throws {
     let protected = app.grouped(UserAuthenticator())
         .grouped(User.guardMiddleware())
     
+    // protected
+    protected.get("rooms") { req in
+        return try RoomController().index(req: req)
+    }
+    
+    protected.post("rooms") { req in
+        return try RoomController().create(req: req)
+    }
+    
+    
+    
+    // Free
+    
     app.get { req in
         return req.view.render("index", ["title": "Hello Vapor!"])
     }
@@ -17,11 +30,7 @@ func routes(_ app: Application) throws {
     app.post("login") {req -> EventLoopFuture<User>  in
         return try LoginController().create(req: req)
     }
-    
-    protected.get("rooms") { req in
-        return try RoomController().index(req: req)
-    }
-    
+   
     
     app.get("cities") { req in
         return try CityController().index(req: req)
@@ -31,9 +40,7 @@ func routes(_ app: Application) throws {
         return try BannerController().index(req: req)
     }
     
-    app.post("rooms") { req in
-        return try RoomController().create(req: req)
-    }
+  
     
     
 }

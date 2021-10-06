@@ -39,7 +39,7 @@ struct LoginController: RouteCollection {
         
         switch  provider {
             case .google:
-                return  signUpWithGoogle(req: req, input: input)
+                return try signUpWithGoogle(req: req, input: input)
             case .facebook:
                 return signUpWithFacebook(req: req, input: input)
             case .apple:
@@ -47,12 +47,15 @@ struct LoginController: RouteCollection {
         }
     }
     
-    func signUpWithGoogle(req: Request, input: User?)  -> EventLoopFuture<User> {
-        
+    func signUpWithGoogle(req: Request, input: User?) throws -> EventLoopFuture<User> {
         let result =   SocialSession().verifyGoogle(token: input?.token ?? "", req: req)
-        return result.flatMap { response in
+        return result.flatMapThrowing { response -> User in
             let user = response.user
-            
+            if let error = response.error {
+                throw (Abort(.unauthorized, reason: error))
+            }
+            return user
+        }.flatMap { user in
             return User.findByEmail(user.email ?? "", req: req)
                 .flatMap { _user in
                     if _user == nil {
@@ -72,6 +75,8 @@ struct LoginController: RouteCollection {
                     }
                 }
         }
+            
+        
     }
     
     func signUpWithFacebook(req: Request, input: User?) -> EventLoopFuture<User> {

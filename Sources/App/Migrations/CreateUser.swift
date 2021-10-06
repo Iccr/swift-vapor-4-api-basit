@@ -11,7 +11,6 @@ struct CreateUser: Migration {
             .field("appleUserIdentifier", .string)
             .field("fcm", .string)
 //            .field("user_id", .int, .required)
-        
             .field("provider", .string, .required)
             .field("created_at", .datetime)
             .field("updated_at", .datetime)

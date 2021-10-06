@@ -15,6 +15,9 @@ final class Room: Codable, Model, Content {
     @Parent(key: "city_id")
     var city: City
     
+    @Parent(key: "user_id")
+    var user: User
+    
     @ID(custom: "id")
     var id: Int?
     
@@ -24,6 +27,7 @@ final class Room: Codable, Model, Content {
     @Field(key: "vimages")
     var vimages : [String]
     
+
     //    @Field(key: "userId")
     //    var userId : Int?
     
@@ -87,6 +91,7 @@ final class Room: Codable, Model, Content {
     
     init(id: Int? = nil, price: Double, vimages: [String],
          city: City,
+         user: User,
          type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
          parking: String,  water: String, internet: String, phone: String, description: String,
@@ -118,7 +123,7 @@ final class Room: Codable, Model, Content {
         case id = "id"
         case price = "price"
         case vimages = "vimages"
-        //            case userId = "userId"
+        case userId = "userId"
         case type = "type"
         case noOfRooms = "no_of_rooms"
         case kitchen = "kitchen"
@@ -145,7 +150,7 @@ final class Room: Codable, Model, Content {
         id = try values.decodeIfPresent(Int.self, forKey: .id)
         price = try values.decodeIfPresent(Double.self, forKey: .price)
         vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
-        //            userId = try values.decodeIfPresent(Int.self, forKey: .userId)
+//        userId = try values.decodeIfPresent(Int.self, forKey: .userId)
         type = try values.decodeIfPresent(String.self, forKey: .type)
         noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
         kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)
@@ -169,6 +174,7 @@ final class Room: Codable, Model, Content {
 
     struct Output: Content {
         var city: City?
+        var user: User?
         var id: Int?
         var price : Double?
         var vimages : [String] = []
@@ -195,6 +201,7 @@ final class Room: Codable, Model, Content {
     
     struct Input: Content {
         var city_id: Int?
+//        var userId: Int?
         var id: Int?
         var price : Double
         var vimages : [String] = []
@@ -218,8 +225,8 @@ final class Room: Codable, Model, Content {
         var createdAt: Date?
         var updatedAt: Date?
         
-        func getRoom(city: City) -> Room {
-            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
+        func getRoom(city: City, user: User) -> Room {
+            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
         }
     }
     
@@ -251,6 +258,6 @@ final class Room: Codable, Model, Content {
 extension Room {
     func responseFrom(baseUrl: String)-> Room.Output {
         let r = self
-        return .init( city: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
+        return .init( city: nil, user: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
     }
 }

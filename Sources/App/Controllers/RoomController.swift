@@ -74,6 +74,7 @@ struct RoomController: RouteCollection {
     //    }
     
     func create(req: Request) throws -> EventLoopFuture<Room.Output> {
+        let user: User = try req.auth.require(User.self)
         struct Entity: Content {
             var images: [File]
             var city_id: Int
@@ -93,6 +94,9 @@ struct RoomController: RouteCollection {
                 .first()
         }.flatMap { city in
             //            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
+            
+//            room = user.id
+            room.$user.id = user.id ?? -1
             room.$city.id = city?.id ?? -1
             
             return room.create(on: req.db).map {
