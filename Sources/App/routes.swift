@@ -11,10 +11,7 @@ func routes(_ app: Application) throws {
         .grouped(User.guardMiddleware())
     
     // protected
-    protected.get("rooms") { req in
-        return try RoomController().index(req: req)
-    }
-    
+ 
     protected.post("rooms") { req in
         return try RoomController().create(req: req)
     }
@@ -22,6 +19,11 @@ func routes(_ app: Application) throws {
     
     
     // Free
+    
+    app.get("rooms") { req in
+        return try RoomController().index(req: req)
+    }
+    
     
     app.get { req in
         return req.view.render("index", ["title": "Hello Vapor!"])

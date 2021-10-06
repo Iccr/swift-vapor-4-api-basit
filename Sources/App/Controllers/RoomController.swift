@@ -36,20 +36,61 @@ struct RoomController: RouteCollection {
     }
     
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
-        query
-            .filter(\.$type ~~ (params.type ?? ""))
-            .filter(\.$kitchen ~~ (params.kitchen ?? ""))
-            .filter(\.$floor ~~ (params.floor ?? ""))
-            .filter(\.$address ~~ (params.address ?? ""))
-            .filter(\.$district ~~ (params.district ?? ""))
-            .filter(\.$state ~~ (params.state ?? ""))
-            .filter(\.$localGov ~~ (params.localGov ?? ""))
-            .filter(\.$parking ~~ (params.parking ?? ""))
-            .filter(\.$water ~~ (params.water ?? ""))
-            .filter(\.$internet ~~ (params.internet ?? ""))
-            .filter(\.$preference ~~ (params.preference ?? ""))
-            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
-            .filter(\.$price <= (params.upperPrice ?? 0))
+        
+        if let val = params.type {
+            query.filter(\.$type ~~ val)
+        }
+        if let val = params.kitchen {
+            query.filter(\.$kitchen ~~ val)
+        }
+        if let val = params.floor {
+            query.filter(\.$floor ~~ val)
+        }
+        
+        if let val = params.address {
+            query.filter(\.$address ~~ val)
+        }
+        
+        if let val = params.district {
+            query.filter(\.$district ~~ val)
+        }
+        
+        if let val = params.state {
+            query.filter(\.$state ~~ val)
+        }
+        
+        if let val = params.localGov {
+            query.filter(\.$localGov ~~ val)
+        }
+        
+        if let val = params.parking {
+            query.filter(\.$parking ~~ val)
+        }
+        
+        if let val = params.water {
+            query.filter(\.$water ~~ val)
+        }
+        
+        if let val = params.internet {
+            query.filter(\.$internet ~~ val)
+        }
+        
+        if let val = params.preference {
+            query.filter(\.$preference ~~ val)
+        }
+        
+        
+        if let val = params.lowerPrice {
+            query.filter(\.$price >= val)
+        }
+        
+        if let val = params.upperPrice {
+            query.filter(\.$price <= val)
+        }
+//        query
+//            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
+//            .filter(\.$price <= (params.upperPrice ?? 0))
+        return query
     }
     
     //    func create(req: Request) throws -> EventLoopFuture<Room> {
