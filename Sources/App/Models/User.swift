@@ -162,7 +162,6 @@ struct UserAuthenticator: BearerAuthenticator {
     ) -> EventLoopFuture<Void> {
         if let payload = try? request.jwt.verify(as: JwtModel.self), let id = Int(payload.subject.value)  {
             print(payload)
-//            User.query(on: request.db).filter(\.$id == payload.subject.value)
             return User.query(on: request.db).filter(\.$id == id).first().map { user in
                 if let user = user {
                     request.auth.login(user)
@@ -170,11 +169,6 @@ struct UserAuthenticator: BearerAuthenticator {
             }
             
         }
-        
-//        if   {
-//
-//           request.auth.login(User())
-//       }
        return request.eventLoop.makeSucceededFuture(())
    }
 }

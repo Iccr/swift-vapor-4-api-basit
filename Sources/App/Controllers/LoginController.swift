@@ -52,26 +52,25 @@ struct LoginController: RouteCollection {
         let result =   SocialSession().verifyGoogle(token: input?.token ?? "", req: req)
         return result.flatMap { response in
             let user = response.user
-            let first = User.query(on: req.db)
-                .filter(\.$email == response.user.email)
-                .first()
-            return first.flatMap { oUser -> EventLoopFuture<User> in
-                if let user = oUser {
-                    user.fcm = user.fcm
-                    return user.update(on: req.db).map {
-                        return user
+            
+            return User.findByEmail(user.email ?? "", req: req)
+                .flatMap { _user in
+                    if _user == nil {
+                        return LoginController.signUp(
+                            name: user.name,
+                            email: user.email,
+                            provider: AuthProvider.google.rawValue,
+                            req: req
+                        )
+                    } else {
+                        return LoginController.signInWithEmail(
+                            appleIdentifier: nil,
+                            email: _user?.email ?? "",
+                            name: _user?.name,
+                            req: req
+                        )
                     }
                 }
-                return user.create(on: req.db).flatMapThrowing {
-                    let payload = JwtModel(
-                        subject: SubjectClaim(value: "\(user.id!)"),
-                        expiration: .init(value: .distantFuture)
-                    )
-                    let generatedToken = try req.jwt.sign(payload)
-                    user.token = generatedToken
-                    return  user
-                }
-            }
         }
     }
     
@@ -223,16 +222,19 @@ extension LoginController {
                 if let name = name {
                     user.name = name
                 }
-                return user.update(on: req.db).transform(to: user)
+                return user.update(on: req.db).map {
+                    user
+                }
+//                    .transform(to: user)
             }
             .flatMap { user in
                 guard let accessToken = try? user.createAccessToken(req: req) else {
                     return req.eventLoop.future(error: Abort(.internalServerError))
                 }
-                return accessToken.save(on: req.db).flatMapThrowing {
+//                return accessToken.save(on: req.db).flatMapThrowing {
                     user.token = accessToken.value
-                    return user
-                }
+                return req.eventLoop.future(user)
+//                }
             }
     }
     
