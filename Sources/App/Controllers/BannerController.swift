@@ -15,12 +15,10 @@ struct BannerController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[String: [Banner.Output]]> {
+    func index(req: Request) throws -> EventLoopFuture<CommonResponse<[Banner.Output]>> {
         return Banner.query(on: req.db).all().mapEach { Banner -> Banner.Output in
             return Banner.responseFrom(baseUrl: req.baseUrl)
-        }.map { response in
-            return ["data": response]
-        }
+        }.map(CommonResponse.init)
     }
     
    

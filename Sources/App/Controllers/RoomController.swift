@@ -14,38 +14,29 @@ struct RoomController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[String: [Room.Output]]> {
+    func index(req: Request) throws -> EventLoopFuture<CommonResponse<[Room.Output]>> {
         let query = try req.query.decode(Room.Querry.self)
-        return RoomStore().getAllRooms(query, req: req).map { response in
-            return ["data" : response]
-        }
+        return RoomStore().getAllRooms(query, req: req).map(CommonResponse.init)
         
     }
     
     
-    func create(req: Request) throws -> EventLoopFuture<[String: Room.Output]> {
+    func create(req: Request) throws -> EventLoopFuture<CommonResponse<Room.Output>> {
         let user: User = try req.auth.require(User.self)
         let room = try req.content.decode(Room.self)
         let input = try req.content.decode(Room.Entity.self)
-        return RoomStore().create(req: req, room: room, input: input, user: user).map { response in
-            return ["data" : response]
-        }
-        
+        return RoomStore().create(req: req, room: room, input: input, user: user)
+            .map(CommonResponse.init)
     }
     
-    func show(req: Request) throws -> EventLoopFuture<[String: Room.Output]>  {
-        return  try RoomStore().getWithId(req: req).map({ response in
-            return ["data" : response]
-        })
-//        return 
+    func show(req: Request) throws -> EventLoopFuture<CommonResponse<Room.Output>>  {
+        return  try RoomStore().getWithId(req: req)
+            .map(CommonResponse.init)
     }
     
-    func getMyRooms(req: Request) throws -> EventLoopFuture<[String: [Room.Output]]> {
+    func getMyRooms(req: Request) throws -> EventLoopFuture<CommonResponse<[Room.Output]>> {
         let user: User = try req.auth.require(User.self)
-        return  RoomStore().getMyRooms(req: req, user: user).map { response in
-            return ["data" : response]
-        }
-        
-        
+        return  RoomStore().getMyRooms(req: req, user: user)
+            .map(CommonResponse.init)
     }
 }

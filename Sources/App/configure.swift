@@ -105,7 +105,8 @@ class MyErrorMiddleware: Middleware {
     
     func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
         
-        return next.respond(to: request).flatMapErrorThrowing { error in
+        return next.respond(to: request)
+            .flatMapErrorThrowing { error in
             var reason: String
             var status: HTTPResponseStatus
             var headers: HTTPHeaders
@@ -135,5 +136,11 @@ class MyErrorMiddleware: Middleware {
             
         }
     }
+}
+
+
+
+struct CommonResponse<T: Content>: Content {
+    let data: T
 }
 
