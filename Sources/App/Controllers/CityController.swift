@@ -16,9 +16,11 @@ struct CityController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[City.Output]> {
+    func index(req: Request) throws -> EventLoopFuture<[String: [City.Output]]> {
         return City.query(on: req.db).all().mapEach { city -> City.Output in
             return city.response(baseUrl: req.baseUrl)
+        }.map { cities in
+            return ["data": cities]
         }
     }
     

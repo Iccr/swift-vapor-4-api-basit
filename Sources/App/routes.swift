@@ -34,7 +34,7 @@ func routes(_ app: Application) throws {
         return req.view.render("index", ["title": "Hello Vapor!"])
     }
     
-    app.post("login") {req -> EventLoopFuture<User>  in
+    app.post("login") {req  in
         return try LoginController().create(req: req)
     }
    

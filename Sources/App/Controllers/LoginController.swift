@@ -31,7 +31,7 @@ struct LoginController: RouteCollection {
         }
     }
     
-    func create(req: Request) throws -> EventLoopFuture<User> {
+    func create(req: Request) throws -> EventLoopFuture<[String: User]> {
         let input = try req.content.decode(UserContainer.self).user
         guard let provider = AuthProvider.init(rawValue: input?.provider ?? "") else {
             throw Abort(.badRequest, reason: "provider not found")
@@ -39,11 +39,17 @@ struct LoginController: RouteCollection {
         
         switch  provider {
             case .google:
-                return try signUpWithGoogle(req: req, input: input)
+                return try signUpWithGoogle(req: req, input: input).map({ response in
+                    return ["data": response]
+                })
             case .facebook:
-                return signUpWithFacebook(req: req, input: input)
+                return signUpWithFacebook(req: req, input: input).map({ response in
+                    return ["data": response]
+                })
             case .apple:
-                return try signUpWithApple(req: req)
+                return try signUpWithApple(req: req).map({ response in
+                    return ["data": response]
+                })
         }
     }
     
