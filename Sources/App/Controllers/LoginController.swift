@@ -119,7 +119,7 @@ extension LoginController {
         
         return req.jwt.apple.verify(
             userBody.appleIdentityToken,
-            applicationIdentifier: Env.SIWA.applicationIdentifier
+            applicationIdentifier: Apple.SIWA.applicationIdentifier
         ).flatMap { appleIdentityToken in
             User.findByAppleIdentifier(appleIdentityToken.subject.value, req: req)
                 .flatMap { user in

@@ -104,7 +104,7 @@ final class User : Model, Content {
 // MARK: - Token Creation
 extension User {
   func createAccessToken(req: Request) throws -> Token {
-    let expiryDate = Date() + Env.AccessToken.expirationTime
+    let expiryDate = Date() + Apple.AccessToken.expirationTime
     let payload = JwtModel(
         subject: SubjectClaim(value: "\(self.id!)"),
         expiration: .init(value: .distantFuture)

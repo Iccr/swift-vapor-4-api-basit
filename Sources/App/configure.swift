@@ -144,3 +144,16 @@ struct CommonResponse<T: Content>: Content {
     let data: T
 }
 
+
+
+class Apple {
+    struct AccessToken {
+      static let expirationTime: TimeInterval = 30 * 24 * 60 * 60 // 30 days
+    }
+
+    struct SIWA {
+      static let applicationIdentifier = "SIWA_APPLICATION_IDENTIFIER" //e.g. com.raywenderlich.siwa-vapor
+      static let servicesIdentifier = "SIWA_SERVICES_IDENTIFIER" //e.g. com.raywenderlich.siwa-vapor.services
+      static let redirectURL = "SIWA_REDIRECT_URL" // e.g. https://foobar.ngrok.io/web/auth/siwa/callback
+    }
+}
