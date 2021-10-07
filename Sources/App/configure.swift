@@ -22,7 +22,8 @@ public func configure(_ app: Application) throws {
     
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
-    app.jwt.signers.use(.hs256(key: Env.jwtSecret))
+    let jwtSecret = Environment.get("JWT_SECRET") ??  Env.jwtSecret
+    app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
     var port: Int = 5433
     if let _p = Environment.get("DATABASE_PORT"), let _port = Int(_p) {
@@ -152,7 +153,7 @@ class Apple {
     }
 
     struct SIWA {
-      static let applicationIdentifier = "SIWA_APPLICATION_IDENTIFIER" //e.g. com.raywenderlich.siwa-vapor
+      static let applicationIdentifier =  Environment.get("IOS_APP_ID") ?? ""
       static let servicesIdentifier = "SIWA_SERVICES_IDENTIFIER" //e.g. com.raywenderlich.siwa-vapor.services
       static let redirectURL = "SIWA_REDIRECT_URL" // e.g. https://foobar.ngrok.io/web/auth/siwa/callback
     }
