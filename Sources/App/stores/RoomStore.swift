@@ -69,6 +69,10 @@ class RoomStore {
         
     }
     
+    func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room]> {
+        return user.$rooms.get(on: req.db)
+    }
+    
     
 }
 

@@ -32,4 +32,10 @@ struct RoomController: RouteCollection {
         return  try RoomStore().getWithId(req: req)
 //        return 
     }
+    
+    func getMyRooms(req: Request) throws -> EventLoopFuture<[Room]> {
+        let user: User = try req.auth.require(User.self)
+        return try RoomStore().getMyRooms(req: req, user: user)
+        
+    }
 }

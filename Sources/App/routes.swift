@@ -16,6 +16,10 @@ func routes(_ app: Application) throws {
         return try RoomController().create(req: req)
     }
     
+    protected.get("myRooms") {req in
+        return try RoomController().getMyRooms(req: req)
+    }
+    
     // Free
     
     app.get("rooms") { req in
@@ -25,6 +29,7 @@ func routes(_ app: Application) throws {
     app.get("rooms", ":id") { req in
         return try RoomController().show(req: req)
     }
+    
     app.get { req in
         return req.view.render("index", ["title": "Hello Vapor!"])
     }

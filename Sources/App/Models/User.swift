@@ -33,6 +33,9 @@ final class User : Model, Content {
     @ID(custom: "id")
     var id: Int?
     
+    @Children(for: \.$user)
+    var rooms: [Room]
+    
     @Field(key: "email")
     var email : String?
     
