@@ -261,3 +261,10 @@ extension Room {
         return .init( city: nil, user: nil, id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
     }
 }
+
+extension Room {
+    struct Entity: Content {
+        var images: [File]
+        var city_id: Int
+    }
+}
