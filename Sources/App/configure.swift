@@ -18,17 +18,26 @@ public func configure(_ app: Application) throws {
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
     app.jwt.signers.use(.hs256(key: Env.jwtSecret))
+    let hostname = Environment.get("DATABASE_HOSTNAME") ?? ""
+    let port = Int(Environment.get("DATABASE_PORT") ?? "0") ?? 0
+    let username = Environment.get("DATABASE_USERNAME") ?? ""
+    let dbName = Environment.get("DATABASE_NAME") ?? ""
+    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? ""
+    print("connecting")
+          
+    print(hostname + ":" + "\(port)" + " " + username + " " + dbPassword + " " + dbName)
 
+    
     app.databases.use(
         .postgres(
-            hostname: Env.hostname,
-            port: Env.port,
-            username: Env.username,
-            password: Env.password,
-            database: Env.database),
-        
+            hostname: hostname,
+            port: port,
+            username: username,
+            password: dbPassword,
+            database: dbName),
         as: .psql)
     
+    print("migrating")
     app.migrations.add(CreateUser())
     app.migrations.add(TokenMigration())
     app.migrations.add(CreateCity())

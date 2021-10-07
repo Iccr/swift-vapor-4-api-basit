@@ -9,3 +9,4 @@ db.sqlite
 Sources/App/Environment.swift
 Public/samples
 Public/uploads
+docker-compose.yml
