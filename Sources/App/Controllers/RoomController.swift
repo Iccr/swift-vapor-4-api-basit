@@ -27,4 +27,9 @@ struct RoomController: RouteCollection {
         return RoomStore().create(req: req, room: room, input: input, user: user)
         
     }
+    
+    func show(req: Request) throws -> EventLoopFuture<Room.Output>  {
+        return  try RoomStore().getWithId(req: req)
+//        return 
+    }
 }

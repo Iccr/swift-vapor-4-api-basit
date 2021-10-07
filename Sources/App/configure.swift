@@ -18,11 +18,14 @@ public func configure(_ app: Application) throws {
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
     app.jwt.signers.use(.hs256(key: Env.jwtSecret))
-    let hostname = Environment.get("DATABASE_HOSTNAME") ?? ""
-    let port = Int(Environment.get("DATABASE_PORT") ?? "0") ?? 0
-    let username = Environment.get("DATABASE_USERNAME") ?? ""
-    let dbName = Environment.get("DATABASE_NAME") ?? ""
-    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? ""
+    let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
+    var port: Int = 5433
+    if let _p = Environment.get("DATABASE_PORT"), let _port = Int(_p) {
+        port = _port
+    }
+    let username = Environment.get("DATABASE_USERNAME") ?? "ccr"
+    let dbName = Environment.get("DATABASE_NAME") ?? "vfinder"
+    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "password"
     print("connecting")
           
     print(hostname + ":" + "\(port)" + " " + username + " " + dbPassword + " " + dbName)

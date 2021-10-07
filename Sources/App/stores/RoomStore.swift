@@ -55,6 +55,20 @@ class RoomStore {
         }
     }
     
+    func getWithId(req: Request) throws -> EventLoopFuture<Room.Output> {
+        if let _id = req.parameters.get("id"), let id = Int(_id) {
+            return Room.find(id, on: req.db).flatMapThrowing { room in
+                if let room = room {
+                    return room.responseFrom(baseUrl: req.baseUrl)
+                }
+                throw Abort(.notFound)
+                
+            }
+        }
+        throw Abort(.notFound)
+        
+    }
+    
     
 }
 
