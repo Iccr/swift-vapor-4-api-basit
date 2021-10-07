@@ -13,7 +13,7 @@ class RoomStore {
     
     
     
-    func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<[Room]> {
+    func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<[Room.Output]> {
         City.query(on: req.db)
             .with(\.$rooms)
             .filter(\.$id == (searchQuery.city_id ?? -1))
@@ -21,12 +21,16 @@ class RoomStore {
             .flatMap { city in
                 if let city = city {
                     let query =  city.$rooms.query(on: req.db)
-                    return self.querries(query: query, params: searchQuery).all()
+                    return self.querries(query: query, params: searchQuery)
+                        .all()
+                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
                 }else {
                     let query =
                     Room.query(on: req.db)
                         .with(\.$city)
-                    return self.querries(query: query, params: searchQuery).all()
+                    return self.querries(query: query, params: searchQuery)
+                        .all()
+                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
                 }
             }
     }
@@ -69,8 +73,8 @@ class RoomStore {
         
     }
     
-    func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room]> {
-        return user.$rooms.get(on: req.db)
+    func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room.Output]> {
+        return user.$rooms.get(on: req.db).mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
     }
     
     

@@ -9,6 +9,8 @@ import Foundation
 import Vapor
 import Fluent
 
+
+
 final class Room: Codable, Model, Content {
     static let schema: String = "rooms"
 
@@ -172,6 +174,10 @@ final class Room: Codable, Model, Content {
         updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
     }
 
+    
+    
+ 
+    
     struct Output: Content {
         var city: City?
         var user: User?

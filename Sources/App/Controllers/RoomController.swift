@@ -14,28 +14,38 @@ struct RoomController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<[Room]> {
+    func index(req: Request) throws -> EventLoopFuture<[String: [Room.Output]]> {
         let query = try req.query.decode(Room.Querry.self)
-        return RoomStore().getAllRooms(query, req: req)
-    }
-    
-    
-    func create(req: Request) throws -> EventLoopFuture<Room.Output> {
-        let user: User = try req.auth.require(User.self)
-        let room = try req.content.decode(Room.self)
-        let input = try req.content.decode(Room.Entity.self)
-        return RoomStore().create(req: req, room: room, input: input, user: user)
+        return RoomStore().getAllRooms(query, req: req).map { response in
+            return ["data" : response]
+        }
         
     }
     
-    func show(req: Request) throws -> EventLoopFuture<Room.Output>  {
-        return  try RoomStore().getWithId(req: req)
+    
+    func create(req: Request) throws -> EventLoopFuture<[String: Room.Output]> {
+        let user: User = try req.auth.require(User.self)
+        let room = try req.content.decode(Room.self)
+        let input = try req.content.decode(Room.Entity.self)
+        return RoomStore().create(req: req, room: room, input: input, user: user).map { response in
+            return ["data" : response]
+        }
+        
+    }
+    
+    func show(req: Request) throws -> EventLoopFuture<[String: Room.Output]>  {
+        return  try RoomStore().getWithId(req: req).map({ response in
+            return ["data" : response]
+        })
 //        return 
     }
     
-    func getMyRooms(req: Request) throws -> EventLoopFuture<[Room]> {
+    func getMyRooms(req: Request) throws -> EventLoopFuture<[String: [Room.Output]]> {
         let user: User = try req.auth.require(User.self)
-        return try RoomStore().getMyRooms(req: req, user: user)
+        return  RoomStore().getMyRooms(req: req, user: user).map { response in
+            return ["data" : response]
+        }
+        
         
     }
 }
