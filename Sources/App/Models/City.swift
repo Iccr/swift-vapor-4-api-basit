@@ -80,3 +80,4 @@ extension City {
         return .init(id: city.id , name: city.name, imageUrl: baseUrl + (city.imageUrl ?? ""), description: city.description)
     }
 }
+

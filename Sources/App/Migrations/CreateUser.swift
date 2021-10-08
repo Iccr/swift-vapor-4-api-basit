@@ -1,6 +1,7 @@
 import Fluent
 
-struct CreateUser: Migration {
+extension User {
+struct CreateUserMigration: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("users")
             .field("id", .int, .identifier(auto: true))
@@ -20,6 +21,7 @@ struct CreateUser: Migration {
     func revert(on database: Database) -> EventLoopFuture<Void> {
         return database.schema("users").delete()
     }
+}
 }
 
 

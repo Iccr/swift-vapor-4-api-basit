@@ -7,13 +7,8 @@ import JWT
 import Foundation
 // configures your application
 public func configure(_ app: Application) throws {
-    // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 
-    // register routes
-    
-    app.logger.logLevel = .debug
-    app.views.use(.leaf)
+//    app.views.use(.leaf)
     
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
 
@@ -22,7 +17,15 @@ public func configure(_ app: Application) throws {
     
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
+    
+    #if DEBUG
     let jwtSecret = Environment.get("JWT_SECRET") ?? Env.jwtSecret
+    app.logger.logLevel = .debug
+    #else
+    let jwtSecret = Environment.get("JWT_SECRET") ?? ""
+    app.logger.logLevel = .error
+    #endif
+    
     app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
     var port: Int = 5433
@@ -32,10 +35,6 @@ public func configure(_ app: Application) throws {
     let username = Environment.get("DATABASE_USERNAME") ?? "ccr"
     let dbName = Environment.get("DATABASE_NAME") ?? "vfinder"
     let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "password"
-    print("connecting")
-          
-    print(hostname + ":" + "\(port)" + " " + username + " " + dbPassword + " " + dbName)
-
     
     app.databases.use(
         .postgres(
@@ -46,15 +45,15 @@ public func configure(_ app: Application) throws {
             database: dbName),
         as: .psql)
     
-    print("migrating")
-    app.migrations.add(CreateUser())
+    
+    app.migrations.add(User.CreateUserMigration())
     app.migrations.add(TokenMigration())
-    app.migrations.add(CreateCity())
-    app.migrations.add(CreateRoom())
-    app.migrations.add(CreateBanner())
+    app.migrations.add(City.CreateCityMigration())
+    app.migrations.add(Room.CreateRoomMigration())
+    app.migrations.add(Banner.CreateBannerMigration())
     
     seed(app.db)
-    try app.autoMigrate().wait()
+    try? app.autoMigrate().wait()
     try routes(app)
 }
 
@@ -97,47 +96,7 @@ func seed(_ db: Database)  {
 }
 
 
-class MyErrorMiddleware: Middleware {
-    internal struct ErrorResponse: Codable {
-        /// Always `true` to indicate this is a non-typical JSON response.
-        /// The reason for the error.
-        var message: String
-    }
-    
-    func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
-        
-        return next.respond(to: request)
-            .flatMapErrorThrowing { error in
-            var reason: String
-            var status: HTTPResponseStatus
-            var headers: HTTPHeaders
-            switch error {
-                case let abort as AbortError:
-                    // this is an abort error, we should use its status, reason, and headers
-                    reason = abort.reason
-                    status = abort.status
-                    headers = abort.headers
-            
-                default:
-                    // not an abort error, and not debuggable or in dev mode
-                    // just deliver a generic 500 to avoid exposing any sensitive error info
-                    reason = "Something went wrong."
-                    status = .internalServerError
-                    headers = [:]
-//                    source = nil
-            }
-            
-            let response = Response(status: status, headers: headers)
-            
-            let errorResponse = ErrorResponse( message: reason)
-//            json = try JSONEncoder().encode(["error": result.message])
-            response.body = try .init(data: JSONEncoder().encode(["error": errorResponse] ))
-            response.headers.add(name: .contentType, value: "application/json")
-            return response
-            
-        }
-    }
-}
+
 
 
 

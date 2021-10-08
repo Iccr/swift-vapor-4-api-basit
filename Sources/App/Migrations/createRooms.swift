@@ -8,42 +8,45 @@
 import Foundation
 import Fluent
 
-struct CreateRoom: Migration {
-    func prepare(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("rooms")
-            .field("id", .int, .identifier(auto: true))
-            .field("price", .double)
-            .field("vimages", .array(of: .string))
-            .field("city_id", .int, .foreignKey("cities", .key("id"), onDelete: .cascade, onUpdate: .cascade))
-            .field("user_id", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
-            .field("type", .string)
-            .field("no_of_rooms", .int)
-            .field("kitchen", .string)
-            .field("floor", .string)
-            .field("lat", .double)
-            .field("long", .double)
-            .field("address", .string)
-            .field("district", .string)
-            .field("state", .string)
-            .field("localGov", .string)
-            .field("parking", .string)
-            .field("water", .string)
-            .field("internet", .string)
-            .field("phone", .string)
-            .field("description", .string)
-            .field("occupied", .bool, .sql(.default(false)))
-            .field("preference", .string)
-            .field("created_at", .datetime)
-            .field("updated_at", .datetime)
-            .create()
+
+
+extension Room {
+    struct CreateRoomMigration: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("rooms")
+                .field("id", .int, .identifier(auto: true))
+                .field("price", .double)
+                .field("vimages", .array(of: .string))
+                .field("city_id", .int, .foreignKey("cities", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+                .field("user_id", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+                .field("type", .string)
+                .field("no_of_rooms", .int)
+                .field("kitchen", .string)
+                .field("floor", .string)
+                .field("lat", .double)
+                .field("long", .double)
+                .field("address", .string)
+                .field("district", .string)
+                .field("state", .string)
+                .field("localGov", .string)
+                .field("parking", .string)
+                .field("water", .string)
+                .field("internet", .string)
+                .field("phone", .string)
+                .field("description", .string)
+                .field("occupied", .bool, .sql(.default(false)))
+                .field("preference", .string)
+                .field("created_at", .datetime)
+                .field("updated_at", .datetime)
+                .create()
+        }
+
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("rooms").delete()
+        }
     }
-    
-    func revert(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("rooms").delete()
-    }
-    
-    
 }
+
 //
 //"rooms": [
 //      {
