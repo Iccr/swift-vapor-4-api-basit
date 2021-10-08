@@ -10,30 +10,42 @@ import Vapor
 import Fluent
 
 class RoomStore {
-    
-    
-    
-    func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<[Room.Output]> {
-        City.query(on: req.db)
-            .with(\.$rooms)
-            .filter(\.$id == (searchQuery.city_id ?? -1))
-            .first()
-            .flatMap { city in
-                if let city = city {
-                    let query =  city.$rooms.query(on: req.db)
-                    return self.querries(query: query, params: searchQuery)
-                        .all()
-                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
-                }else {
-                    let query =
-                    Room.query(on: req.db)
-                        .with(\.$city)
-                    return self.querries(query: query, params: searchQuery)
-                        .all()
-                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
+    func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<Page<Room.Output>> {
+        let query =  Room.query(on: req.db)
+        return self.querries(query: query, params: searchQuery)
+            .with(\.$city)
+            .with(\.$user)
+            .paginate(for: req).map { page in
+                page.map { $0.responseFrom(baseUrl: req.baseUrl)
                 }
             }
     }
+//        City.query(on: req.db)
+//            .with(\.$rooms)
+//            .filter(\.$id == (searchQuery.city_id ?? -1))
+//            .first()
+//            .flatMap { city in
+//                if let city = city {
+//                    let query =  city.$rooms.query(on: req.db)
+//                    return self.querries(query: query, params: searchQuery)
+//                        .paginate(for: req).map { page in
+//                            page.map { $0.responseFrom(baseUrl: req.baseUrl)
+//                            }
+//                        }
+//                }else {
+//                    let query =
+//                        Room.query(on: req.db)
+//                        .with(\.$city)
+//                    return self.querries(query: query, params: searchQuery)
+//                        .paginate(for: req).map { page in
+//                            page.map { $0.responseFrom(baseUrl: req.baseUrl)}
+//                        }
+//                    //                        .all()
+//                    //                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
+//
+//                }
+//            }
+//    }
     
     func create(req: Request, room: Room, input: Room.Entity, user: User ) ->  EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
@@ -47,12 +59,8 @@ class RoomStore {
                 .filter(\.$id == input.city_id)
                 .first()
         }.flatMap { city in
-            //            guard let city = _city else {throw Abort(.notFound, reason: "City not found")}
-            
-//            room = user.id
             room.$user.id = user.id ?? -1
             room.$city.id = city?.id ?? -1
-            
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
             }
@@ -66,23 +74,41 @@ class RoomStore {
                     return room.responseFrom(baseUrl: req.baseUrl)
                 }
                 throw Abort(.notFound)
-                
             }
         }
         throw Abort(.notFound)
-        
     }
     
     func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room.Output]> {
         return user.$rooms.get(on: req.db).mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
     }
     
+    func update(req: Request, input: Room.Update) throws -> EventLoopFuture<Room.Output> {
+        return Room.find(input.id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { room in
+                return room.get(update: input).update(on: req.db).map {
+                    room.responseFrom(baseUrl: req.baseUrl)
+                }
+            }
+    }
+    
+//    if let room  = room {
+//        room.occupied = input.occupied
+//        return room.update(on: req.db).map {
+//         return room.responseFrom(baseUrl: req.baseUrl)
+//       }
+//    }
+//    throw Abort(.notFound)
     
 }
 
 
 extension RoomStore {
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
+        if let val = params.city_id {
+            query.filter(\.$city.$id == val)
+        }
         
         if let val = params.type {
             query.filter(\.$type ~~ val)
@@ -134,9 +160,10 @@ extension RoomStore {
         if let val = params.upperPrice {
             query.filter(\.$price <= val)
         }
-//        query
-//            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
-//            .filter(\.$price <= (params.upperPrice ?? 0))
+        //        query
+        //            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
+        //            .filter(\.$price <= (params.upperPrice ?? 0))
+        
         return query
     }
 }

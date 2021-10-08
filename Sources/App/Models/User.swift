@@ -96,9 +96,18 @@ final class User : Model, Content {
  
 }
 
-
-
-
+extension User {
+    struct Profile: Codable {
+        var id: Int?
+        var name: String?
+        var email: String?
+        var imageurl: String?
+    }
+    
+    func getProfile() -> User.Profile {
+        return Profile(id: self.id , name: self.name, email: self.email, imageurl: self.imageurl)
+    }
+}
 
 
 // MARK: - Token Creation

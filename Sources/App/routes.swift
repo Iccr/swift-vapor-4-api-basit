@@ -20,7 +20,14 @@ func routes(_ app: Application) throws {
         return try RoomController().getMyRooms(req: req)
     }
     
+    protected.patch("rooms") { req in
+        return try RoomController().update(req: req)
+    }
+    
+    
+    
     // Free
+    
     
     app.get("rooms") { req in
         return try RoomController().index(req: req)
