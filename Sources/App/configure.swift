@@ -22,7 +22,7 @@ public func configure(_ app: Application) throws {
     
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
-    let jwtSecret = Environment.get("JWT_SECRET") ??  Env.jwtSecret
+    let jwtSecret = Environment.get("JWT_SECRET")!
     app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
     var port: Int = 5433
