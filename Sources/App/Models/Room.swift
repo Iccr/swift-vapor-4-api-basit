@@ -178,7 +178,9 @@ final class Room: Codable, Model, Content {
     
  
     
-    struct Output: Content {
+    struct Output: Content, Codable {
+        
+        var coverImage: String
         var city: City.Output?
         var user: User.Profile?
         var id: Int?
@@ -203,6 +205,7 @@ final class Room: Codable, Model, Content {
         var preference : String?
         var createdAt: Date?
         var updatedAt: Date?
+        
     }
     
     struct Update: Content {
@@ -309,7 +312,8 @@ final class Room: Codable, Model, Content {
 extension Room {
     func responseFrom(baseUrl: String)-> Room.Output {
         let r = self
-        return .init( city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
+        let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
+        return .init( coverImage: coverImage, city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
     }
 }
 
