@@ -335,14 +335,14 @@
   <div id="content">
     <section class="container">
               <div class="row">
-                <form id="bookingCars" class="d-block mb-2" method="post">
+                <form id="bookingCars" class="d-block mb-2" method="get" action="/">
               </div>
               <div class="form-row">
               <div class="col-md-6 col-lg"> 
               </div>
               <div class="col-md-12 col-lg form-group">
-                <input type="text" class="form-control" id="carsCity" required placeholder="Enter City">
-                <span class="icon-inside"><i class="fas fa-map-marker-alt"></i></span>
+                <input type="search" class="form-control" id="carsCity" required placeholder="Enter City" name="address">
+              
                 
               </div>
               <div class="col-lg-2 form-group">
