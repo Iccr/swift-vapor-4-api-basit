@@ -8,5 +8,19 @@
 
 <body>
   <h1>#(title)</h1>
+  
+  <ul>
+
+<ul>
+#for(item in items):
+    <li>#(item.address)</li>
+    
+#endfor
+</ul>
+    
+</ul>
+
+
+
 </body>
 </html>

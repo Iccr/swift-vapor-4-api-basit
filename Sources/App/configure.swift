@@ -14,7 +14,7 @@ public func configure(_ app: Application) throws {
 
     app.middleware = .init()
     app.middleware.use(MyErrorMiddleware())
-    
+    app.views.use(.leaf)
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
     
@@ -55,6 +55,9 @@ public func configure(_ app: Application) throws {
     seed(app.db)
     try? app.autoMigrate().wait()
     try routes(app)
+    app.routes.all.forEach { route in
+        print(route)
+    }
 }
 
 func seed(_ db: Database)  {

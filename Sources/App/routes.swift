@@ -10,17 +10,22 @@ func routes(_ app: Application) throws {
     let protected = app.grouped(UserAuthenticator())
         .grouped(User.guardMiddleware())
     
+    let api = app.grouped("api", "v1")
+    
+    let protectedApi = api.grouped(UserAuthenticator()).grouped(User.guardMiddleware())
+    
+    
     // protected
  
-    protected.post("rooms") { req in
+    protectedApi.post("rooms") { req in
         return try RoomController().create(req: req)
     }
     
-    protected.get("myRooms") {req in
+    protectedApi.get("myRooms") {req in
         return try RoomController().getMyRooms(req: req)
     }
     
-    protected.patch("rooms") { req in
+    protectedApi.patch("rooms") { req in
         return try RoomController().update(req: req)
     }
     
@@ -29,34 +34,30 @@ func routes(_ app: Application) throws {
     // Free
     
     
-    app.get("rooms") { req in
+    api.get("rooms") { req in
         return try RoomController().index(req: req)
     }
     
-    app.get("rooms", ":id") { req in
+    api.get("rooms", ":id") { req in
         return try RoomController().show(req: req)
     }
     
     app.get { req in
-        return req.view.render("index", ["title": "Hello Vapor!"])
+        try RoomWebControlelr().index(req: req)
     }
     
-    app.post("login") {req  in
+    api.post("login") {req  in
         return try LoginController().create(req: req)
     }
    
     
-    app.get("cities") { req in
+    api.get("cities") { req in
         return try CityController().index(req: req)
     }
     
-    app.get("banners") { req in
+    api.get("banners") { req in
         return try BannerController().index(req: req)
     }
-    
-  
-    
-    
 }
 
 
