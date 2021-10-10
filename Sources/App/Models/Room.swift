@@ -310,6 +310,8 @@ final class Room: Codable, Model, Content {
         var description : String?
         var occupied : Bool?
         var preference : String?
+        var price: String?
+        
     }
 }
 
@@ -317,7 +319,7 @@ extension Room {
     func responseFrom(baseUrl: String)-> Room.Output {
         let r = self
         let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
-        return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getShortCurrency() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
+        return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
     }
     
     func getFeautres() -> [String] {

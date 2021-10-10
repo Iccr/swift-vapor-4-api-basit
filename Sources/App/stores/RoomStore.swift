@@ -160,10 +160,14 @@ extension RoomStore {
         if let val = params.upperPrice {
             query.filter(\.$price <= val)
         }
-        //        query
-        //            .filter(\.$price >= (params.lowerPrice ?? 1_00_000))
-        //            .filter(\.$price <= (params.upperPrice ?? 0))
         
+        if let val = params.price {
+            if val == "low-to-high" {
+               query.sort(\.$price, .ascending)
+            }else {
+                 query.sort(\.$price, .descending)
+            }
+        }
         return query
     }
 }
