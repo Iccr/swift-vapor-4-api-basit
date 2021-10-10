@@ -284,7 +284,7 @@ final class Room: Codable, Model, Content {
         var updatedAt: Date?
         
         func getRoom(city: City, user: User) -> Room {
-            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
+            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
         }
     }
     
