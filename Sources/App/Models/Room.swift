@@ -181,6 +181,7 @@ final class Room: Codable, Model, Content {
     struct Output: Content, Codable {
         
         var coverImage: String
+        var nepaliPrice: String
         var city: City.Output?
         var user: User.Profile?
         var id: Int?
@@ -205,7 +206,9 @@ final class Room: Codable, Model, Content {
         var preference : String?
         var createdAt: Date?
         var updatedAt: Date?
+        var features: [String]
         
+         
     }
     
     struct Update: Content {
@@ -229,6 +232,7 @@ final class Room: Codable, Model, Content {
         var description : String?
         var occupied : Bool?
         var preference : String?
+        
     }
     
     func get(update: Update) -> Room {
@@ -313,13 +317,92 @@ extension Room {
     func responseFrom(baseUrl: String)-> Room.Output {
         let r = self
         let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
-        return .init( coverImage: coverImage, city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt)
+        return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getShortCurrency() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
     }
+    
+    func getFeautres() -> [String] {
+       var features: [String] = []
+       if let no = noOfRooms,  no != 0 {
+           features.append("Rooms: \(no)")
+       }
+       
+       if let floor = floor {
+           features.append("Floor: \(floor)")
+       }
+       
+       if let internet = internet {
+           features.append("internet: \(internet)")
+       }
+       
+       if let parking = parking {
+           features.append("parking: \(parking)")
+       }
+       
+       if let water = water {
+           features.append("water: \(water)")
+       }
+       
+       if let kitchen = kitchen {
+           features.append("kitchen: \(kitchen)")
+       }
+      return features
+   }
 }
 
 extension Room {
     struct Entity: Content {
         var images: [File]
         var city_id: Int
+    }
+}
+
+extension Double {
+     func getNumberWithNepaliFormat( precision: Int = 2) -> String? {
+        let number = self
+        
+         if  number != 0 {
+             let nsNumber = NSNumber.init(value: number)
+             let formatter = NumberFormatter()
+             formatter.numberStyle = .decimal
+             formatter.maximumFractionDigits = precision
+             formatter.usesGroupingSeparator = true
+             formatter.groupingSize = 3
+             formatter.secondaryGroupingSize = 2
+             formatter.maximumFractionDigits = precision
+             let result = formatter.string(for: nsNumber)
+             return result
+         }
+         return nil
+     }
+    
+    func getShortCurrency( precision: Int = 2) -> String? {
+       let number = self
+       
+        if  number != 0 {
+            if number < 1_000 {
+                return "Rs.\(number)"
+            }else if number >= 1_000 && number < 10_000 {
+                let remainder = number.remainder(dividingBy: 1000)
+                return remainder  == 0 ? "1K" : "1.\(remainder)k"
+            } else if number >= 10_000 && number < 100_000 {
+                let remainder = number.remainder(dividingBy: 10_000)
+                return remainder == 0 ? "10K" : "10.\(remainder)k"
+            }else if number >= 100_000  {
+                let remainder = number.remainder(dividingBy: 100_000)
+                return remainder  == 0 ? "100K" : "100.\(remainder)k"
+            }
+            
+//            let nsNumber = NSNumber.init(value: number)
+//            let formatter = NumberFormatter()
+//            formatter.numberStyle = .decimal
+//            formatter.maximumFractionDigits = precision
+//            formatter.usesGroupingSeparator = true
+//            formatter.groupingSize = 3
+//            formatter.secondaryGroupingSize = 2
+//            formatter.maximumFractionDigits = precision
+//            let result = formatter.string(for: nsNumber)
+//            return result
+        }
+        return nil
     }
 }
