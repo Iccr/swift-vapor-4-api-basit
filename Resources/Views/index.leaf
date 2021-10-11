@@ -361,133 +361,170 @@
               
                 <div class="card">
                   <div class="card-header" id="carType">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglecarType" aria-expanded="true" aria-controls="togglecarType">Car Type</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglecarType" aria-expanded="true" aria-controls="togglecarType">Housing Type</a> </h5>
                   </div>
                   <div id="togglecarType" class="collapse show" aria-labelledby="carType">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="economy" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="economy">Economy <small class="text-muted float-right">99</small></label>
+                        <input type="checkbox" id="economy" name="type" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="economy">Flat <small class="text-muted float-right">99</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="compact" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="compact">Compact <small class="text-muted float-right">76</small></label>
+                        <label class="custom-control-label d-block" for="compact">Room <small class="text-muted float-right">76</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="midsize" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="midsize">Midsize <small class="text-muted float-right">31</small></label>
+                        <label class="custom-control-label d-block" for="midsize">Appartment <small class="text-muted float-right">31</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="standard" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="standard">Standard <small class="text-muted float-right">12</small></label>
+                        <label class="custom-control-label d-block" for="standard">House <small class="text-muted float-right">12</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="fullsize" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fullsize">Full-size <small class="text-muted float-right">5</small></label>
+                        <label class="custom-control-label d-block" for="fullsize">Commercial Place <small class="text-muted float-right">5</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="minivan" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="minivan">Minivan <small class="text-muted float-right">27</small></label>                      </div>
+                        <label class="custom-control-label d-block" for="minivan">Office Space <small class="text-muted float-right">27</small></label>                      </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="suv" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="suv">SUV <small class="text-muted float-right">66</small></label>
+                        <label class="custom-control-label d-block" for="suv">Other <small class="text-muted float-right">66</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
+                      <!-- <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="van" name="carType" class="custom-control-input">
                         <label class="custom-control-label d-block" for="van">Van <small class="text-muted float-right">18</small></label>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
                 <div class="card">
                   <div class="card-header" id="passengers">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglepassengers" aria-expanded="true" aria-controls="togglepassengers">Passengers</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglepassengers" aria-expanded="true" aria-controls="togglepassengers">Kitchen</a> </h5>
                   </div>
                   <div id="togglepassengers" class="collapse show" aria-labelledby="passengers">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="1to2" name="passengers" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="1to2">1 to 2 passengers<small class="text-muted float-right">85</small></label>
+                        <input type="checkbox" id="1to2" name="kitchen" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="1to2">Available<small class="text-muted float-right">85</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="3to5" name="passengers" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="3to5">3 to 5 passengers<small class="text-muted float-right">62</small></label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="6orMore" name="passengers" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="6orMore">6 or more<small class="text-muted float-right">35</small></label>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
                 <div class="card">
                   <div class="card-header" id="bags">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleBags" aria-expanded="true" aria-controls="toggleBags">Bags</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleBags" aria-expanded="true" aria-controls="toggleBags">Internet</a> </h5>
                   </div>
                   <div id="toggleBags" class="collapse show" aria-labelledby="bags">
                     <div class="card-body">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="6orMore" name="internet" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="6orMore">Not Available<small class="text-muted float-right">15</small></label>
+                      </div>
+
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="1to2" name="bags" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="1to2">1 to 2 bags<small class="text-muted float-right">106</small></label>
+                        <input type="checkbox" id="1to2" name="internet" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="1to2">Paid<small class="text-muted float-right">106</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="3to5" name="bags" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="3to5">3 to 4 bags<small class="text-muted float-right">85</small></label>
+                        <input type="checkbox" id="3to5" name="internet" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="3to5">Free<small class="text-muted float-right">85</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="6orMore" name="bags" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="6orMore">5 or more<small class="text-muted float-right">15</small></label>
-                      </div>
+                      
                     </div>
                   </div>
                 </div>
                 
                 <div class="card">
                   <div class="card-header" id="transmission">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggletransmission" aria-expanded="true" aria-controls="toggletransmission">Transmission</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggletransmission" aria-expanded="true" aria-controls="toggletransmission">Floor</a> </h5>
                   </div>
                   <div id="toggletransmission" class="collapse show" aria-labelledby="bags">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="paynow" name="transmission" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="paynow">Automatic<small class="text-muted float-right">58</small></label>
+                        <input type="checkbox" id="paynow" name="floor" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="paynow">Roof Top<small class="text-muted float-right">58</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="payatcounter" name="transmission" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="payatcounter">Manual<small class="text-muted float-right">168</small></label>
+                        <input type="checkbox" id="payatcounter" name="floor" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="payatcounter">Ground Floor<small class="text-muted float-right">168</small></label>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="card">
                   <div class="card-header" id="userReview">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleuserReview" aria-expanded="true" aria-controls="toggleuserReview">User Review</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleuserReview" aria-expanded="true" aria-controls="toggleuserReview">Parking</a> </h5>
                   </div>
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="excellent" name="userReview" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="excellent">Excellent <small class="text-muted float-right">499</small></label>
+                        <input type="checkbox" id="excellent" name="parking" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="excellent">car <small class="text-muted float-right">499</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="good" name="userReview" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="good">Good <small class="text-muted float-right">310</small></label>
+                        <input type="checkbox" id="good" name="parking" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="good">Bike <small class="text-muted float-right">310</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fair" name="userReview" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fair">Fair <small class="text-muted float-right">225</small></label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="poor" name="userReview" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="poor">Poor <small class="text-muted float-right">110</small></label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="bad" name="userReview" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="bad">Bad <small class="text-muted float-right">44</small></label>
+                        <input type="checkbox" id="fair" name="parking" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="fair">Van/Suv <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <div class="card">
+                  <div class="card-header" id="water">
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleuserReview" aria-expanded="true" aria-controls="toggleuserReview">Water</a> </h5>
+                  </div>
+                  <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
+                    <div class="card-body">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="excellent" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="excellent">Plenty <small class="text-muted float-right">499</small></label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="good" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="good">Just Ok <small class="text-muted float-right">310</small></label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="fair" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="fair"> Need to be careful <small class="text-muted float-right">225</small></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card">
+                  <div class="card-header" id="preference">
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleuserReview" aria-expanded="true" aria-controls="toggleuserReview">Preference</a> </h5>
+                  </div>
+                  <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
+                    <div class="card-body">
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="excellent" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="excellent">Small Family <small class="text-muted float-right">499</small></label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="good" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="good">Employee <small class="text-muted float-right">310</small></label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="fair" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="fair"> Couple <small class="text-muted float-right">225</small></label>
+                      </div>
+
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" id="fair" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="fair"> Any <small class="text-muted float-right">225</small></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="card">
                   <div class="card-header" id="price">
                     <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglePrice" aria-expanded="true" aria-controls="togglePrice">Price</a> </h5>
@@ -598,8 +635,8 @@
                         </div>
                         <div class="col-sm-3 text-right d-flex d-sm-block align-items-center">
                             <div class="text-success text-3 mb-0 mb-sm-1 order-2 ">&nbsp;</div>
-                            <div class="d-block text-3 text-black-50 mb-0 mb-sm-2 mr-2 mr-sm-0 order-1"><del class="d-block">&nbsp;</del></div>
-                            <div class="text-dark text-7 font-weight-500 mb-0 mb-sm-2 mr-2 mr-sm-0 order-0">#(item.nepaliPrice)</div>
+                            <div class="d-block text-5 text-black-100 mb-0 mb-sm-2 mr-2 mr-sm-0 order-1">Rs <span class="text-dark text-7 font-weight-500 mb-0 mb-sm-2 mr-2 mr-sm-0 order-0">#(item.nepaliPrice)</span></div>
+                            
                             <div class="text-black-50 mb-0 mb-sm-2 order-3 d-none d-sm-block">per month</div>
                             <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank" class="btn btn-sm btn-primary order-4 ml-auto">Show in Map</a>
                         </div>
