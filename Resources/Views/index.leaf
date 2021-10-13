@@ -328,7 +328,8 @@
           </div>
         </div>
       </div>
-    </section><!-- Page Header end -->
+    </section>
+    <!-- Page Header end -->
     
   <!-- Content
   ============================================= -->
@@ -483,16 +484,16 @@
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="excellent" name="water" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="excellent">Plenty <small class="text-muted float-right">499</small></label>
+                        <input type="checkbox" id="plenty" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="plenty">Plenty <small class="text-muted float-right">499</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="good" name="water" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="good">Just Ok <small class="text-muted float-right">310</small></label>
+                        <input type="checkbox" id="jsutok" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="jsutok">Just Ok <small class="text-muted float-right">310</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fair" name="water" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fair"> Need to be careful <small class="text-muted float-right">225</small></label>
+                        <input type="checkbox" id="careful" name="water" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="careful"> Need to be careful <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>
@@ -505,21 +506,16 @@
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="excellent" name="preference" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="excellent">Small Family <small class="text-muted float-right">499</small></label>
+                        <input type="checkbox" id="small" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="small">Small Family <small class="text-muted float-right">499</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="good" name="preference" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="good">Employee <small class="text-muted float-right">310</small></label>
+                        <input type="checkbox" id="employee" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="employee">Employee <small class="text-muted float-right">310</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fair" name="preference" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fair"> Couple <small class="text-muted float-right">225</small></label>
-                      </div>
-
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fair" name="preference" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fair"> Any <small class="text-muted float-right">225</small></label>
+                        <input type="checkbox" id="couple" name="preference" class="custom-control-input">
+                        <label class="custom-control-label d-block" for="couple"> Couple <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>
