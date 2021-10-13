@@ -116,7 +116,7 @@ extension RoomStore {
         if let val = params.kitchen {
             query.filter(\.$kitchen ~~ val)
         }
-        if let val = params.floor {
+        if let val = params.floor, val != "any" {
             query.filter(\.$floor ~~ val)
         }
         
@@ -136,9 +136,13 @@ extension RoomStore {
             query.filter(\.$localGov ~~ val)
         }
         
-        if let val = params.parking {
-            query.filter(\.$parking ~~ val)
+        if  !params.parking.isEmpty {
+            query.filter(\.$type ~~ params.parking)
         }
+        
+//        if let val = params.parking {
+//            query.filter(\.$parking ~~ val)
+//        }
         
         if let val = params.water {
             query.filter(\.$water ~~ val)

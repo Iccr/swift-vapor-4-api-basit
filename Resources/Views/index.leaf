@@ -453,7 +453,7 @@
                         value="other" 
                         class="custom-control-input"
                         #if( contains(query.type, "other") ): checked #endif
-                        onchange="$('#bookingCars').submit();"
+                        onchange="$('#bookingCars').submit();"i
                         >
                         <label class="custom-control-label d-block" for="suv">Other <small class="text-muted float-right">66</small></label>
                       </div>
@@ -471,7 +471,15 @@
                   <div id="togglepassengers" class="collapse show" aria-labelledby="passengers">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="1to2" name="kitchen" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="1to2" 
+                        name="kitchen" 
+                        class="custom-control-input"
+                        value="available"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.kitchen == "available" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="1to2">Available<small class="text-muted float-right">85</small></label>
                       </div>
                       
@@ -484,18 +492,30 @@
                   </div>
                   <div id="toggleBags" class="collapse show" aria-labelledby="bags">
                     <div class="card-body">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="6orMore" name="internet" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="6orMore">Not Available<small class="text-muted float-right">15</small></label>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="kitchen_not_available" name="internet" class="custom-control-input"
+                        value="not available"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.internet == "not available" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="kitchen_not_available">Not Available<small class="text-muted float-right">15</small></label>
                       </div>
 
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="1to2" name="internet" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="1to2">Paid<small class="text-muted float-right">106</small></label>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="paid" name="internet" class="custom-control-input"
+                        value="paid"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.internet == "paid" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="paid">Paid<small class="text-muted float-right">106</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="3to5" name="internet" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="3to5">Free<small class="text-muted float-right">85</small></label>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="Free" name="internet" class="custom-control-input"
+                        value="free"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.internet == "free" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="Free">Free<small class="text-muted float-right">85</small></label>
                       </div>
                       
                     </div>
@@ -508,14 +528,32 @@
                   </div>
                   <div id="toggletransmission" class="collapse show" aria-labelledby="bags">
                     <div class="card-body">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="paynow" name="floor" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="paynow">Roof Top<small class="text-muted float-right">58</small></label>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="roofTop" name="floor" class="custom-control-input"
+                        value="roof top"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.floor == "roof top" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="roofTop">Roof Top<small class="text-muted float-right">58</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="payatcounter" name="floor" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="payatcounter">Ground Floor<small class="text-muted float-right">168</small></label>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="groudFloor" name="floor" class="custom-control-input"
+                        value="ground floor"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.floor == "ground floor" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="groudFloor">Ground Floor<small class="text-muted float-right">168</small></label>
                       </div>
+
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="anyFloor" name="floor" class="custom-control-input"
+                        value="any"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.floor == "any" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="anyFloor">Any Floor<small class="text-muted float-right">168</small></label>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -526,16 +564,28 @@
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="excellent" name="parking" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="excellent">car <small class="text-muted float-right">499</small></label>
+                        <input type="checkbox" id="parkingCar" name="parking" class="custom-control-input" 
+                        value="car"
+                        onchange="$('#bookingCars').submit();"
+                        #if( contains(query.parking, "car") ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="parkingCar">car <small class="text-muted float-right">499</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="good" name="parking" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="good">Bike <small class="text-muted float-right">310</small></label>
+                        <input type="checkbox" id="parkingBike" name="parking" class="custom-control-input"
+                        value="bike"
+                        onchange="$('#bookingCars').submit();"
+                        #if( contains(query.parking, "bike") ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="parkingBike">Bike <small class="text-muted float-right">310</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fair" name="parking" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="fair">Van/Suv <small class="text-muted float-right">225</small></label>
+                        <input type="checkbox" id="parkingVan" name="parking" class="custom-control-input"
+                        value="van/suv"
+                        onchange="$('#bookingCars').submit();"
+                        #if( contains(query.parking, "van/suv") ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="parkingVan">Van/Suv <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>

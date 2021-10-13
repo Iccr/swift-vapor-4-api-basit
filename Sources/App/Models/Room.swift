@@ -303,7 +303,7 @@ final class Room: Codable, Model, Content {
         var district : String?
         var state : String?
         var localGov : String?
-        var parking : String?
+        var parking : [String] = []
         var water : String?
         var internet : String?
         var phone : String?
