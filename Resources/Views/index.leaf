@@ -343,7 +343,10 @@
               <div class="col-md-6 col-lg"> 
               </div>
               <div class="col-md-12 col-lg form-group">
-                <input type="search" value="#(query.address)" class="form-control" id="carsCity"  placeholder="Enter City" name="address">
+                <input type="search" 
+               
+               
+                class="form-control" id="carsCity"  placeholder="Enter City" name="address">
               </div>
               <div class="col-lg-2 form-group">
                 <button class="btn btn-primary btn-block" type="submit">Search</button>
@@ -364,33 +367,94 @@
                   <div class="card-header" id="carType">
                     <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglecarType" aria-expanded="true" aria-controls="togglecarType">Housing Type</a> </h5>
                   </div>
-                  <div id="togglecarType" class="collapse show" aria-labelledby="carType">
+                  <div id="toggleHouseType" class="collapse show" aria-labelledby="carType">
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="economy" name="type" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="economy">Flat <small class="text-muted float-right">99</small></label>
+
+                      <input 
+                      type="checkbox" 
+                      id="flat" 
+                      name="type[]" 
+                      value="flat" 
+                      class="custom-control-input" 
+                      onchange="$('#bookingCars').submit();"
+                      #if( contains(query.type, "flat") ):
+                            checked
+                        #endif
+                      >
+                       <label class="custom-control-label d-block" for="flat">Flat <small class="text-muted float-right">99</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="compact" name="carType" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="compact">Room <small class="text-muted float-right">76</small></label>
+
+                       <input 
+                       type="checkbox" 
+                       id="room" 
+                       name="type[]" 
+                       value="room"  
+                       class="custom-control-input" 
+                       onchange="$('#bookingCars').submit();"
+                       #if( contains(query.type, "room") ): checked #endif
+                      > 
+                        <label class="custom-control-label d-block" for="room">Room <small class="text-muted float-right">76</small></label>
                       </div>
+
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="midsize" name="carType" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="midsize" 
+                        name="type[]" 
+                        value="appartment" 
+                        class="custom-control-input"
+                        #if( contains(query.type, "appartment") ): checked #endif
+                        onchange="$('#bookingCars').submit();"
+                        >
                         <label class="custom-control-label d-block" for="midsize">Appartment <small class="text-muted float-right">31</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="standard" name="carType" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="standard" 
+                        name="type[]" 
+                        value="house" 
+                        class="custom-control-input" 
+                        #if( contains(query.type, "house") ): checked #endif
+                        onchange="$('#bookingCars').submit();"
+                        >
                         <label class="custom-control-label d-block" for="standard">House <small class="text-muted float-right">12</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="fullsize" name="carType" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="fullsize" 
+                        name="type[]" 
+                        value="commercial" 
+                        class="custom-control-input"
+                        #if( contains(query.type, "commercial") ): checked #endif
+                        onchange="$('#bookingCars').submit();"
+                        >
                         <label class="custom-control-label d-block" for="fullsize">Commercial Place <small class="text-muted float-right">5</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="minivan" name="carType" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="minivan" 
+                        name="type[]" 
+                        value="office" 
+                        class="custom-control-input"
+                        #if( contains(query.type, "office") ): checked #endif
+                        onchange="$('#bookingCars').submit();"
+                        >
                         <label class="custom-control-label d-block" for="minivan">Office Space <small class="text-muted float-right">27</small></label>                      </div>
                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="suv" name="carType" class="custom-control-input">
+                        <input 
+                        type="checkbox" 
+                        id="suv" 
+                        name="type[]" 
+                        value="other" 
+                        class="custom-control-input"
+                        #if( contains(query.type, "other") ): checked #endif
+                        onchange="$('#bookingCars').submit();"
+                        >
                         <label class="custom-control-label d-block" for="suv">Other <small class="text-muted float-right">66</small></label>
                       </div>
                       <!-- <div class="custom-control custom-checkbox">
@@ -830,6 +894,17 @@ $('#input-sort').on('change', function () {
 
 });
 
+$(document).ready(function () {
+    var ckbox = $('#');
+
+    $('input').on('click',function () {
+        if (ckbox.is(':checked')) {
+            alert('You have Checked it');
+        } else {
+            alert('You Un-Checked it');
+        }
+    });
+});
 
 $(function() {
  'use strict';

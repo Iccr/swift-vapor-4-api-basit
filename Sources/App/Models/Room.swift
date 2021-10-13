@@ -293,7 +293,7 @@ final class Room: Codable, Model, Content {
         var id: Int?
         var lowerPrice : Double?
         var upperPrice : Double?
-        var type : String?
+        var type : [String] = []
         var noOfRooms : Int?
         var kitchen : String?
         var floor : String?

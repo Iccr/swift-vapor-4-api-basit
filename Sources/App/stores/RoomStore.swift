@@ -110,8 +110,8 @@ extension RoomStore {
             query.filter(\.$city.$id == val)
         }
         
-        if let val = params.type {
-            query.filter(\.$type ~~ val)
+        if  !params.type.isEmpty {
+            query.filter(\.$type ~~ params.type)
         }
         if let val = params.kitchen {
             query.filter(\.$kitchen ~~ val)
