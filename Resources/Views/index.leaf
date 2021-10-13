@@ -593,20 +593,34 @@
 
                 <div class="card">
                   <div class="card-header" id="water">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#toggleuserReview" aria-expanded="true" aria-controls="toggleuserReview">Water</a> </h5>
+                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" 
+                    data-target="#toggleuserReview" aria-expanded="true" 
+                    aria-controls="toggleuserReview">Water</a> </h5>
                   </div>
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="plenty" name="water" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="plenty" name="water" class="custom-control-input"
+                         value="plenty"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.water == "plenty" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="plenty">Plenty <small class="text-muted float-right">499</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="jsutok" name="water" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="jsutok" name="water" class="custom-control-input"
+                         value="just ok"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.water == "just ok"): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="jsutok">Just Ok <small class="text-muted float-right">310</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="careful" name="water" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="careful" name="water" class="custom-control-input"
+                         value="need to be careful"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.water ==  "need to be careful" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="careful"> Need to be careful <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
@@ -619,23 +633,35 @@
                   </div>
                   <div id="toggleuserReview" class="collapse show" aria-labelledby="userReview">
                     <div class="card-body">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="small" name="preference" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="small" name="preference" class="custom-control-input"
+                         value="family"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.preference ==  "family" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="small">Small Family <small class="text-muted float-right">499</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="employee" name="preference" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="employee" name="preference" class="custom-control-input"
+                        value="employee"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.preference ==  "employee" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="employee">Employee <small class="text-muted float-right">310</small></label>
                       </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="couple" name="preference" class="custom-control-input">
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="couple" name="preference" class="custom-control-input"
+                         value="couple"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.preference ==  "couple" ): checked #endif
+                        >
                         <label class="custom-control-label d-block" for="couple"> Couple <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="card">
+                <!-- <div class="card">
                   <div class="card-header" id="price">
                     <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglePrice" aria-expanded="true" aria-controls="togglePrice">Price</a> </h5>
                   </div>
@@ -648,23 +674,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="card">
-                  <div class="card-header" id="paymenttype">
-                    <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglePaymenttype" aria-expanded="true" aria-controls="togglePaymenttype">Payment type</a> </h5>
-                  </div>
-                  <div id="togglePaymenttype" class="collapse show" aria-labelledby="bags">
-                    <div class="card-body">
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="paynow" name="paymenttype" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="paynow">Pay now<small class="text-muted float-right">58</small></label>
-                      </div>
-                      <div class="custom-control custom-checkbox">
-                        <input type="checkbox" id="payatcounter" name="paymenttype" class="custom-control-input">
-                        <label class="custom-control-label d-block" for="payatcounter">Pay at counter<small class="text-muted float-right">168</small></label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                -->
               </div>
             </div>
           </aside><!-- Side Panel end -->
