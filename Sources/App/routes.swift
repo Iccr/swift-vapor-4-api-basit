@@ -48,8 +48,6 @@ func routes(_ app: Application) throws {
         return try RoomController().show(req: req)
     }
     
-   
-    
     api.post("login") {req  in
         return try LoginController().create(req: req)
     }
@@ -69,8 +67,8 @@ func routes(_ app: Application) throws {
         try RoomWebControlelr().index(req: req)
     }
     
-    app.get { req in
-        try LoginWebController().signIn(req: req)
+    app.get("login") { req in
+         LoginWebController().signIn(req: req)
     }
 }
 
