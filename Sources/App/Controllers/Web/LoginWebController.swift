@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+import Vapor
+import ImperialCore
+
+class LoginWebController {
+    func signIn(req: Request) -> EventLoopFuture<View> {
+        return req.view.render("login")
+    }
+}

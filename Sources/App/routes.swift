@@ -7,6 +7,12 @@ struct Todos: Content {
 }
 
 func routes(_ app: Application) throws {
+    let imperialController = ImperialController()
+//        try router.register(collection: imperialController)
+    
+    try app.routes.register(collection: imperialController)
+    
+    
     let protected = app.grouped(UserAuthenticator())
         .grouped(User.guardMiddleware())
     
@@ -42,9 +48,7 @@ func routes(_ app: Application) throws {
         return try RoomController().show(req: req)
     }
     
-    app.get { req in
-        try RoomWebControlelr().index(req: req)
-    }
+   
     
     api.post("login") {req  in
         return try LoginController().create(req: req)
@@ -57,6 +61,16 @@ func routes(_ app: Application) throws {
     
     api.get("banners") { req in
         return try BannerController().index(req: req)
+    }
+    
+    // web
+    
+    app.get { req in
+        try RoomWebControlelr().index(req: req)
+    }
+    
+    app.get { req in
+        try LoginWebController().signIn(req: req)
     }
 }
 

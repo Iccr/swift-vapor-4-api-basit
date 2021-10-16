@@ -28,7 +28,7 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "JWT", package: "jwt"),
-                .product(name: "ImperialGoogle", package: "Imperial")
+                .product(name: "Imperial", package: "Imperial")
             ],
             swiftSettings: [
                 // Enable better optimizations when building in Release configuration. Despite the use of

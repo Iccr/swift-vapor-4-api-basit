@@ -4,6 +4,8 @@ import Leaf
 import Vapor
 import JWT
 
+
+
 import Foundation
 // configures your application
 public func configure(_ app: Application) throws {
@@ -11,7 +13,13 @@ public func configure(_ app: Application) throws {
 //    app.views.use(.leaf)
     
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
-
+//
+//    try routes.oAuth(from: GitHub.self, authenticate: "github", callback: "gh-auth-complete") { (request, token) in
+//        print(token)
+//        return request.eventLoop.future(request.redirect(to: "/"))
+//    }
+    
+    
     app.middleware = .init()
     app.middleware.use(MyErrorMiddleware())
     app.views.use(.leaf)
@@ -55,6 +63,7 @@ public func configure(_ app: Application) throws {
     seed(app.db)
     try? app.autoMigrate().wait()
     try routes(app)
+    
     app.routes.all.forEach { route in
         print(route)
     }

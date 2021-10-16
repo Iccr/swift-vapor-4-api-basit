@@ -20,32 +20,6 @@ class RoomStore {
                 }
             }
     }
-//        City.query(on: req.db)
-//            .with(\.$rooms)
-//            .filter(\.$id == (searchQuery.city_id ?? -1))
-//            .first()
-//            .flatMap { city in
-//                if let city = city {
-//                    let query =  city.$rooms.query(on: req.db)
-//                    return self.querries(query: query, params: searchQuery)
-//                        .paginate(for: req).map { page in
-//                            page.map { $0.responseFrom(baseUrl: req.baseUrl)
-//                            }
-//                        }
-//                }else {
-//                    let query =
-//                        Room.query(on: req.db)
-//                        .with(\.$city)
-//                    return self.querries(query: query, params: searchQuery)
-//                        .paginate(for: req).map { page in
-//                            page.map { $0.responseFrom(baseUrl: req.baseUrl)}
-//                        }
-//                    //                        .all()
-//                    //                        .mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
-//
-//                }
-//            }
-//    }
     
     func create(req: Request, room: Room, input: Room.Entity, user: User ) ->  EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
