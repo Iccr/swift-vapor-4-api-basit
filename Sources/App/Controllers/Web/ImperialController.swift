@@ -14,10 +14,12 @@ import ImperialGoogle
 struct ImperialController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
        
-        guard let googleCallbackURL =
-          Environment.get("GOOGLE_CALLBACK_URL") else {
-            fatalError("Google callback URL not set")
-        }
+//        guard let googleCallbackURL =
+//          Environment.get("GOOGLE_CALLBACK_URL") else {
+//            fatalError("Google callback URL not set")
+//        }
+        
+        let googleCallbackURL = "http://localhost:8080/oauth/google"
         try routes.oAuth(
           from: Google.self,
           authenticate: "login-google",

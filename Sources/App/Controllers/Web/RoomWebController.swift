@@ -11,11 +11,7 @@ import Fluent
 
 class RoomWebControlelr {
     func index(req: Request) throws -> EventLoopFuture<View> {
-        let name: [String]? = req.query["type"]
-
-        
         let query = try req.query.decode(Room.Querry.self)
-        
         return RoomStore().getAllRooms(query, req: req).flatMap { page in
 
             struct RoomContext: Encodable {

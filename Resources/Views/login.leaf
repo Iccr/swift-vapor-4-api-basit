@@ -388,7 +388,11 @@
               <button type="button" class="btn btn-block btn-sm btn-outline-primary shadow-none">Login with Facebook</button>
             </div>
             <div class="col-sm-6">
+            <a href="/login-google">
+
               <button type="button" class="btn btn-block btn-sm btn-outline-danger shadow-none">Login with Google</button>
+            </a>
+
             </div>
           </div>
         </div>
