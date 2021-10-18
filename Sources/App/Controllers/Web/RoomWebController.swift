@@ -34,7 +34,11 @@ class RoomWebControlelr {
             let currentPage = query.page
             let perPage = query.per
             print(req.url)
-            let previous = Paginator(page: page, otherQueries: query.getQeury()).previousPage(baseurl: req.baseUrl)
+            let previous = Paginator(
+                page: page,
+                otherQueries: query.getQeury()
+            ).previousPage(baseurl: req.baseUrl)
+            
             print(previous)
             let next = Paginator(page: page, otherQueries: query.getQeury()).nextPage(baseurl: req.baseUrl)
             print(next)
@@ -52,7 +56,10 @@ class RoomWebControlelr {
                                         previous: previous,
                                         next: next,
                                         currentPage: page.metadata.page,
-                                        totalPage: maxPage
+                                        totalPage: maxPage,
+                                        loops: maxPage == 0 ? [] : Array(1...maxPage),
+                                        per: page.metadata.per,
+                                        page: page.metadata.page
                                     )
                                    )
             )
@@ -69,6 +76,9 @@ struct PageModel: Encodable {
     var next: String?
     var currentPage: Int
     var totalPage: Int
+    var loops: [Int]
+    var per: Int
+    var page: Int
    
 }
 

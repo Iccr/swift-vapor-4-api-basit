@@ -344,10 +344,9 @@
               <div class="col-md-6 col-lg"> 
               </div>
               <div class="col-md-12 col-lg form-group">
-                <input type="search" 
-               
-               
-                class="form-control" id="carsCity"  placeholder="Enter City" name="address">
+                <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="address">
+                <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="page" value="1">
+                \<input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="per" value="#(pageModel.per)">
               </div>
               <div class="col-lg-2 form-group">
                 <button class="btn btn-primary btn-block" type="submit">Search</button>
@@ -772,13 +771,18 @@
           
             <!-- Pagination
             ============================================= -->
-            #(pageModel.next)
+
+
             
             <ul class="pagination justify-content-center mt-4 mb-0">
+             
                 <li class="#if(pageModel.currentPage <= 1):  disabled #endif page-item"> <a class="page-link" href=#(pageModel.previous) tabindex="-1"><i class="fas fa-angle-left"></i></a> </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"> <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a> </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                 <!-- #for(i in pageModel.loops):
+                   <li class="#if(pageModel.currentPage == i): active #endif page-item"> <a class="page-link" href="#"> #(i) <span class="sr-only">(current)</span></a> </li>
+                 #endfor -->
+                
+                <!-- <li class="#if(pageModel.currentPage == 2): active #endif page-item"> <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a> </li>
+                <li class="#if(pageModel.currentPage == 3): active #endif page-item"><a class="page-link" href="#">3</a></li> --> 
                 <li class="#if(pageModel.currentPage >= pageModel.totalPage):  disabled #endif page-item"> <a class="page-link" href="#(pageModel.next)"><i class="fas fa-angle-right"></i></a> </li>
               </ul><!-- Paginations end -->
           
