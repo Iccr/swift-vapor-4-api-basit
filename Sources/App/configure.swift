@@ -9,17 +9,7 @@ import JWT
 import Foundation
 // configures your application
 public func configure(_ app: Application) throws {
-
-//    app.views.use(.leaf)
-    
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
-//
-//    try routes.oAuth(from: GitHub.self, authenticate: "github", callback: "gh-auth-complete") { (request, token) in
-//        print(token)
-//        return request.eventLoop.future(request.redirect(to: "/"))
-//    }
-    
-    
     app.middleware = .init()
     app.middleware.use(MyErrorMiddleware())
     app.views.use(.leaf)
@@ -33,7 +23,6 @@ public func configure(_ app: Application) throws {
     let jwtSecret = Environment.get("JWT_SECRET") ?? ""
     app.logger.logLevel = .error
     #endif
-    
     app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
     var port: Int = 5433
@@ -44,7 +33,6 @@ public func configure(_ app: Application) throws {
     let dbName = Environment.get("DATABASE_NAME") ?? "vfinder"
     let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "password"
     app.middleware.use(app.sessions.middleware)
-
     app.databases.use(
         .postgres(
             hostname: hostname,
@@ -52,21 +40,16 @@ public func configure(_ app: Application) throws {
             username: username,
             password: dbPassword,
             database: dbName,
-            maxConnectionsPerEventLoop: 50),
-        
+            maxConnectionsPerEventLoop: 5),
         as: .psql)
-    
-    
     app.migrations.add(User.CreateUserMigration())
     app.migrations.add(TokenMigration())
     app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(Banner.CreateBannerMigration())
-    
     seed(app.db)
     try? app.autoMigrate().wait()
     try routes(app)
-    
     app.routes.all.forEach { route in
         print(route)
     }
