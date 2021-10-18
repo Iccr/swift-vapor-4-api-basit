@@ -13,7 +13,7 @@ import Fluent
 
 final class Room: Codable, Model, Content {
     static let schema: String = "rooms"
-
+    
     @Parent(key: "city_id")
     var city: City
     
@@ -29,7 +29,7 @@ final class Room: Codable, Model, Content {
     @Field(key: "vimages")
     var vimages : [String]
     
-
+    
     //    @Field(key: "userId")
     //    var userId : Int?
     
@@ -104,7 +104,9 @@ final class Room: Codable, Model, Content {
         self.vimages = vimages
         //        self.vimages = vimages ?? ["sadfasdf"]
         //        self.userId = userId
-        self.city = city
+        self.$user.value = user
+        self.$city.value = city
+        //        self.city = city
         self.type = type
         self.noOfRooms = noOfRooms
         self.kitchen = kitchen
@@ -152,7 +154,7 @@ final class Room: Codable, Model, Content {
         id = try values.decodeIfPresent(Int.self, forKey: .id)
         price = try values.decodeIfPresent(Double.self, forKey: .price)
         vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
-//        userId = try values.decodeIfPresent(Int.self, forKey: .userId)
+        //        userId = try values.decodeIfPresent(Int.self, forKey: .userId)
         type = try values.decodeIfPresent(String.self, forKey: .type)
         noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
         kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)
@@ -173,10 +175,10 @@ final class Room: Codable, Model, Content {
         createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
         updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
     }
-
     
     
- 
+    
+    
     
     struct Output: Content, Codable {
         
@@ -208,7 +210,7 @@ final class Room: Codable, Model, Content {
         var updatedAt: Date?
         var features: [String]
         
-         
+        
     }
     
     struct Update: Content {
@@ -259,7 +261,7 @@ final class Room: Codable, Model, Content {
     
     struct Input: Content {
         var city_id: Int?
-//        var userId: Int?
+        //        var userId: Int?
         var id: Int?
         var price : Double
         var vimages : [String] = []
@@ -288,7 +290,7 @@ final class Room: Codable, Model, Content {
         }
     }
     
-    struct Querry: Content {
+    struct Querry: Content, Codable {
         var city_id: Int?
         var id: Int?
         var lowerPrice : Double?
@@ -311,100 +313,255 @@ final class Room: Codable, Model, Content {
         var occupied : Bool?
         var preference : String?
         var price: String?
+        var page: Int? = 1
+        var per: Int? = 10
+//        func previousPage(baseurl: String) -> String {
+//            var copy = self
+////            copy.page = (page == nil || page! <= 1) ? 1 :( page! - 1)
+//            if let page = page, page > 1 {
+//                copy.page = page - 1
+//            }else {
+//                copy.page = 1
+//            }
+//            var components = URLComponents()
+//            components.scheme = "http"
+//            components.host = "localhost"
+//            components.port = 8080
+//            components.path = "/api/v1"
+//            components.queryItems = getQeury(query: copy)
+//            return  (components.url?.absoluteString ?? "")
+//        }
+//
+//        func nextPage(baseurl: String, totalPage: Int) -> String {
+//            var copy = self
+////            copy.page = (page == nil || page! <= 1) ? 1 :( page! - 1)
+//            if let page = page, page < totalPage {
+//                copy.page = page + 1
+//            }else {
+//                copy.page = 1
+//            }
+//
+//            var components = URLComponents()
+//            components.scheme = "http"
+//            components.host = "localhost"
+//            components.port = 8080
+////            components.path = ""
+//            components.queryItems = getQeury()
+//            return components.url?.absoluteString ?? ""
+//        }
         
-    }
-}
-
-extension Room {
-    func responseFrom(baseUrl: String)-> Room.Output {
-        let r = self
-        let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
-        return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
-    }
-    
-    func getFeautres() -> [String] {
-       var features: [String] = []
-       if let no = noOfRooms,  no != 0 {
-           features.append("Rooms: \(no)")
-       }
-       
-       if let floor = floor {
-           features.append("Floor: \(floor)")
-       }
-       
-       if let internet = internet {
-           features.append("internet: \(internet)")
-       }
-       
-       if let parking = parking {
-           features.append("parking: \(parking)")
-       }
-       
-       if let water = water {
-           features.append("water: \(water)")
-       }
-       
-       if let kitchen = kitchen {
-           features.append("kitchen: \(kitchen)")
-       }
-      return features
-   }
-}
-
-extension Room {
-    struct Entity: Content {
-        var images: [File]
-        var city_id: Int
-    }
-}
-
-extension Double {
-     func getNumberWithNepaliFormat( precision: Int = 2) -> String? {
-        let number = self
-        
-         if  number != 0 {
-             let nsNumber = NSNumber.init(value: number)
-             let formatter = NumberFormatter()
-             formatter.numberStyle = .decimal
-             formatter.maximumFractionDigits = precision
-             formatter.usesGroupingSeparator = true
-             formatter.groupingSize = 3
-             formatter.secondaryGroupingSize = 2
-             formatter.maximumFractionDigits = precision
-             let result = formatter.string(for: nsNumber)
-             return result
-         }
-         return nil
-     }
-    
-    func getShortCurrency( precision: Int = 2) -> String? {
-       let number = self
-       
-        if  number != 0 {
-            if number < 1_000 {
-                return "Rs.\(number)"
-            }else if number >= 1_000 && number < 10_000 {
-                let remainder = number.remainder(dividingBy: 1000)
-                return remainder  == 0 ? "1K" : "1.\(remainder)k"
-            } else if number >= 10_000 && number < 100_000 {
-                let remainder = number.remainder(dividingBy: 10_000)
-                return remainder == 0 ? "10K" : "10.\(remainder)k"
-            }else if number >= 100_000  {
-                let remainder = number.remainder(dividingBy: 100_000)
-                return remainder  == 0 ? "100K" : "100.\(remainder)k"
+        func getQeury() -> [URLQueryItem] {
+            let query = self
+            var _query: [URLQueryItem] = []
+            if let city_id = query.city_id {
+                _query.append(URLQueryItem(name: "city_id", value: city_id.toString))
             }
             
-//            let nsNumber = NSNumber.init(value: number)
-//            let formatter = NumberFormatter()
-//            formatter.numberStyle = .decimal
-//            formatter.maximumFractionDigits = precision
-//            formatter.usesGroupingSeparator = true
-//            formatter.groupingSize = 3
-//            formatter.secondaryGroupingSize = 2
-//            formatter.maximumFractionDigits = precision
-//            let result = formatter.string(for: nsNumber)
-//            return result
+            if let lowerPrice = query.lowerPrice {
+                _query.append(URLQueryItem(name: "lowerPrice", value: lowerPrice.toString))
+            }
+            
+            if let upperPrice = query.upperPrice {
+                _query.append(URLQueryItem(name: "upperPrice", value: upperPrice.toString))
+            }
+            
+            query.type.forEach({
+                _query.append(URLQueryItem(name: "type", value: $0))
+            })
+            
+            if let noOfRooms = query.noOfRooms {
+                _query.append(URLQueryItem(name: "noOfRooms", value: noOfRooms.toString))
+            }
+            
+            if let kitchen = query.kitchen {
+                _query.append(URLQueryItem(name: "kitchen", value: kitchen))
+            }
+            
+            if let floor = query.floor {
+                _query.append(URLQueryItem(name: "floor", value: floor))
+            }
+            
+            if let lat = query.lat {
+                _query.append(URLQueryItem(name: "lat", value: lat.toString))
+            }
+            
+            if let long = query.long {
+                _query.append(URLQueryItem(name: "long", value: long.toString))
+            }
+            
+            if let address = query.address {
+                _query.append(URLQueryItem(name: "address", value: address))
+            }
+            
+            if let district = query.district {
+                _query.append(URLQueryItem(name: "district", value: district))
+            }
+            
+            if let state = query.state {
+                _query.append(URLQueryItem(name: "state", value: state))
+            }
+            
+            if let localGov = query.localGov {
+                _query.append(URLQueryItem(name: "localGov", value: localGov))
+            }
+            
+            query.parking.forEach({
+                _query.append(URLQueryItem(name: "parking", value: $0))
+            })
+            
+            if let water = query.water {
+                _query.append(URLQueryItem(name: "water", value: water))
+            }
+            
+            if let internet = query.internet {
+                _query.append(URLQueryItem(name: "internet", value: internet))
+            }
+            
+            if let phone = query.phone {
+                _query.append(URLQueryItem(name: "phone", value: phone))
+            }
+            
+            if let description = query.description {
+                _query.append(URLQueryItem(name: "description", value: description))
+            }
+            
+            if let occupied = query.occupied {
+                _query.append(URLQueryItem(name: "occupied", value: occupied.toString))
+            }
+            
+            if let preference = query.preference {
+                _query.append(URLQueryItem(name: "preference", value: preference))
+            }
+            
+            if let price = query.price {
+                _query.append(URLQueryItem(name: "price", value: price))
+            }
+            
+            if let page = query.page {
+                _query.append(URLQueryItem(name: "page", value: page.toString))
+            }
+
+            _query.append(URLQueryItem(name: "per", value: query.per?.toString ?? 10.toString))
+            
+            return _query
         }
-        return nil
+    }
+}
+    
+    extension Room {
+        func responseFrom(baseUrl: String)-> Room.Output {
+            let r = self
+            let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
+            return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
+        }
+        
+        func getFeautres() -> [String] {
+            var features: [String] = []
+            if let no = noOfRooms,  no != 0 {
+                features.append("Rooms: \(no)")
+            }
+            
+            if let floor = floor {
+                features.append("Floor: \(floor)")
+            }
+            
+            if let internet = internet {
+                features.append("internet: \(internet)")
+            }
+            
+            if let parking = parking {
+                features.append("parking: \(parking)")
+            }
+            
+            if let water = water {
+                features.append("water: \(water)")
+            }
+            
+            if let kitchen = kitchen {
+                features.append("kitchen: \(kitchen)")
+            }
+            return features
+        }
+    }
+    
+    extension Room {
+        struct Entity: Content {
+            var images: [File]
+            var city_id: Int
+        }
+    }
+    
+    extension Double {
+        func getNumberWithNepaliFormat( precision: Int = 2) -> String? {
+            let number = self
+            
+            if  number != 0 {
+                let nsNumber = NSNumber.init(value: number)
+                let formatter = NumberFormatter()
+                formatter.numberStyle = .decimal
+                formatter.maximumFractionDigits = precision
+                formatter.usesGroupingSeparator = true
+                formatter.groupingSize = 3
+                formatter.secondaryGroupingSize = 2
+                formatter.maximumFractionDigits = precision
+                let result = formatter.string(for: nsNumber)
+                return result
+            }
+            return nil
+        }
+        
+        func getShortCurrency( precision: Int = 2) -> String? {
+            let number = self
+            
+            if  number != 0 {
+                if number < 1_000 {
+                    return "Rs.\(number)"
+                }else if number >= 1_000 && number < 10_000 {
+                    let remainder = number.remainder(dividingBy: 1000)
+                    return remainder  == 0 ? "1K" : "1.\(remainder)k"
+                } else if number >= 10_000 && number < 100_000 {
+                    let remainder = number.remainder(dividingBy: 10_000)
+                    return remainder == 0 ? "10K" : "10.\(remainder)k"
+                }else if number >= 100_000  {
+                    let remainder = number.remainder(dividingBy: 100_000)
+                    return remainder  == 0 ? "100K" : "100.\(remainder)k"
+                }
+                
+                //            let nsNumber = NSNumber.init(value: number)
+                //            let formatter = NumberFormatter()
+                //            formatter.numberStyle = .decimal
+                //            formatter.maximumFractionDigits = precision
+                //            formatter.usesGroupingSeparator = true
+                //            formatter.groupingSize = 3
+                //            formatter.secondaryGroupingSize = 2
+                //            formatter.maximumFractionDigits = precision
+                //            let result = formatter.string(for: nsNumber)
+                //            return result
+            }
+            return nil
+        }
+    }
+
+
+
+extension Double {
+    var toString: String {
+        return "\(self)"
+    }
+}
+
+
+
+extension Int {
+    var toString: String {
+        return "\(self)"
+    }
+}
+
+
+
+extension Bool {
+    var toString: String {
+        return "\(self)"
     }
 }

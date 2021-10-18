@@ -21,9 +21,12 @@ class RoomStore {
             }
     }
     
-    func create(req: Request, room: Room, input: Room.Entity, user: User ) ->  EventLoopFuture<Room.Output> {
+    func create(req: Request, room: Room, input: Room.Entity, user: User ) throws ->  EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
         return input.images.map { file -> EventLoopFuture<String> in
+            if file.filename.isEmpty {
+                return req.eventLoop.future("")
+            }
             let filename = "\(Date().timeIntervalSince1970)_" + file.filename.replacingOccurrences(of: " ", with: "")
             return req.fileio.writeFile(file.data, at: uploadPath + filename ).map { filename }
         }.flatten(on: req.eventLoop).map { filenames in

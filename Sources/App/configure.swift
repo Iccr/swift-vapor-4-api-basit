@@ -51,7 +51,9 @@ public func configure(_ app: Application) throws {
             port: port,
             username: username,
             password: dbPassword,
-            database: dbName),
+            database: dbName,
+            maxConnectionsPerEventLoop: 50),
+        
         as: .psql)
     
     
@@ -105,7 +107,6 @@ func seed(_ db: Database)  {
             _ =   [b1, b2].create(on: db)
         }
     }
-     
 }
 
 

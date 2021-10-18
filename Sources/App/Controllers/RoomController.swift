@@ -26,7 +26,7 @@ struct RoomController: RouteCollection {
         let user: User = try req.auth.require(User.self)
         let room = try req.content.decode(Room.self)
         let input = try req.content.decode(Room.Entity.self)
-        return RoomStore().create(req: req, room: room, input: input, user: user)
+        return try RoomStore().create(req: req, room: room, input: input, user: user)
             .map(CommonResponse.init)
     }
     
