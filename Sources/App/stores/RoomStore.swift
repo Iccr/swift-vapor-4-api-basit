@@ -12,6 +12,7 @@ import Fluent
 class RoomStore {
     func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<Page<Room.Output>> {
         let query =  Room.query(on: req.db)
+        
         return self.querries(query: query, params: searchQuery)
             .with(\.$city)
             .with(\.$user)

@@ -28,6 +28,7 @@ class RoomWebControlelr {
                 page: page,
                 otherQueries: query.getQeury()
             )
+            
             let previous = paginator.previousPage(baseurl: req.baseUrl)
             let next = paginator.nextPage(baseurl: req.baseUrl)
             return req.view.render("index",
