@@ -32,6 +32,9 @@ class MyErrorMiddleware: Middleware {
                 default:
                     // not an abort error, and not debuggable or in dev mode
                     // just deliver a generic 500 to avoid exposing any sensitive error info
+                    print("error.localizedDescription")
+                    request.logger.log(level: .critical, "Something Went Wrong")
+                    request.logger.log(level: .critical, error.localizedDescription)
                     reason = "Something went wrong."
                     status = .internalServerError
                     headers = [:]
