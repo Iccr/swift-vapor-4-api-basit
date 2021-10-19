@@ -43,7 +43,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(User.CreateUserMigration())
     app.migrations.add(TokenMigration())
-    app.migrations.add(City.CreateCityMigration())i
+    app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Banner.CreateBannerMigration())
     app.migrations.add(Room.AddCityNameToRoomMigration())
     
