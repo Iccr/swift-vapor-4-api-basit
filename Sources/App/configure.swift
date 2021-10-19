@@ -39,13 +39,13 @@ public func configure(_ app: Application) throws {
         as: .psql)
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
-    app.migrations.add(Room.AddCityNameToRoomMigration())
+    
     app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(User.CreateUserMigration())
     app.migrations.add(TokenMigration())
-    app.migrations.add(City.CreateCityMigration())
-    
+    app.migrations.add(City.CreateCityMigration())i
     app.migrations.add(Banner.CreateBannerMigration())
+    app.migrations.add(Room.AddCityNameToRoomMigration())
     
     seed(app.db)
     try? app.autoMigrate().wait()
