@@ -15,7 +15,7 @@ public func configure(_ app: Application) throws {
     app.views.use(.leaf)
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
-    
+    app.logger.logLevel = .debug
     #if DEBUG
     let jwtSecret = Environment.get("JWT_SECRET") ?? Env.jwtSecret
     app.logger.logLevel = .debug
@@ -42,6 +42,8 @@ public func configure(_ app: Application) throws {
             database: dbName,
             maxConnectionsPerEventLoop: 5),
         as: .psql)
+    app.logger.log(level: .info, "database setup done")
+    app.logger.log(level: .info, "starting migration")
     app.migrations.add(Room.AddCityNameToRoomMigration())
     app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(User.CreateUserMigration())
@@ -52,10 +54,12 @@ public func configure(_ app: Application) throws {
     
     seed(app.db)
     try? app.autoMigrate().wait()
+    app.logger.log(level: .info, "migration complete")
     try routes(app)
     app.routes.all.forEach { route in
         print(route)
     }
+    
 }
 
 func seed(_ db: Database)  {
