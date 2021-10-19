@@ -100,7 +100,8 @@ extension RoomStore {
             query.filter(\.$kitchen == val)
         }
         if let val = params.floor, val != "any" {
-            query.filter(\.$floor == val)
+//            query.filter(\.$floor == val)
+            query.filter(.sql(raw: "LOWER(floor) ILIKE '%\(val)%'"))
         }
         
         if let val = params.address {
@@ -120,7 +121,7 @@ extension RoomStore {
         }
         
         if  !params.parking.isEmpty {
-//            query.filter(\.$type ~~ params.parking)
+            query.filter(\.$parking ~~ params.parking)
         }
         
 //        if let val = params.parking {
@@ -128,15 +129,18 @@ extension RoomStore {
 //        }
         
         if let val = params.water {
-            query.filter(\.$water ~~ val)
+            query.filter(.sql(raw: "LOWER(water) ILIKE '%\(val)%'"))
+//            query.filter(\.$water ~~ val)
         }
         
         if let val = params.internet {
-            query.filter(\.$internet ~~ val)
+            query.filter(.sql(raw: "LOWER(internet) ILIKE '%\(val)%'"))
+//            query.filter(\.$internet ~~ val)
         }
         
         if let val = params.preference {
-            query.filter(\.$preference ~~ val)
+            query.filter(.sql(raw: "LOWER(preference) ILIKE '%\(val)%'"))
+//            query.filter(\.$preference ~~ val)
         }
         
         

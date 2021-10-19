@@ -344,7 +344,7 @@
               <div class="col-md-6 col-lg"> 
               </div>
               <div class="col-md-12 col-lg form-group">
-                <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="city">
+                <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="city" value="#(query.city)">
                 <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="page" value="1">
                 <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="per" value="#(pageModel.per)">
               </div>
@@ -656,6 +656,14 @@
                         #if( query.preference ==  "couple" ): checked #endif
                         >
                         <label class="custom-control-label d-block" for="couple"> Couple <small class="text-muted float-right">225</small></label>
+                      </div>
+                      <div class="custom-control custom-radio">
+                        <input type="radio" id="student" name="preference" class="custom-control-input"
+                         value="student"
+                        onchange="$('#bookingCars').submit();"
+                        #if( query.preference ==  "student" ): checked #endif
+                        >
+                        <label class="custom-control-label d-block" for="student"> Student <small class="text-muted float-right">225</small></label>
                       </div>
                     </div>
                   </div>
