@@ -18,6 +18,7 @@ class RoomWebControlelr {
                 var items: [Room.Output]
                 var page: Page<Room.Output>
                 var query: Room.Querry
+                var tags: String
                 var pageModel: PageModel
             }
             // for pagination
@@ -31,12 +32,16 @@ class RoomWebControlelr {
             
             let previous = paginator.previousPage(baseurl: req.baseUrl)
             let next = paginator.nextPage(baseurl: req.baseUrl)
+            let searchTags = ["type", "internet", "kitchen", "floor", "parking", "water", "preference", "city"]
+            let tag = query.getQeury().filter {searchTags.contains($0.name.lowercased())}
+                .map{ "\($0.value ?? "")" }.joined(separator: ", ")
             return req.view.render("index",
                                    RoomContext(
                                     title: "Rooms",
                                     items: page.items,
                                     page: page,
                                     query: query,
+                                    tags: tag,
                                     pageModel: PageModel(
                                         previous: previous,
                                         next: next,
