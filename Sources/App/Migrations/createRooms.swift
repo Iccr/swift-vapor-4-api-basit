@@ -45,6 +45,23 @@ extension Room {
             return database.schema("rooms").delete()
         }
     }
+    
+    struct AddCityNameToRoomMigration: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("rooms")
+                .field("city_name", .string)
+                .update()
+                
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("rooms")
+                .deleteField("city_name")
+                .update()
+        }
+        
+        
+    }
 }
 
 //

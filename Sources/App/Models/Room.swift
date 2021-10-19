@@ -36,6 +36,9 @@ final class Room: Codable, Model, Content {
     @Field(key: "type")
     var type : String?
     
+    @Field(key: "city_name")
+    var cityName : String?
+    
     @Field(key: "no_of_rooms")
     var noOfRooms : Int?
     
@@ -94,6 +97,7 @@ final class Room: Codable, Model, Content {
     init(id: Int? = nil, price: Double, vimages: [String],
          city: City,
          user: User,
+         cityName: String?,
          type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
          parking: String,  water: String, internet: String, phone: String, description: String,
@@ -102,6 +106,7 @@ final class Room: Codable, Model, Content {
         
         self.price = price
         self.vimages = vimages
+        self.cityName = cityName
         //        self.vimages = vimages ?? ["sadfasdf"]
         //        self.userId = userId
         self.$user.value = user
@@ -260,7 +265,7 @@ final class Room: Codable, Model, Content {
     }
     
     struct Input: Content {
-        var city_id: Int?
+        var cityName: String?
         //        var userId: Int?
         var id: Int?
         var price : Double
@@ -286,12 +291,12 @@ final class Room: Codable, Model, Content {
         var updatedAt: Date?
         
         func getRoom(city: City, user: User) -> Room {
-            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
+            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, cityName: self.cityName, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
         }
     }
     
     struct Querry: Content, Codable {
-        var city_id: Int?
+        var city: String?
         var id: Int?
         var lowerPrice : Double?
         var upperPrice : Double?
@@ -353,8 +358,8 @@ final class Room: Codable, Model, Content {
         func getQeury() -> [URLQueryItem] {
             let query = self
             var _query: [URLQueryItem] = []
-            if let city_id = query.city_id {
-                _query.append(URLQueryItem(name: "city_id", value: city_id.toString))
+            if let cityname = query.city {
+                _query.append(URLQueryItem(name: "city", value: cityname))
             }
             
             if let lowerPrice = query.lowerPrice {

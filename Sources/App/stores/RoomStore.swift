@@ -83,39 +83,44 @@ class RoomStore {
 
 
 extension RoomStore {
+//    Planet.query(on: database)
+//        .join(Star.self, on: \Planet.$star.$id == \Star.$id)
+//        .filter(Star.self, \.$name == "Sun")
+//        .all()
+    
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
-        if let val = params.city_id {
-            query.filter(\.$city.$id == val)
+        if let val = params.city {
+            query.filter(.sql(raw: "LOWER(city_name) ILIKE '%\(val)%'"))
         }
         
         if  !params.type.isEmpty {
             query.filter(\.$type ~~ params.type)
         }
         if let val = params.kitchen {
-            query.filter(\.$kitchen ~~ val)
+            query.filter(\.$kitchen == val)
         }
         if let val = params.floor, val != "any" {
-            query.filter(\.$floor ~~ val)
+            query.filter(\.$floor == val)
         }
         
         if let val = params.address {
-            query.filter(\.$address ~~ val)
+            query.filter(\.$address ~= val)
         }
         
         if let val = params.district {
-            query.filter(\.$district ~~ val)
+            query.filter(\.$district ~= val)
         }
         
         if let val = params.state {
-            query.filter(\.$state ~~ val)
+            query.filter(\.$state ~= val)
         }
         
         if let val = params.localGov {
-            query.filter(\.$localGov ~~ val)
+            query.filter(\.$localGov ~= val)
         }
         
         if  !params.parking.isEmpty {
-            query.filter(\.$type ~~ params.parking)
+//            query.filter(\.$type ~~ params.parking)
         }
         
 //        if let val = params.parking {

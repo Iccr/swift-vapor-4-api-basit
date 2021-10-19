@@ -42,11 +42,14 @@ public func configure(_ app: Application) throws {
             database: dbName,
             maxConnectionsPerEventLoop: 5),
         as: .psql)
+    app.migrations.add(Room.AddCityNameToRoomMigration())
+    app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(User.CreateUserMigration())
     app.migrations.add(TokenMigration())
     app.migrations.add(City.CreateCityMigration())
-    app.migrations.add(Room.CreateRoomMigration())
+    
     app.migrations.add(Banner.CreateBannerMigration())
+    
     seed(app.db)
     try? app.autoMigrate().wait()
     try routes(app)

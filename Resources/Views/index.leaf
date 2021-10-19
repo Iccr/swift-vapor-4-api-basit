@@ -344,7 +344,7 @@
               <div class="col-md-6 col-lg"> 
               </div>
               <div class="col-md-12 col-lg form-group">
-                <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="address">
+                <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="city">
                 <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="page" value="1">
                 <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="per" value="#(pageModel.per)">
               </div>
@@ -565,25 +565,25 @@
                     <div class="card-body">
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="parkingCar" name="parking" class="custom-control-input" 
-                        value="car"
+                        value="Car"
                         onchange="$('#bookingCars').submit();"
-                        #if( contains(query.parking, "car") ): checked #endif
+                        #if( contains(query.parking, "Car") ): checked #endif
                         >
                         <label class="custom-control-label d-block" for="parkingCar">car <small class="text-muted float-right">499</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="parkingBike" name="parking" class="custom-control-input"
-                        value="bike"
+                        value="Bike"
                         onchange="$('#bookingCars').submit();"
-                        #if( contains(query.parking, "bike") ): checked #endif
+                        #if( contains(query.parking, "Bike") ): checked #endif
                         >
                         <label class="custom-control-label d-block" for="parkingBike">Bike <small class="text-muted float-right">310</small></label>
                       </div>
                       <div class="custom-control custom-checkbox">
                         <input type="checkbox" id="parkingVan" name="parking" class="custom-control-input"
-                        value="van/suv"
+                        value="Van/Suv"
                         onchange="$('#bookingCars').submit();"
-                        #if( contains(query.parking, "van/suv") ): checked #endif
+                        #if( contains(query.parking, "Van/Suv") ): checked #endif
                         >
                         <label class="custom-control-label d-block" for="parkingVan">Van/Suv <small class="text-muted float-right">225</small></label>
                       </div>
@@ -718,7 +718,7 @@
                     <div class="col-md-8 mt-3 mt-md-0">
                         <div class="row no-gutters">
                         <div class="col-sm-9">
-                        <h4 class="d-flex align-items-center"><a href="#" class="text-dark text-5 mr-2"> #(item.address)</a> <span class="alert alert-info rounded-pill px-2 py-1 line-height-1 font-weight-400 text-2 mb-0"> #(item.type)</span></h4>
+                        <h4 class="d-flex align-items-center"><a href="#" class="text-dark text-5 mr-2"> #(item.address), #(item.city.name)</a> <span class="alert alert-info rounded-pill px-2 py-1 line-height-1 font-weight-400 text-2 mb-0"> #(item.type)</span></h4>
                         <p class="car-features d-flex align-items-center mb-2 text-4">
                         
                             <span data-toggle="tooltip" data-original-title="#(item.preference)"> <small>Preference: #(item.preference)</small></span>
