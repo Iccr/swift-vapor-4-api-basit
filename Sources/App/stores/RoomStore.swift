@@ -95,7 +95,7 @@ extension RoomStore {
 //        .all()
     
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
-        if let val = params.city {
+        if let val = params.city, !val.isEmpty {
             query.filter(.sql(raw: "LOWER(city_name) ILIKE '%\(val)%'"))
         }
         
@@ -160,7 +160,7 @@ extension RoomStore {
         
         if let val = params.price {
             if val == "low-to-high" {
-               query.sort(\.$price, .ascending)
+                query.sort(\.$price, .ascending)
             }else {
                  query.sort(\.$price, .descending)
             }
