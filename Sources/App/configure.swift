@@ -116,3 +116,10 @@ class Apple {
       static let redirectURL = "SIWA_REDIRECT_URL" // e.g. https://foobar.ngrok.io/web/auth/siwa/callback
     }
 }
+
+
+extension Request {
+    var baseUrl: String {
+        return Environment.get("SERVER_URL") ?? ""
+    }
+}
