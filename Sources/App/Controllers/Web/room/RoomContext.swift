@@ -14,10 +14,14 @@ extension Room {
         var page: Page<Room.Output>
         var query: Room.Querry
         var tags: String
+        var user: User?
         var pageModel: PageModel
     }
     
-    static func getContext(baseUrl: String, page: Page<Room.Output>, query: Room.Querry) -> Room.Context {
+    static func getContext(baseUrl: String,
+                           page: Page<Room.Output>,
+                           query: Room.Querry,
+                           user: User?) -> Room.Context {
             
         let searchTags = ["type", "internet", "kitchen", "floor", "parking", "water", "preference", "city"]
         let tag = query.getQeury().filter {searchTags.contains($0.name.lowercased())}
@@ -37,6 +41,7 @@ extension Room {
          page: page,
          query: query,
          tags: tag,
+         user: user,
          pageModel: PageModel(
              previous: previous,
              next: next,

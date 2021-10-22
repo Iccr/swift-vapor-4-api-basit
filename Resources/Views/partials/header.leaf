@@ -26,10 +26,9 @@
                   
                 </li>
 
-                #if(ctx.loggedIn):
+                #if(user):
                      <li class="dropdown"> <a class="dropdown-toggle" href="#">Profile</a>
-                 
-                </li>
+                    </li>
                 #else:
                     
                 <li class="login-signup ml-lg-2"><a class="pl-lg-4 pr-0" data-toggle="modal" data-target="#login-signup" href="#" title="Login / Sign up">Login / Sign up <span class="d-none d-lg-inline-block"><i class="fas fa-user"></i></span></a></li>

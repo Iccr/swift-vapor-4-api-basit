@@ -40,13 +40,14 @@ struct ImperialController: RouteCollection {
                     .flatMap { _user  in
                         if let existing = _user {
                             // alreayd user
-                            
+                            request.session.authenticate(existing)
                             request.auth.login(existing)
                             return request.eventLoop.future(request.redirect(to: "/"))
                             
                         }
                         let user = User(id: nil, email: googleUserInfo.email, imageurl: nil, name: googleUserInfo.name, token: nil, appleUserIdentifier: nil, provider: "google", fcm: nil)
                         return user.save(on: request.db).map {
+                            request.session.authenticate(user)
                             request.auth.login(user)
                             return request.redirect(to: "/")
                         }

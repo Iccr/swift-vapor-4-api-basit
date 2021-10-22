@@ -52,7 +52,9 @@
               <button type="button" class="btn btn-block btn-outline-primary">Login with Facebook</button>
             </div>
             <div class="col-12">
+             <a href="/login-google">
               <button type="button" class="btn btn-block btn-outline-danger">Login with Google</button>
+              </a>
             </div>
           </div>
         </div>

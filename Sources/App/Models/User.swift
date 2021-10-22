@@ -164,6 +164,11 @@ extension User {
 }
 
 extension User: Authenticatable {}
+extension User: SessionAuthenticatable {
+    var sessionID: String {
+        self.email ?? ""
+    }
+}
 
 struct UserAuthenticator: BearerAuthenticator {
     typealias User = App.User
@@ -173,7 +178,6 @@ struct UserAuthenticator: BearerAuthenticator {
         for request: Request
     ) -> EventLoopFuture<Void> {
         if let payload = try? request.jwt.verify(as: JwtModel.self), let id = Int(payload.subject.value)  {
-            print(payload)
             return User.query(on: request.db).filter(\.$id == id).first().map { user in
                 if let user = user {
                     request.auth.login(user)
@@ -184,3 +188,4 @@ struct UserAuthenticator: BearerAuthenticator {
        return request.eventLoop.makeSucceededFuture(())
    }
 }
+

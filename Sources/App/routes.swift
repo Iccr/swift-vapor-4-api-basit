@@ -12,9 +12,8 @@ func routes(_ app: Application) throws {
     
     try app.routes.register(collection: imperialController)
     
+    let sessions = app.grouped(app.sessions.middleware)
     
-    let protected = app.grouped(UserAuthenticator())
-        .grouped(User.guardMiddleware())
     
     let api = app.grouped("api", "v1")
     
@@ -63,11 +62,11 @@ func routes(_ app: Application) throws {
     
     // web
     
-    app.get { req in
-        try RoomWebControlelr().index(req: req)
+    sessions.get { req in
+        try RoomWebController().index(req: req)
     }
     
-    app.get("login") { req in
+    sessions.get("login") { req in
          LoginWebController().signIn(req: req)
     }
 }
