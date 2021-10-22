@@ -2,20 +2,21 @@
     #export("profileContent"):
     <div class="bg-light shadow-md rounded p-4">
         <div class="row">
+            
             <div class="col-lg-8">
                 <h4 class="mb-4">Personal Information</h4>
-                <form id="personalInformation" method="post">
-
+                <form id="personalInformation" action="users" method="post">
+                    <input type="hidden" name="id" value="#(user.id)">
                     <div class="form-group">
-                        <label for="fullName">Name</label>
-                        <input type="text" value="#(user.name)" class="form-control" data-bv-field="fullName" id="fullName"
-                            required placeholder="Full Name">
+                        <label for="name">Name</label>
+                        <input type="text" value="#(user.name)" name="name" class="form-control" data-bv-field="name" id="name"
+                             placeholder="Name">
                     </div>
 
                     <div class="form-group">
                         <label for="emailID">Email ID</label>
                         <input type="text" value="#(user.email)" class="form-control" data-bv-field="emailid" id="emailID"
-                            required placeholder="Email ID">
+                            required placeholder="Email ID" disabled>
                     </div>
                     <button class="btn btn-primary" type="submit">Update Now</button>
                 </form>

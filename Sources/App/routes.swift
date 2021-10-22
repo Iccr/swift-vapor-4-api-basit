@@ -62,15 +62,24 @@ func routes(_ app: Application) throws {
          LoginWebController().signIn(req: req)
     }
     
-    app.get("profile") { req -> EventLoopFuture<View> in
+    let protectedWeb =  app.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+    
+    protectedWeb.get("profile") { req -> EventLoopFuture<View> in
         let user = req.auth.get(User.self)
         return  req.view.render("personalInformation", ["user": user])
     }
     
-    app.get("myRooms") { req -> EventLoopFuture<View> in
+    
+    protectedWeb.get("myRooms") { req -> EventLoopFuture<View> in
 //        let user = req.auth.get(User.self)
         return  req.view.render("myroom")
     }
+    
+//    protectedWeb.post("users") { req in
+//        return UserController().show(req: req)
+//    }
+    
+    
 }
 
 
