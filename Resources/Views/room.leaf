@@ -36,8 +36,14 @@
               </div>
 
               <div class="text-black-50 mb-0 mb-sm-2 order-3 d-none d-sm-block">per month</div>
-              <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank"
+              #if(isMyRoom):
+                <a href="/rooms/destroy/(item.id)" target="_blank"
+                class="btn btn-sm btn-danger order-4 ml-auto">delete</a>
+              #else:
+                <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank"
                 class="btn btn-sm btn-primary order-4 ml-auto">Show in Map</a>
+              #endif
+              
             </div>
           </div>
         </div>

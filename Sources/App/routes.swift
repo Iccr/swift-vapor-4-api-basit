@@ -55,29 +55,11 @@ func routes(_ app: Application) throws {
     
     // web
     app.get { req in
-        try RoomWebController().index(req: req)
+        return try RoomWebController().index(req: req)
     }
-    
-    app.get("login") { req in
-         LoginWebController().signIn(req: req)
-    }
-    
-    let protectedWeb =  app.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-    
-    protectedWeb.get("profile") { req -> EventLoopFuture<View> in
-        let user = req.auth.get(User.self)
-        return  req.view.render("personalInformation", ["user": user])
-    }
-    
-    
-    protectedWeb.get("myRooms") { req -> EventLoopFuture<View> in
-        return try RoomWebController().showMyRooms(req: req)
-    }
-    
-    protectedWeb.post("users",":id") { req in
-        return try UserController().update(req: req)
-    }
-    
+    try app.register(collection: LoginWebController())
+    try app.register(collection: RoomWebController())
+    try app.register(collection: UserWebController())
     
 }
 

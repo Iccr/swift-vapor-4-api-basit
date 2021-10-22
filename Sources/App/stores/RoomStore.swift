@@ -88,6 +88,48 @@ class RoomStore {
             }
     }
     
+    func delete(req: Request) throws -> EventLoopFuture<Room.Output> {
+        let uploadPath = req.application.directory.publicDirectory + "uploads/"
+        let toDelete = try req.query.decode(Room.Input.self)
+
+        return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
+            .flatMap { room in
+                room.vimages.forEach({ filename in
+                    let path = uploadPath + filename
+                    let manager = FileManager.default
+                    
+                    if manager.fileExists(atPath: path ) {
+                        if let url: URL = .init(string: path) {
+                            try? manager.removeItem(at: url)
+                        }
+
+                    }
+                })
+                
+                return room.delete(on: req.db).map {
+                    return room.responseFrom(baseUrl: req.baseUrl)
+                }
+            }
+//        return Room.find(user?.id, on: req.db).unwrap(or: Abort(.notFound))
+//            .flatMapThrowing { room in
+//
+//                try room.vimages.forEach { filename in
+//                    let path = uploadPath + filename
+//                    let manager = FileManager.default
+//                    if manager.fileExists(atPath: path ) {
+//                        if let url: URL = .init(string: path) {
+//                            try manager.removeItem(at: url)
+//                        }
+//
+//                    }
+//                }
+//
+//                return room.delete(on: req.db).map {
+//                    return room.responseFrom(baseUrl: req.ba)
+//                }
+//            }
+    }
+    
 //    if let room  = room {
 //        room.occupied = input.occupied
 //        return room.update(on: req.db).map {

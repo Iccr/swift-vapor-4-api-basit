@@ -8,7 +8,17 @@
 import Foundation
 import Vapor
 
-class UserController {
+class UserWebController: RouteCollection {
+    func boot(routes: RoutesBuilder) throws {
+        let users = routes.grouped("users")
+        let secureUser =  users.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+        secureUser.post(":id", use: update)
+        let secureRoutes =  users.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+        secureRoutes.get("profile", use: showProfile)
+        
+    }
+    
+    
     func update(req: Request) throws -> EventLoopFuture<Response> {
         let toUpdate = try? req.content.decode(User.Profile.self)
         return User.find(toUpdate?.id, on: req.db)
@@ -20,6 +30,11 @@ class UserController {
                 }
             }
         
+    }
+    
+    func showProfile(req: Request) -> EventLoopFuture<View> {
+        let user = req.auth.get(User.self)
+        return  req.view.render("personalInformation", ["user": user])
     }
     
    

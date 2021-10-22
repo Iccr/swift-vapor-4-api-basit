@@ -42,7 +42,7 @@
           <!-- Logo
           ============================================= -->
           <div class="logo">
-              <a href="index.html" title="Quickai - HTML Template"><img src="images/logo.png" alt="Quickai" width="127" height="29" /></a>
+              <a href="/" title="Quickai - HTML Template"><img src="images/logo.png" alt="Quickai" width="127" height="29" /></a>
           </div><!-- Logo end -->
           
         </div>
