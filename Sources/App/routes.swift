@@ -71,8 +71,7 @@ func routes(_ app: Application) throws {
     
     
     protectedWeb.get("myRooms") { req -> EventLoopFuture<View> in
-//        let user = req.auth.get(User.self)
-        return  req.view.render("myroom")
+        return try RoomWebController().showMyRooms(req: req)
     }
     
     protectedWeb.post("users",":id") { req in

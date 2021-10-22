@@ -20,5 +20,14 @@ class RoomWebController {
             )
         }
     }
+    
+    func showMyRooms(req: Request) throws -> EventLoopFuture<View> {
+        let query = try req.query.decode(Room.Querry.self)
+//        let user = req.auth.get(User.self)
+        return RoomStore().getAllRooms(query, req: req).flatMap { page in
+            return req.view.render("myroom", ["items": page.items])
+            
+        }
+    }
 }
 

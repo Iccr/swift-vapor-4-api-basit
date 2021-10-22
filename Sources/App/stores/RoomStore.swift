@@ -77,6 +77,17 @@ class RoomStore {
             }
     }
     
+    func showMyRooms(req: Request) throws -> EventLoopFuture<[Room.Output]> {
+        let user = req.auth.get(User.self)
+        return User.find(user?.id, on: req.db).unwrap(or: Abort(.notFound))
+            .flatMap { user in
+                user.$rooms.load(on: req.db).map {
+                    return user.rooms.map({$0.responseFrom(baseUrl: req.baseUrl)})
+//                    return req.view.render("myroom", ["items": result])
+                }
+            }
+    }
+    
 //    if let room  = room {
 //        room.occupied = input.occupied
 //        return room.update(on: req.db).map {

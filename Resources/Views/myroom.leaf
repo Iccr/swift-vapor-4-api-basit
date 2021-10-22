@@ -22,21 +22,9 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <td class="text-center align-middle"><img class="border p-1 rounded bg-light" alt=""
-                            src="images/brands/operator/vodafone.jpg"></td>
-                    <td class="text-center align-middle">9696969696</td>
-                    <td class="text-center align-middle">Vodafone</td>
-                    <td class="align-middle">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-sm btn-outline-primary shadow-none text-nowrap"
-                                type="submit">Recharge
-                                Now</button>
-                            <button class="btn btn-sm btn-outline-secondary shadow-none ml-1" type="submit"
-                                data-toggle="tooltip" data-original-title="Edit"><i class="fas fa-edit"></i></button>
-                        </div>
-                    </td>
-                </tr>
+                #for(item in items):
+                    #extend("room")
+                #endfor
             </tbody>
         </table>
     </div>
