@@ -164,11 +164,8 @@ extension User {
 }
 
 extension User: Authenticatable {}
-extension User: SessionAuthenticatable {
-    var sessionID: String {
-        self.email ?? ""
-    }
-}
+extension User: ModelSessionAuthenticatable {}
+
 
 struct UserAuthenticator: BearerAuthenticator {
     typealias User = App.User
@@ -183,7 +180,6 @@ struct UserAuthenticator: BearerAuthenticator {
                     request.auth.login(user)
                 }
             }
-            
         }
        return request.eventLoop.makeSucceededFuture(())
    }

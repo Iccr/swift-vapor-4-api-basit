@@ -12,7 +12,7 @@ func routes(_ app: Application) throws {
     
     try app.routes.register(collection: imperialController)
     
-    let sessions = app.grouped(app.sessions.middleware)
+//    let sessions = app.grouped(app.sessions.middleware)
     
     
     let api = app.grouped("api", "v1")
@@ -62,11 +62,11 @@ func routes(_ app: Application) throws {
     
     // web
     
-    sessions.get { req in
+    app.get { req in
         try RoomWebController().index(req: req)
     }
     
-    sessions.get("login") { req in
+    app.get("login") { req in
          LoginWebController().signIn(req: req)
     }
 }

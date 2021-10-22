@@ -27,9 +27,12 @@ public func configure(_ app: Application) throws {
     let username = Environment.get("DATABASE_USERNAME") ?? "ccr"
     let dbName = Environment.get("DATABASE_NAME") ?? "vfinder"
     let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "password"
+    
+//    app.middleware.use(app.sessions.middleware)
+    
     app.middleware.use(app.sessions.middleware)
-//    User.sessionAuthenticator()
-//    User.sessionAuthenticator(.psql)
+    app.middleware.use(User.sessionAuthenticator())
+    
     app.databases.use(
         .postgres(
             hostname: hostname,

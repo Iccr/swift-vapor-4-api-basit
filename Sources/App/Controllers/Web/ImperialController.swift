@@ -30,33 +30,28 @@ struct ImperialController: RouteCollection {
     
     func processGoogleLogin(request: Request, token: String)
     throws -> EventLoopFuture<ResponseEncodable> {
-        
-        //        return request.eventLoop.future(request.redirect(to: "/"))
-      
-        
         return try Google.getUser(on: request)
             .flatMap({ googleUserInfo in
                 return User.findByEmail(googleUserInfo.email, req: request)
                     .flatMap { _user  in
                         if let existing = _user {
-                            // alreayd user
-                            request.session.authenticate(existing)
                             request.auth.login(existing)
                             return request.eventLoop.future(request.redirect(to: "/"))
-                            
                         }
-                        let user = User(id: nil, email: googleUserInfo.email, imageurl: nil, name: googleUserInfo.name, token: nil, appleUserIdentifier: nil, provider: "google", fcm: nil)
+                        let user = User.from(googleUserInfo)
                         return user.save(on: request.db).map {
-                            request.session.authenticate(user)
                             request.auth.login(user)
                             return request.redirect(to: "/")
                         }
                     }
             })
-        
     }
-    
-    
+}
+
+extension User {
+    static func from(_ googleUserInfo: GoogleUserInfo) -> User {
+         User(id: nil, email: googleUserInfo.email, imageurl: nil, name: googleUserInfo.name, token: nil, appleUserIdentifier: nil, provider: "google", fcm: nil)
+    }
 }
 
 
