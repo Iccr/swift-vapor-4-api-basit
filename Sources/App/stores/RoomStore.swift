@@ -90,21 +90,27 @@ class RoomStore {
     
     func delete(req: Request) throws -> EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
-        let toDelete = try req.query.decode(Room.Input.self)
+        let toDelete = try req.content.decode(Room.DeleteInput.self)
 
         return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
             .flatMap { room in
-                room.vimages.forEach({ filename in
-                    let path = uploadPath + filename
-                    let manager = FileManager.default
-                    
-                    if manager.fileExists(atPath: path ) {
-                        if let url: URL = .init(string: path) {
-                            try? manager.removeItem(at: url)
-                        }
+                do {
+                    try room.vimages.forEach({ filename in
+                        let path = uploadPath + filename
+                        let manager = FileManager.default
+                        
+                        if manager.fileExists(atPath: path ) {
+                            if let url: URL = .init(string:"file://"+path) {
+                                try manager.removeItem(at: url)
+                            }
 
-                    }
-                })
+                        }
+                    })
+                } catch(let error)  {
+                    return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
+                }
+
+                
                 
                 return room.delete(on: req.db).map {
                     return room.responseFrom(baseUrl: req.baseUrl)

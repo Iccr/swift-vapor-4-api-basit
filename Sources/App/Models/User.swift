@@ -40,7 +40,7 @@ final class User : Model, Content {
     var email : String?
     
     @Field(key: "imageurl")
-    var imageurl : String?
+    var image : String?
     
     @Field(key: "name")
     var name : String?
@@ -86,7 +86,7 @@ final class User : Model, Content {
          fcm: String?) {
         self.email = email
         self.id = id
-        self.imageurl = imageurl
+        self.image = imageurl
         self.name = name
         self.token = token
         self.appleUserIdentifier = appleUserIdentifier
@@ -101,11 +101,20 @@ extension User {
         var id: Int?
         var name: String?
         var email: String?
-        var imageurl: String?
+        var image: String?
+    }
+    
+    struct BasicProfile: Codable {
+        var name: String?
+        var image: String?
+    }
+    
+    func getBasicProfile() -> BasicProfile {
+        return .init(name: self.name, image: self.image)
     }
     
     func getProfile() -> User.Profile {
-        return Profile(id: self.id , name: self.name, email: self.email, imageurl: self.imageurl)
+        return Profile(id: self.id , name: self.name, email: self.email, image: self.image)
     }
 }
 

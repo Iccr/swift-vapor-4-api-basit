@@ -13,7 +13,7 @@ class UserWebController: RouteCollection {
         let users = routes.grouped("users")
         let secureUser =  users.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureUser.post(":id", use: update)
-        let secureRoutes =  users.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+        let secureRoutes =  routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureRoutes.get("profile", use: showProfile)
         
     }

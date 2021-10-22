@@ -190,10 +190,10 @@ final class Room: Codable, Model, Content {
         var coverImage: String
         var nepaliPrice: String
         var city: City.Output?
-        var user: User.Profile?
+        var user: User.BasicProfile?
         var id: Int?
         var price : Double?
-        var vimages : [String] = []
+        var images : [String] = []
         var type : String?
         var noOfRooms : Int?
         var kitchen : String?
@@ -263,6 +263,11 @@ final class Room: Codable, Model, Content {
         preference = update.preference ?? preference
         return self
     }
+    
+    struct DeleteInput: Content {
+        var id: Int
+    }
+    
     
     struct Input: Content {
         var cityName: String?
@@ -457,7 +462,35 @@ final class Room: Codable, Model, Content {
         func responseFrom(baseUrl: String)-> Room.Output {
             let r = self
             let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
-            return .init( coverImage: coverImage, nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "", city: $city.value?.response(baseUrl: baseUrl), user: $user.value?.getProfile() , id: r.id, price: r.price, vimages: r.vimages.map {baseUrl + "/uploads/" + $0}, type: r.type, noOfRooms: r.noOfRooms, kitchen: r.kitchen, floor: r.floor, lat: r.lat, long: r.long, address: r.address, district: r.district, state: r.state, localGov: r.localGov, parking: r.parking, water: r.water, internet: r.internet, phone: r.phone, description: r.description, occupied: r.occupied, preference: r.preference, createdAt: r.createdAt, updatedAt: r.updatedAt, features: r.getFeautres())
+            return .init(
+                coverImage: coverImage,
+                nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "",
+                city: $city.value?.response(baseUrl: baseUrl),
+                user: $user.value?.getBasicProfile() ,
+                id: r.id,
+                price: r.price,
+                images: r.vimages.map {baseUrl + "/uploads/" + $0},
+                type: r.type,
+                noOfRooms: r.noOfRooms,
+                kitchen: r.kitchen,
+                floor: r.floor,
+                lat: r.lat,
+                long: r.long,
+                address: r.address,
+                district: r.district,
+                state: r.state,
+                localGov: r.localGov,
+                parking: r.parking,
+                water: r.water,
+                internet: r.internet,
+                phone: r.phone,
+                description: r.description,
+                occupied: r.occupied,
+                preference: r.preference,
+                createdAt: r.createdAt,
+                updatedAt: r.updatedAt,
+                features: r.getFeautres()
+            )
         }
         
         func getFeautres() -> [String] {
