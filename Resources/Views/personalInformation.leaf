@@ -5,7 +5,7 @@
             
             <div class="col-lg-8">
                 <h4 class="mb-4">Personal Information</h4>
-                <form id="personalInformation" action="users" method="post">
+                <form id="personalInformation" action="/users/#(user.id)" method="post">
                     <input type="hidden" name="id" value="#(user.id)">
                     <div class="form-group">
                         <label for="name">Name</label>

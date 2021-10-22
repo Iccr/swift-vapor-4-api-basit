@@ -75,9 +75,9 @@ func routes(_ app: Application) throws {
         return  req.view.render("myroom")
     }
     
-//    protectedWeb.post("users") { req in
-//        return UserController().show(req: req)
-//    }
+    protectedWeb.post("users",":id") { req in
+        return try UserController().update(req: req)
+    }
     
     
 }
