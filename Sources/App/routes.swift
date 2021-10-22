@@ -7,21 +7,16 @@ struct Todos: Content {
 }
 
 func routes(_ app: Application) throws {
+    app.routes.caseInsensitive = true
     let imperialController = ImperialController()
-//        try router.register(collection: imperialController)
-    
     try app.routes.register(collection: imperialController)
-    
-//    let sessions = app.grouped(app.sessions.middleware)
-    
-    
     let api = app.grouped("api", "v1")
     
     let protectedApi = api.grouped(UserAuthenticator()).grouped(User.guardMiddleware())
     
     
     // protected
- 
+
     protectedApi.post("rooms") { req in
         return try RoomController().create(req: req)
     }
@@ -37,8 +32,6 @@ func routes(_ app: Application) throws {
     
     
     // Free
-    
-    
     api.get("rooms") { req in
         return try RoomController().index(req: req)
     }
@@ -61,13 +54,22 @@ func routes(_ app: Application) throws {
     }
     
     // web
-    
     app.get { req in
         try RoomWebController().index(req: req)
     }
     
     app.get("login") { req in
          LoginWebController().signIn(req: req)
+    }
+    
+    app.get("profile") { req -> EventLoopFuture<View> in
+        let user = req.auth.get(User.self)
+        return  req.view.render("personalInformation", ["user": user])
+    }
+    
+    app.get("myRooms") { req -> EventLoopFuture<View> in
+//        let user = req.auth.get(User.self)
+        return  req.view.render("myroom")
     }
 }
 

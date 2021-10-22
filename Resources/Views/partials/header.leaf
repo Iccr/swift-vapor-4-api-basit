@@ -27,7 +27,7 @@
                 </li>
 
                 #if(user):
-                     <li class="dropdown"> <a class="dropdown-toggle" href="#">Profile</a>
+                     <li class="dropdown"> <a class="dropdown-toggle" href="/profile">Profile</a>
                     </li>
                 #else:
                     

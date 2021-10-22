@@ -1,0 +1,37 @@
+#extend("profile"):
+    #export("profileContent"):
+    <div class="bg-light shadow-md rounded p-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <h4 class="mb-4">Personal Information</h4>
+                <form id="personalInformation" method="post">
+
+                    <div class="form-group">
+                        <label for="fullName">Name</label>
+                        <input type="text" value="#(user.name)" class="form-control" data-bv-field="fullName" id="fullName"
+                            required placeholder="Full Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailID">Email ID</label>
+                        <input type="text" value="#(user.email)" class="form-control" data-bv-field="emailid" id="emailID"
+                            required placeholder="Email ID">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Update Now</button>
+                </form>
+            </div>
+            <div class="col-lg-4 mt-4 mt-lg-0 ">
+                <div class="bg-light-2 p-3">
+                    <p class="mb-2">We value your Privacy.</p>
+                    <p class="text-1 mb-0">We will not sell or distribute your contact information. Read our <a
+                            href="#">Privacy Policy</a>.</p>
+                    <hr>
+                    <p class="mb-2">Billing Enquiries</p>
+                    <p class="text-1 mb-0">Do not hesitate to reach our <a href="#">support team</a> if you have
+                        any queries.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    #endexport
+#endextend

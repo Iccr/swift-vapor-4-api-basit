@@ -382,60 +382,7 @@
               ============================================= -->
               <div class="car-list">
                 #for(item in items):
-                  <div class="car-item bg-light shadow-md rounded p-3">
-                      <div class="row">
-                        <div class="col-md-4">
-                            <a href="#"><img class="img-fluid rounded align-top" src="#(item.coverImage)" alt="cars"></a>
-                        </div>
-                        <div class="col-md-8 mt-3 mt-md-0">
-                            <div class="row no-gutters">
-                            <div class="col-sm-9">
-                            <h4 class="d-flex align-items-center"><a href="#" class="text-dark text-5 mr-2"> #(item.address), #(item.city.name)</a> <span class="alert alert-info rounded-pill px-2 py-1 line-height-1 font-weight-400 text-2 mb-0"> #(item.type)</span></h4>
-                            <p class="car-features d-flex align-items-center mb-2 text-4">
-                            
-                                <span data-toggle="tooltip" data-original-title="#(item.preference)"> <small>Preference: #(item.preference)</small></span>
-                                <!-- <span data-toggle="tooltip" data-original-title="2 Large Bag"><i class="fas fa-suitcase-rolling"></i> <small>2</small></span> -->
-                                <!-- <span data-toggle="tooltip" data-original-title="#(item.preference)"> <small>#(item.city)</small></span> -->
-                                <!-- <span data-toggle="tooltip" data-original-title="Automatic transmission"><i class="fas fa-cog"></i> <small>Auto</small></span> -->
-                                <!-- <span data-toggle="tooltip" data-original-title="Drive unlimited distance with this car at no extra cost"><i class="fas fa-tachometer-alt"></i> <small>Mileage</small></span> -->
-                                <!-- <span data-toggle="tooltip" data-original-title="Air Conditioning Available"><i class="fas fa-snowflake"></i> <small>A/C</small></span> -->
-                            </p>
-                            <div class="row text-1 mb-3">
-                            #for(feature in item.features):
-                              <div data-toggle="tooltip" data-original-title="#(feature)" class="col-6">
-                            <span class="text-success mr-1"><i class="fas fa-check"></i></span>#(feature)
-                        </div>
-                            #endfor
-                      
-                        <!-- 
-                                          <div data-toggle="tooltip" data-original-title="Free cancellation up to 72 hours prior to pick up" class="col-6">
-                            <span class="text-success mr-1"><i class="fas fa-check"></i></span>Free Cancellation
-                        </div>
-                        <div class="col-6" data-toggle="tooltip" data-original-title="Instantly confirmed upon booking">
-                            <span class="text-success mr-1"><i class="fas fa-check"></i></span>Instantly Confirmed
-                        </div>
-                        <div class="col-6" data-toggle="tooltip" data-original-title="In the unlikely event you find a better price on the same brand, we'll beat it. See 'Price Promise' on our About Us page">
-                            <span class="text-success mr-1"><i class="fas fa-check"></i></span>Price Guarantee
-                        </div>
-                        <div class="col-6" data-toggle="tooltip" data-original-title="Rate includes Third Party Liability Cover">
-                            <span class="text-success mr-1"><i class="fas fa-check"></i></span>Third Party Liability
-                        </div> -->
-                      </div>
-                            <p class="reviews mb-0">
-                              <span class="reviews-score px-2 py-1 rounded font-weight-600 text-light">4.7</span> <span class="font-weight-600">Excellent</span> <a class="text-black-50" href="#">(188 reviews)</a>
-                            </p>
-                            </div>
-                            <div class="col-sm-3 text-right d-flex d-sm-block align-items-center">
-                                <div class="text-success text-3 mb-0 mb-sm-1 order-2 ">&nbsp;</div>
-                                <div class="d-block text-5 text-black-100 mb-0 mb-sm-2 mr-2 mr-sm-0 order-1">Rs <span class="text-dark text-7 font-weight-500 mb-0 mb-sm-2 mr-2 mr-sm-0 order-0">#(item.nepaliPrice)</span></div>
-                                
-                                <div class="text-black-50 mb-0 mb-sm-2 order-3 d-none d-sm-block">per month</div>
-                                <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank" class="btn btn-sm btn-primary order-4 ml-auto">Show in Map</a>
-                            </div>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
+                    #extend("room")
                 #endfor
               </div><!-- List Item end -->
               

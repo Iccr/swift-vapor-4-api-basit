@@ -1,0 +1,20 @@
+#extend("master"):
+    #export("content"):
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <ul class="nav nav-pills alternate flex-lg-column sticky-top">
+                        <li class="nav-item"><a class="nav-link active" href="/profile"><i class="fas fa-user"></i>Personal
+                                Information</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/myRooms"><i class="fas fa-bookmark"></i>My Rooms</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-9">
+                   #import("profileContent")
+                </div>
+            </div>
+        </div>
+        #extend("loginModal")
+    #endexport
+#endextend
