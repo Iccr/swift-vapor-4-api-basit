@@ -15,7 +15,11 @@ class RoomWebController: RouteCollection {
         let rooms = routes.grouped("rooms")
         rooms.get(use: index)
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        secureRooms.post("destroy", "id", use: destroy)
+        
+        secureRooms.post("destroy", use: destroy)
+        
+        let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+        secureRoutes.get("myrooms", use: showMyRooms)
         
     }
     

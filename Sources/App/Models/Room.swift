@@ -264,6 +264,11 @@ final class Room: Codable, Model, Content {
         return self
     }
     
+    struct DeleteInput: Content {
+        var id: Int
+    }
+    
+    
     struct Input: Content {
         var cityName: String?
         //        var userId: Int?
