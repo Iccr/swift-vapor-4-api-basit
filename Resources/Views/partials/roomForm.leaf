@@ -6,46 +6,154 @@
           ============================================= -->
         <div class="row">
           <div class="col-lg-8">
-            <h4 class="mb-4">Personal Information</h4>
+            <h4 class="mb-4">Property Information</h4>
             <form id="personalInformation" method="post">
-              <div class="mb-3">
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input id="male" name="profile" class="custom-control-input" checked="" required="" type="radio">
-                  <label class="custom-control-label" for="male">Male</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                  <input id="female" name="profile" class="custom-control-input" required="" type="radio">
-                  <label class="custom-control-label" for="female">Female</label>
-                </div>
+             
+              <input type="hidden" name="userId" value="#(user.id)">
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" value="#(room.price)" class="form-control" name="price" data-bv-field="price" id="price"
+                  required="" placeholder="Price">
+              </div>
+
+              <div class="form-group">
+                <label for="noOfRooms">No of rooms</label>
+                <input type="number" value="#(room.noOfRooms)" class="form-control" data-bv-field="noOfRooms"
+                  id="noOfRooms"  name="noOfRooms" required="" placeholder="no of rooms">
+              </div>
+
+               <div class="form-group">
+                <label for="phone">Contact number</label>
+                <input type="text" value="#(room.phone)" class="form-control" data-bv-field="phone"
+                  id="phone"  name="phone" required="" placeholder="Contact number">
               </div>
               <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" value="Johne Cary" class="form-control" data-bv-field="fullName" id="fullName"
-                  required="" placeholder="Full Name">
+                <label for="address">Address</label>
+                <input type="text" value="#(room.address)" class="form-control" data-bv-field="address"
+                  id="address"  name="address" required="" placeholder="Address">
               </div>
+
+
+
               <div class="form-group">
-                <label for="mobileNumber">Mobile Number</label>
-                <input type="text" value="9898989898" class="form-control" data-bv-field="mobilenumber"
-                  id="mobileNumber" required="" placeholder="Mobile Number">
-              </div>
-              <div class="form-group">
-                <label for="emailID">Email ID</label>
-                <input type="text" value="jhonecary2018@gmail.com" class="form-control" data-bv-field="emailid"
-                  id="emailID" required="" placeholder="Email ID">
-              </div>
-              <div class="form-group">
-                <label for="birthDate">Date of Birth</label>
-                <input id="birthDate" value="06-09-2002" type="text" class="form-control" required=""
-                  placeholder="Date of Birth">
-              </div>
-              <div class="form-group">
-                <label for="inputCountry">Country</label>
-                <select class="custom-select" id="inputCountry" name="country_id">
+                <label for="type">Type</label>
+                <select class="custom-select" id="type" name="type">
                   <option value=""> --- Please Select --- </option>
-                  <option value="244">Aaland Islands</option>
+                  <option value="Flat">Flat</option>
+                  <option value="Room">Room</option>
+                  <option value="Appartment">Appartment</option>
+                  <option value="Commercial Place">Commercial place</option>
+                  <option value="Office Space">Office space</option>
                 </select>
               </div>
-              <button class="btn btn-primary" type="submit">Update Now</button>
+
+              <div class="form-group">
+                <label for="floor">Floor</label>
+                <select class="custom-select" id="floor" name="floor">
+                  <option value=""> --- Please Select --- </option>
+                  <option value="Roof top">Roof top</option>
+                  <option value="Ground foor">Ground foor</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="internet">Internet</label>
+                <select class="custom-select" id="internet" name="internet">
+                  <option value=""> --- Please Select --- </option>
+                  <option value="Not available">Not available</option>
+                  <option value="Free">Free</option>
+                  <option value="Paid">Paid</option>
+                </select>
+              </div>
+
+            <div class="form-group">
+                <label for="kitchen">Kitchen</label>
+                <select class="custom-select" id="kitchen" name="kitchen">
+                  <option value=""> --- Please Select --- </option>
+                  <option value="Not available">Not available</option>
+                  <option value="Free">Available</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="kitchen">City</label>
+                <select class="custom-select" id="kitchen" name="kitchen">
+                  <option value=""> --- Please Select --- </option>
+                  <option value="1">Kathmandu</option>
+                  <option value="2">Pokhara</option>
+                </select>
+              </div>
+
+               <div class="form-group">
+                <label for="parking">Parking</label>
+
+                <div class="form-check custom-control custom-checkbox">
+                    <input id="carParking" name="parking" class="custom-control-input" type="checkbox" value="Car">
+                    <label class="custom-control-label" for="carParking">Car</label>
+                </div>
+                <div class="form-check custom-control custom-checkbox">
+                    <input id="bikeParking" name="parking" class="custom-control-input" type="checkbox" value="Bike">
+                    <label class="custom-control-label" for="bikeParking">Bike</label>
+                </div>
+                <div class="form-check custom-control custom-checkbox">
+                    <input id="suvParking" name="parking" class="custom-control-input" type="checkbox" value="Suv/Jeep">
+                    <label class="custom-control-label" for="suvParking">Suv/Jeep</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="parking">Water</label>
+
+                <div class="form-check custom-control custom-radio">
+                    <input id="plenty" name="water" class="custom-control-input" type="radio" value="Car">
+                    <label class="custom-control-label" for="plenty">Plenty</label>
+                </div>
+                <div class="form-check custom-control custom-radio">
+                    <input id="justok" name="water" class="custom-control-input" type="radio" value="Bike">
+                    <label class="custom-control-label" for="justok">Just ok</label>
+                </div>
+                <div class="form-check custom-control custom-radio">
+                    <input id="careful" name="water" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <label class="custom-control-label" for="careful">Needs to be careful</label>
+                </div>
+              </div>
+
+
+               <div class="form-group">
+                <label for="parking">Preference</label>
+
+                <div class="form-check custom-control custom-radio">
+                    <input id="preferenceFamily" name="preference" class="custom-control-input" type="radio" value="Car">
+                    <label class="custom-control-label" for="preferenceFamily">Small Family</label>
+                </div>
+                <div class="form-check custom-control custom-radio">
+                    <input id="preferenceEmployee" name="preference" class="custom-control-input" type="radio" value="Bike">
+                    <label class="custom-control-label" for="preferenceEmployee">Employee</label>
+                </div>
+                <div class="form-check custom-control custom-radio">
+                    <input id="preferenceCouple" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <label class="custom-control-label" for="preferenceCouple">Couple</label>
+                </div>
+                 <div class="form-check custom-control custom-radio">
+                    <input id="preferenceStudent" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <label class="custom-control-label" for="preferenceStudent">Student</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Images</label>
+                <input type="file" multiple class="form-control" data-bv-field="address"
+                  id="address"  name="address" required="" placeholder="Description">
+              </div>
+
+              <div class="form-group">
+                <label for="address">Description</label>
+                <textarea type="text" value="#(room.description)" class="form-control" data-bv-field="address"
+                  id="address"  name="address" required="" placeholder="Description"></textarea>
+              </div>
+
+              <button class="btn btn-primary" type="submit">Add Now</button>
             </form>
           </div>
           <div class="col-lg-4 mt-4 mt-lg-0 ">
