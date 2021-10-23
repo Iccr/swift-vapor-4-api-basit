@@ -38,13 +38,14 @@ class RoomWebController: RouteCollection {
     
     func showMyRooms(req: Request) throws -> EventLoopFuture<View> {
         let query = try req.query.decode(Room.Querry.self)
-//        let user = req.auth.get(User.self)
+        let user = req.auth.get(User.self)
         return RoomStore().getAllRooms(query, req: req).flatMap { page in
             struct Context: Encodable {
                 var items: [Room.Output]
+                var user: User?
                 var url = "myrooms"
             }
-            return req.view.render("myroom", Context(items: page.items))
+            return req.view.render("myroom", Context(items: page.items, user: user))
             
         }
     }
