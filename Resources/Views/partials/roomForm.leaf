@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9">
+      <div class="bg-light shadow-md rounded p-4">
+        <!-- Personal Information
+          ============================================= -->
+        <div class="row">
+          <div class="col-lg-8">
+            <h4 class="mb-4">Personal Information</h4>
+            <form id="personalInformation" method="post">
+              <div class="mb-3">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input id="male" name="profile" class="custom-control-input" checked="" required="" type="radio">
+                  <label class="custom-control-label" for="male">Male</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input id="female" name="profile" class="custom-control-input" required="" type="radio">
+                  <label class="custom-control-label" for="female">Female</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" value="Johne Cary" class="form-control" data-bv-field="fullName" id="fullName"
+                  required="" placeholder="Full Name">
+              </div>
+              <div class="form-group">
+                <label for="mobileNumber">Mobile Number</label>
+                <input type="text" value="9898989898" class="form-control" data-bv-field="mobilenumber"
+                  id="mobileNumber" required="" placeholder="Mobile Number">
+              </div>
+              <div class="form-group">
+                <label for="emailID">Email ID</label>
+                <input type="text" value="jhonecary2018@gmail.com" class="form-control" data-bv-field="emailid"
+                  id="emailID" required="" placeholder="Email ID">
+              </div>
+              <div class="form-group">
+                <label for="birthDate">Date of Birth</label>
+                <input id="birthDate" value="06-09-2002" type="text" class="form-control" required=""
+                  placeholder="Date of Birth">
+              </div>
+              <div class="form-group">
+                <label for="inputCountry">Country</label>
+                <select class="custom-select" id="inputCountry" name="country_id">
+                  <option value=""> --- Please Select --- </option>
+                  <option value="244">Aaland Islands</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" type="submit">Update Now</button>
+            </form>
+          </div>
+          <div class="col-lg-4 mt-4 mt-lg-0 ">
+            <div class="bg-light-2 p-3">
+              <p class="mb-2">We value your Privacy.</p>
+              <p class="text-1 mb-0">We will not sell or distribute your contact information. Read our <a
+                  href="#">Privacy Policy</a>.</p>
+              <hr>
+              <p class="mb-2">Billing Enquiries</p>
+              <p class="text-1 mb-0">Do not hesitate to reach our <a href="#">support team</a> if you have any queries.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Personal Information end -->
+      </div>
+    </div>
+  </div>
+</div>

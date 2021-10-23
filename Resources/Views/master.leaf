@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
-<link href="images/favicon.png" rel="icon" />
+<link href="/images/favicon.png" rel="icon" />
 <!-- OG -->
 <meta name="keywords" content="Nepal room, flat, appartment, house, rent, sell, buy, real estate, estate, kathmandu, pokhara">
 				<meta property="og:description" content="कोठा, घर वा फ्लाट भाडा मा दिन वा लिन को लागी">
@@ -27,13 +27,13 @@
 
 <!-- Stylesheet
 ============================================= -->
-<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="vendor/font-awesome/css/all.min.css" />
-<link rel="stylesheet" type="text/css" href="vendor/owl.carousel/assets/owl.carousel.min.css" />
-<link rel="stylesheet" type="text/css" href="vendor/owl.carousel/assets/owl.theme.default.min.css" />
-<link rel="stylesheet" type="text/css" href="vendor/jquery-ui/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css" />
-<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/font-awesome/css/all.min.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.carousel.min.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/owl.carousel/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/jquery-ui/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
 
 </head>
 <body>
@@ -80,13 +80,13 @@
 <!-- Modal Dialog - Login/Signup end -->
 
 <!-- Script -->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/jquery-ui/jquery-ui.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="vendor/owl.carousel/owl.carousel.min.js"></script>
-<script src="vendor/bootstrap-spinner/bootstrap-spinner.js"></script>
-<script src="vendor/daterangepicker/moment.min.js"></script>
-<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/jquery-ui/jquery-ui.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/owl.carousel/owl.carousel.min.js"></script>
+<script src="/vendor/bootstrap-spinner/bootstrap-spinner.js"></script>
+<script src="/vendor/daterangepicker/moment.min.js"></script>
+<script src="/vendor/daterangepicker/daterangepicker.js"></script>
 <script>
 
 

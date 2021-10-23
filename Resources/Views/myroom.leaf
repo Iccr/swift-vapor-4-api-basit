@@ -3,7 +3,14 @@
 <div class="bg-light shadow-md rounded p-4">
     <!-- Favourites
   ============================================= -->
-    <h4 class="mb-4">Your Saved Connections</h4>
+    <h4 class="mb-0">Your Properties</h4>
+    <div class="d-flex justify-content-end mb-3">
+    <form action="/rooms/new">
+       <button class="btn btn-sm btn-warning shadow-none text-nowrap"
+                                type="submit">Add Rent</button> 
+    </form>
+                            
+                        </div>
     <div class="table-responsive-lg">
         <table class="table table-hover border">
             <tbody>

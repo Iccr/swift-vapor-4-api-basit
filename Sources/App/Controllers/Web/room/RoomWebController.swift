@@ -15,13 +15,11 @@ class RoomWebController: RouteCollection {
         let rooms = routes.grouped("rooms")
         rooms.get(use: index)
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        
         secureRooms.post("destroy", use: destroy)
-        
         let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureRoutes.get("myrooms", use: showMyRooms)
-        
         secureRoutes.get("profile", use: showProfile)
+        secureRooms.get("new", use: new)
         
     }
     
@@ -48,6 +46,16 @@ class RoomWebController: RouteCollection {
             return req.view.render("myroom", Context(items: page.items, user: user))
             
         }
+    }
+    
+    func new(req: Request) throws -> EventLoopFuture<View> {
+        let user = try req.auth.require(User.self)
+        struct Context: Encodable {
+            var user: User
+        }
+        
+        return req.view.render("addRoom", Context(user: user))
+        
     }
     
     func showProfile(req: Request) -> EventLoopFuture<View> {
