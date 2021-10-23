@@ -39,11 +39,13 @@
                 <label for="type">Type</label>
                 <select class="custom-select" id="type" name="type">
                   <option value=""> --- Please Select --- </option>
-                  <option value="Flat" >Flat</option>
-                  <option value="Room">Room</option>
-                  <option value="Appartment">Appartment</option>
-                  <option value="Commercial Place">Commercial place</option>
-                  <option value="Office Space">Office space</option>
+                  <option value="Flat" #if(lowercased(room.type) == "flat"): selected #endif>Flat</option>
+                  <option value="Room" #if(lowercased(room.type) == "room"): selected #endif>Room</option>
+                  <option value="Appartment" #if(lowercased(room.type) == "appartment"): selected #endif>Appartment</option>
+                  <option value="House" #if(lowercased(room.type) == "house"): selected #endif>House</option>
+                  <option value="Hostel" #if(lowercased(room.type) == "hostel"): selected #endif>Hostel</option>
+                  <option value="Commercial Place" #if(lowercased(room.type) == "commercial place"): selected #endif>Commercial place</option>
+                  <option value="Office Space" #if(lowercased(room.type) == "office space"): selected #endif>Office space</option>
                 </select>
               </div>
 
@@ -51,8 +53,8 @@
                 <label for="floor">Floor</label>
                 <select class="custom-select" id="floor" name="floor">
                   <option value=""> --- Please Select --- </option>
-                  <option value="Roof top">Roof top</option>
-                  <option value="Ground foor">Ground foor</option>
+                  <option value="Roof top" #if(lowercased(room.floor) == "roof top"): selected #endif>Roof top</option>
+                  <option value="Ground foor" #if(lowercased(room.floor) == "ground floor"): selected #endif>Ground floor</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -61,9 +63,9 @@
                 <label for="internet">Internet</label>
                 <select class="custom-select" id="internet" name="internet">
                   <option value=""> --- Please Select --- </option>
-                  <option value="Not available">Not available</option>
-                  <option value="Free">Free</option>
-                  <option value="Paid">Paid</option>
+                  <option value="Not available"  #if(lowercased(room.internet) == "not available"): selected #endif >Not available</option>
+                  <option value="Free" #if(lowercased(room.internet) == "free"): selected #endif >Free</option>
+                  <option value="Paid" #if(lowercased(room.internet) == "paid"): selected #endif >Paid</option>
                 </select>
               </div>
 
@@ -71,33 +73,36 @@
                 <label for="kitchen">Kitchen</label>
                 <select class="custom-select" id="kitchen" name="kitchen">
                   <option value=""> --- Please Select --- </option>
-                  <option value="Not available">Not available</option>
-                  <option value="Free">Available</option>
+                  <option value="Not available" #if(lowercased(room.kitchen) == "not available"): selected #endif >Not available</option>
+                  <option value="Free" #if(lowercased(room.kitchen) == "available"): selected #endif >Available</option>
                 </select>
               </div>
 
               <div class="form-group">
                 <label for="city">City</label>
                 <select class="custom-select" id="city" name="city_id">
-                  <option value=""> --- Please Select --- </option>
-                  <option value="1">Kathmandu</option>
-                  <option value="2">Pokhara</option>
+                  <option value="" > --- Please Select --- </option>
+                  <option value="1" #if(lowercased(room.city.name) == "kathmandu"): selected #endif >Kathmandu</option>
+                  <option value="2" #if(lowercased(room.city.name) == "pokhara"): selected #endif>Pokhara</option>
                 </select>
               </div>
 
                <div class="form-group">
                 <label for="parking">Parking</label>
 
-                <div class="form-check custom-control custom-checkbox">
-                    <input id="carParking" name="parking" class="custom-control-input" type="checkbox" value="Car">
+                <div class="form-check custom-control custom-radio">
+                    <input id="carParking" name="parking" class="custom-control-input" type="radio" value="Car"
+                    #if(lowercased(room.parking) == "car"): checked #endif>
                     <label class="custom-control-label" for="carParking">Car</label>
                 </div>
-                <div class="form-check custom-control custom-checkbox">
-                    <input id="bikeParking" name="parking" class="custom-control-input" type="checkbox" value="Bike">
+                <div class="form-check custom-control custom-radio">
+                    <input id="bikeParking" name="parking" class="custom-control-input" type="radio" value="Bike"
+                    #if(lowercased(room.parking) == "bike"): checked #endif>
                     <label class="custom-control-label" for="bikeParking">Bike</label>
                 </div>
-                <div class="form-check custom-control custom-checkbox">
-                    <input id="suvParking" name="parking" class="custom-control-input" type="checkbox" value="Suv/Jeep">
+                <div class="form-check custom-control custom-radio">
+                    <input id="suvParking" name="parking" class="custom-control-input active" type="radio" value="Suv/Jeep"
+                    #if(lowercased(room.parking) == "suv/jeep"): checked #endif>
                     <label class="custom-control-label" for="suvParking">Suv/Jeep</label>
                 </div>
               </div>
@@ -106,15 +111,18 @@
                 <label for="parking">Water</label>
 
                 <div class="form-check custom-control custom-radio">
-                    <input id="plenty" name="water" class="custom-control-input" type="radio" value="Car">
+                    <input id="plenty" name="water" class="custom-control-input" type="radio" value="Car"
+                    #if(lowercased(room.water) == "plenty"): checked #endif>
                     <label class="custom-control-label" for="plenty">Plenty</label>
                 </div>
                 <div class="form-check custom-control custom-radio">
-                    <input id="justok" name="water" class="custom-control-input" type="radio" value="Bike">
+                    <input id="justok" name="water" class="custom-control-input" type="radio" value="Bike"
+                    #if(lowercased(room.water) == "just ok"): checked #endif>
                     <label class="custom-control-label" for="justok">Just ok</label>
                 </div>
                 <div class="form-check custom-control custom-radio">
-                    <input id="careful" name="water" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <input id="careful" name="water" class="custom-control-input" type="radio" value="Suv/Jeep"
+                    #if(lowercased(room.water) == "needs to be careful"): checked #endif>
                     <label class="custom-control-label" for="careful">Needs to be careful</label>
                 </div>
               </div>
@@ -124,19 +132,23 @@
                 <label for="parking">Preference</label>
 
                 <div class="form-check custom-control custom-radio">
-                    <input id="preferenceFamily" name="preference" class="custom-control-input" type="radio" value="Car">
+                    <input id="preferenceFamily" name="preference" class="custom-control-input" type="radio" value="Small Family"
+                     #if(lowercased(room.preference) == "small family"): checked #endif>
                     <label class="custom-control-label" for="preferenceFamily">Small Family</label>
                 </div>
                 <div class="form-check custom-control custom-radio">
-                    <input id="preferenceEmployee" name="preference" class="custom-control-input" type="radio" value="Bike">
+                    <input id="preferenceEmployee" name="preference" class="custom-control-input" type="radio" value="Employee"
+                    #if(lowercased(room.preference) == "employee"): checked #endif>
                     <label class="custom-control-label" for="preferenceEmployee">Employee</label>
                 </div>
                 <div class="form-check custom-control custom-radio">
-                    <input id="preferenceCouple" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <input id="preferenceCouple" name="preference" class="custom-control-input" type="radio" value="Couple"
+                    #if(lowercased(room.preference) == "couple"): checked #endif>
                     <label class="custom-control-label" for="preferenceCouple">Couple</label>
                 </div>
                  <div class="form-check custom-control custom-radio">
-                    <input id="preferenceStudent" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                    <input id="preferenceStudent" name="preference" class="custom-control-input" type="radio" value="Student"
+                    #if(lowercased(room.preference) == "student"): checked #endif>
                     <label class="custom-control-label" for="preferenceStudent">Student</label>
                 </div>
               </div>
@@ -149,7 +161,7 @@
 
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea type="text" value="#(room.description)" class="form-control" data-bv-field="address"
+                <textarea type="text" value="#(room.description)" class="form-control" data-bv-field="description"
                   id="description"  name="description" required="" placeholder="Description"></textarea>
               </div>
 

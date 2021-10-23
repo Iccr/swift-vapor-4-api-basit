@@ -61,6 +61,16 @@ class RoomStore {
         }
     }
     
+    func edit(req: Request) throws -> EventLoopFuture<Room> {
+        let id = req.parameters.get("id", as: Int.self)
+        guard let id = id  else { throw Abort(.notFound)}
+        return Room.query(on: req.db)
+            .filter(\.$id == id)
+            .with(\.$city)
+            .first()
+            .unwrap(or: Abort(.notFound))
+    }
+    
     func getWithId(req: Request) throws -> EventLoopFuture<Room.Output> {
         if let _id = req.parameters.get("id"), let id = Int(_id) {
             return Room.find(id, on: req.db).flatMapThrowing { room in

@@ -21,6 +21,7 @@ class RoomWebController: RouteCollection {
         secureRoutes.get("myrooms", use: showMyRooms)
         secureRoutes.get("profile", use: showProfile)
         secureRooms.get("new", use: new)
+        secureRooms.get("edit", ":id", use: edit)
         
     }
     
@@ -41,6 +42,22 @@ class RoomWebController: RouteCollection {
         })
     }
     
+    func edit(req: Request) throws -> EventLoopFuture<View> {
+        struct Context: Encodable {
+            var user: User
+            var room: Room?
+        }
+        let user  = try req.auth.require(User.self)
+        return try RoomStore().edit(req: req).flatMap { room in
+            return req.view.render("editRoom", Context(user: user, room: room))
+        }
+            
+        
+        
+        
+        
+    }
+    
     func showMyRooms(req: Request) throws -> EventLoopFuture<View> {
         let query = try req.query.decode(Room.Querry.self)
         let user = req.auth.get(User.self)
@@ -59,8 +76,8 @@ class RoomWebController: RouteCollection {
         let user = try req.auth.require(User.self)
         struct Context: Encodable {
             var user: User
+            var room: Room?
         }
-        
         return req.view.render("addRoom", Context(user: user))
         
     }
