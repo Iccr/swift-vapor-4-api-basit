@@ -16,7 +16,7 @@
             <tbody>
               
                 #for(item in items):
-                    #extend("room")
+                    #extend("partials/room")
                 #endfor
             </tbody>
         </table>

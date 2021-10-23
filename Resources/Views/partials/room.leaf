@@ -40,6 +40,9 @@
                 #if(url == "myrooms"):
                   <input type="hidden" name="id" value="#(item.id)">
                   <button type="submit" class="btn btn-sm btn-danger order-4 ml-auto">delete</button>
+                  <div class="d-block text-5 text-white mb-0 mb-sm-2 mt-2 mr-2 mr-sm-0 order-1">
+                  <a type="button" class="btn btn-sm btn-primary order-4 ml-auto" href="/rooms/edit/#(item.id)">edit</a>
+                  </div>
                 </a>
               #else:
                 <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank"

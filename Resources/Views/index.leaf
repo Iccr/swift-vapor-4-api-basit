@@ -382,7 +382,7 @@
               ============================================= -->
               <div class="car-list">
                 #for(item in items):
-                    #extend("room")
+                    #extend("partials/room")
                 #endfor
               </div><!-- List Item end -->
               
