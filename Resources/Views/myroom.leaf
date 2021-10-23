@@ -14,21 +14,7 @@
     <div class="table-responsive-lg">
         <table class="table table-hover border">
             <tbody>
-                <tr>
-                    <td class="text-center align-middle"><img class="border p-1 rounded bg-light"
-                            src="images/brands/operator/vodafone.jpg" alt=""></td>
-                    <td class="text-center align-middle">9898989898</td>
-                    <td class="text-center align-middle">Vodafone</td>
-                    <td class="align-middle">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-sm btn-outline-primary shadow-none text-nowrap"
-                                type="submit">Recharge
-                                Now</button>
-                            <button class="btn btn-sm btn-outline-secondary shadow-none ml-1" type="submit"
-                                data-toggle="tooltip" data-original-title="Edit"><i class="fas fa-edit"></i></button>
-                        </div>
-                    </td>
-                </tr>
+              
                 #for(item in items):
                     #extend("room")
                 #endfor

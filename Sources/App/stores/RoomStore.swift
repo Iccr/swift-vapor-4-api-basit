@@ -22,7 +22,17 @@ class RoomStore {
             }
     }
     
-    func create(req: Request, room: Room, input: Room.Entity, user: User ) throws ->  EventLoopFuture<Room.Output> {
+    func create(req: Request) throws ->  EventLoopFuture<Room.Output> {
+        req.logger.log(level: .critical, "creating rooms")
+        req.logger.log(level: .critical, "looking for authenticated user")
+        let user: User = try req.auth.require()
+        req.logger.log(level: .critical, "found user: \(user)")
+        req.logger.log(level: .critical, "decoding room from post body")
+        let room = try req.content.decode(Room.self)
+        req.logger.log(level: .critical, "decoded room: \(room)")
+        req.logger.log(level: .critical, "decoding  Room.Entity as input")
+        let input = try req.content.decode(Room.Entity.self)
+        req.logger.log(level: .critical, "decoded  input: \(input)")
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
         
         return input.images.map { file -> EventLoopFuture<String> in

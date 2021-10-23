@@ -14,6 +14,7 @@ class RoomWebController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let rooms = routes.grouped("rooms")
         rooms.get(use: index)
+        rooms.post( use: create)
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureRooms.post("destroy", use: destroy)
         let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
@@ -32,6 +33,12 @@ class RoomWebController: RouteCollection {
                 Room.getContext(baseUrl: req.baseUrl, page: page, query: query, user: user)
             )
         }
+    }
+    
+    func create(req: Request) throws -> EventLoopFuture<Response> {
+        try RoomStore().create(req: req).map({ room in
+            req.redirect(to: "/myRooms")
+        })
     }
     
     func showMyRooms(req: Request) throws -> EventLoopFuture<View> {

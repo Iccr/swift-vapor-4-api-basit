@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-lg-8">
             <h4 class="mb-4">Property Information</h4>
-            <form id="personalInformation" method="post">
+            <form id="addRoom" action="/rooms" method="post" enctype="multipart/form-data">
              
               <input type="hidden" name="userId" value="#(user.id)">
               <div class="form-group">
@@ -77,8 +77,8 @@
               </div>
 
               <div class="form-group">
-                <label for="kitchen">City</label>
-                <select class="custom-select" id="kitchen" name="kitchen">
+                <label for="city">City</label>
+                <select class="custom-select" id="city" name="city_id">
                   <option value=""> --- Please Select --- </option>
                   <option value="1">Kathmandu</option>
                   <option value="2">Pokhara</option>
@@ -142,15 +142,15 @@
               </div>
 
               <div class="form-group">
-                <label for="address">Images</label>
-                <input type="file" multiple class="form-control" data-bv-field="address"
-                  id="address"  name="address" required="" placeholder="Description">
+                <label for="images">Images</label>
+                <input type="file" multiple class="form-control" 
+                  id="images"  name="images[]" required="" placeholder="Description">
               </div>
 
               <div class="form-group">
-                <label for="address">Description</label>
+                <label for="description">Description</label>
                 <textarea type="text" value="#(room.description)" class="form-control" data-bv-field="address"
-                  id="address"  name="address" required="" placeholder="Description"></textarea>
+                  id="description"  name="description" required="" placeholder="Description"></textarea>
               </div>
 
               <button class="btn btn-primary" type="submit">Add Now</button>
