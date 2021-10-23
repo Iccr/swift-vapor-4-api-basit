@@ -65,6 +65,7 @@ final class City : Codable, Model, Content {
         var id: Int?
         var name : String?
         var image : String?
+        var count: Int?
         var description : String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -77,7 +78,7 @@ final class City : Codable, Model, Content {
 extension City {
     func responseFrom(baseUrl: String) ->  City.Output {
         let city = self
-        return .init(id: city.id , name: city.name, image: baseUrl + (city.imageUrl ?? ""), description: city.description)
+        return .init(id: city.id , name: city.name, image: baseUrl + (city.imageUrl ?? ""), count: city.$rooms.value?.count, description: city.description)
     }
 }
 

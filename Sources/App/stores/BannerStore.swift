@@ -18,7 +18,9 @@ class BannerStore {
 
 class CityStore {
     func getAllCity(req: Request) throws -> EventLoopFuture<[City.Output]> {
-        return City.query(on: req.db).all().mapEach { City -> City.Output in
+        
+        return City.query(on: req.db).with(\.$rooms).all().mapEach { City -> City.Output in
+            
             return City
                 .responseFrom(baseUrl: req.baseUrl)
         }
