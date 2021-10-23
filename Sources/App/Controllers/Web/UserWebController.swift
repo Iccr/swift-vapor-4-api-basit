@@ -13,8 +13,7 @@ class UserWebController: RouteCollection {
         let users = routes.grouped("users")
         let secureUser =  users.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureUser.post(":id", use: update)
-        let secureRoutes =  routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        secureRoutes.get("profile", use: showProfile)
+        
         
     }
     
@@ -32,10 +31,7 @@ class UserWebController: RouteCollection {
         
     }
     
-    func showProfile(req: Request) -> EventLoopFuture<View> {
-        let user = req.auth.get(User.self)
-        return  req.view.render("personalInformation", ["user": user])
-    }
+    
     
    
 }

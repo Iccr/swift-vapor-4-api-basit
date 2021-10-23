@@ -37,7 +37,7 @@
 
               <div class="text-black-50 mb-0 mb-sm-2 order-3 d-none d-sm-block">per month</div>
               <form action= "/rooms/destroy" method="post" >
-                #if(isMyRoom):
+                #if(url == "myrooms"):
                   <input type="hidden" name="id" value="#(item.id)">
                   <button type="submit" class="btn btn-sm btn-danger order-4 ml-auto">delete</button>
                 </a>

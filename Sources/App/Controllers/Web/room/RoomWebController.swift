@@ -21,6 +21,8 @@ class RoomWebController: RouteCollection {
         let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         secureRoutes.get("myrooms", use: showMyRooms)
         
+        secureRoutes.get("profile", use: showProfile)
+        
     }
     
     func index(req: Request) throws -> EventLoopFuture<View> {
@@ -40,13 +42,23 @@ class RoomWebController: RouteCollection {
         return RoomStore().getAllRooms(query, req: req).flatMap { page in
             struct Context: Encodable {
                 var items: [Room.Output]
-                var isMyRoom: Bool = true
+                var url = "myrooms"
             }
             return req.view.render("myroom", Context(items: page.items))
             
         }
     }
     
+    func showProfile(req: Request) -> EventLoopFuture<View> {
+        let user = req.auth.get(User.self)
+        struct Context: Encodable {
+            var user: User?
+            var url = "profile"
+        }
+        return  req.view.render("personalInformation", Context(user: user))
+    }
+    
+
     func destroy(req: Request) throws -> EventLoopFuture<Response> {
         
         return try RoomStore().delete(req: req).map { deleted in
