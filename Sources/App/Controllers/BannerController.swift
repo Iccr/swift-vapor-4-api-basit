@@ -16,9 +16,8 @@ struct BannerController: RouteCollection {
     }
     
     func index(req: Request) throws -> EventLoopFuture<CommonResponse<[Banner.Output]>> {
-        return Banner.query(on: req.db).all().mapEach { Banner -> Banner.Output in
-            return Banner.responseFrom(baseUrl: req.baseUrl)
-        }.map(CommonResponse.init)
+       return  try BannerStore().getAllBanner(req: req).map (CommonResponse.init)
+        
     }
     
    

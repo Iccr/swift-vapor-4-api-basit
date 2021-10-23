@@ -465,7 +465,7 @@ final class Room: Codable, Model, Content {
             return .init(
                 coverImage: coverImage,
                 nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "",
-                city: $city.value?.response(baseUrl: baseUrl),
+                city: $city.value?.responseFrom(baseUrl: baseUrl),
                 user: $user.value?.getBasicProfile() ,
                 id: r.id,
                 price: r.price,

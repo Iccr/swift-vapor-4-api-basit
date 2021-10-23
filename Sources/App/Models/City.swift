@@ -75,7 +75,7 @@ final class City : Codable, Model, Content {
 }
 
 extension City {
-    func response(baseUrl: String) -> City.Output {
+    func responseFrom(baseUrl: String) ->  City.Output {
         let city = self
         return .init(id: city.id , name: city.name, image: baseUrl + (city.imageUrl ?? ""), description: city.description)
     }

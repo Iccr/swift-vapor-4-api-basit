@@ -17,9 +17,7 @@ struct CityController: RouteCollection {
     }
     
     func index(req: Request) throws -> EventLoopFuture<CommonResponse<[City.Output]>> {
-        return City.query(on: req.db).all().mapEach { city -> City.Output in
-            return city.response(baseUrl: req.baseUrl)
-        }.map(CommonResponse.init)
+        try CityStore().getAllCity(req: req).map(CommonResponse.init)
     }
     
    
