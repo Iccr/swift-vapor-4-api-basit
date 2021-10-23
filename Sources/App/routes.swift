@@ -60,6 +60,7 @@ func routes(_ app: Application) throws {
     try app.register(collection: LoginWebController())
     try app.register(collection: RoomWebController())
     try app.register(collection: UserWebController())
+
     try app.register(collection: AppInfoController())
     app.get { req in
         return try RoomWebController().index(req: req)
