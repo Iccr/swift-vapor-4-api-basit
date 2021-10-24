@@ -13,15 +13,17 @@ class RoomWebController: RouteCollection {
    
     func boot(routes: RoutesBuilder) throws {
         let rooms = routes.grouped("rooms")
-        rooms.get(use: index)
-        rooms.post( use: create)
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        secureRooms.post("destroy", use: destroy)
         let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        secureRoutes.get("myrooms", use: showMyRooms)
-        secureRoutes.get("profile", use: showProfile)
-        secureRooms.get("new", use: new)
-        secureRooms.get("edit", ":id", use: edit)
+        
+        rooms.get(use: index) // /rooms
+        rooms.post( use: create)
+        secureRooms.post("destroy", use: destroy) // /rooms/destroy
+        secureRoutes.get("myrooms", use: showMyRooms) // /myrooms
+        secureRoutes.get("profile", use: showProfile) // /profile
+        secureRooms.get("new", use: new) // rooms/new
+        secureRooms.get("edit", ":id", use: edit) // rooms/edit/1
+        secureRooms.post(":id", use: update) // rooms/edit/1
         
     }
     
@@ -50,12 +52,15 @@ class RoomWebController: RouteCollection {
         let user  = try req.auth.require(User.self)
         return try RoomStore().edit(req: req).flatMap { room in
             return req.view.render("editRoom", Context(user: user, room: room))
-        }
-            
-        
-        
-        
-        
+        }  
+    }
+    
+    
+    func update(req: Request) throws -> EventLoopFuture<Response> {
+        let input = try req.content.decode(Room.Update.self)
+        return try RoomStore().update(req: req, input: input).map({ room in
+            req.redirect(to: "/myRooms")
+        })
     }
     
     func showMyRooms(req: Request) throws -> EventLoopFuture<View> {

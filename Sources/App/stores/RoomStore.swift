@@ -91,7 +91,8 @@ class RoomStore {
         return Room.find(input.id, on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap { room in
-                return room.get(update: input).update(on: req.db).map {
+                return room.get(update: input)
+                        .update(on: req.db).map {
                     room.responseFrom(baseUrl: req.baseUrl)
                 }
             }
