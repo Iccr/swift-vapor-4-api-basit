@@ -1,0 +1,9 @@
+<!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+   #extend("contentHeader")
+
+    <!-- Main content -->
+   #extend("mainContent")
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
