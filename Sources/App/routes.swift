@@ -52,7 +52,9 @@ func routes(_ app: Application) throws {
     api.get("banners") { req in
         return try BannerController().index(req: req)
     }
-    
+    app.get("admin") { req in
+        return req.view.render("admin/index")
+    }
     
 
     // web
