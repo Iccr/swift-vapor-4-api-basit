@@ -58,12 +58,18 @@ func routes(_ app: Application) throws {
     
 
     // web
- 
     try app.register(collection: LoginWebController())
     try app.register(collection: RoomWebController())
     try app.register(collection: UserWebController())
-
     try app.register(collection: AppInfoController())
+    
+    // admin
+    
+    try app.register(collection: AdminController())
+        
+        
+        
+        
     app.get { req in
         return try RoomWebController().index(req: req)
     }
