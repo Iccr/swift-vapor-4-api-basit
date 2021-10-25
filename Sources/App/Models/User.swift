@@ -210,4 +210,8 @@ extension User {
     func hasRole(_ role: Role) -> Bool {
         return self.role == role
     }
+    
+    var isAdmin: Bool {
+        return self.role == .admin
+    }
 }

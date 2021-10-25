@@ -16,6 +16,7 @@ extension Room {
         var tags: String
         var user: User?
         var pageModel: PageModel
+        var isAdmin: Bool
     }
     
     static func getContext(baseUrl: String,
@@ -50,7 +51,7 @@ extension Room {
              loops: maxPage == 0 ? [] : Array(1...maxPage),
              per: page.metadata.per,
              page: page.metadata.page
-         )
+         ), isAdmin: user?.isAdmin ?? false
         )
     }
     
