@@ -61,7 +61,11 @@ class AdminController: RouteCollection {
     }
     
     func city(req: Request) throws -> EventLoopFuture<View> {
-        return req.view.render("admin/pages/city")
-        
+        City.query(on: req.db).all().flatMap { cities in
+            struct Context: Encodable {
+                var items: [City]
+            }
+            return req.view.render("admin/pages/city", Context(items: cities))
+        }
     }
 }
