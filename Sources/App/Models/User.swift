@@ -37,10 +37,13 @@ final class User : Model, Content {
     var rooms: [Room]
     
     @Field(key: "email")
-    var email : String?
+    var email : String
     
     @Field(key: "imageurl")
     var image : String?
+    
+    @Field(key: "password")
+    var password : String
     
     @Field(key: "name")
     var name : String?
@@ -53,6 +56,9 @@ final class User : Model, Content {
     
     @Field(key: "fcm")
     var fcm : String?
+    
+    @Enum(key: "role")
+    var role: Role
     
     var authToken: String?
       
@@ -194,3 +200,28 @@ struct UserAuthenticator: BearerAuthenticator {
    }
 }
 
+
+
+extension User: ModelCredentialsAuthenticatable {
+    static var passwordHashKey: KeyPath<User, Field<String>> {
+        \User.$password
+    }
+    
+    static let usernameKey = \User.$email
+//    static let passwordHashKey = \User.$password
+
+    func verify(password: String) throws -> Bool {
+        try Bcrypt.verify(password, created: self.password ?? "blabla")
+    }
+}
+
+
+extension User {
+    enum Role: String, Codable {
+        case admin, normalUser
+    }
+    
+    func hasRole(_ role: Role) -> Bool {
+        return self.role == role
+    }
+}

@@ -1,28 +1,47 @@
 import Fluent
 
 extension User {
-struct CreateUserMigration: Migration {
-    func prepare(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("users")
-            .field("id", .int, .identifier(auto: true))
-            .field("email", .string)
-            .field("imageurl", .string)
-            .field("name", .string)
-            .field("token", .string)
-            .field("appleUserIdentifier", .string)
-            .field("fcm", .string)
-//            .field("user_id", .int, .required)
-            .field("provider", .string, .required)
-            .field("created_at", .datetime)
-            .field("updated_at", .datetime)
-            .create()
+    struct CreateUserMigration: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("users")
+                .field("id", .int, .identifier(auto: true))
+                .field("email", .string)
+                .field("imageurl", .string)
+                .field("name", .string)
+                .field("token", .string)
+                .field("appleUserIdentifier", .string)
+                .field("fcm", .string)
+                //            .field("user_id", .int, .required)
+                .field("provider", .string, .required)
+                .field("created_at", .datetime)
+                .field("updated_at", .datetime)
+                .create()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("users").delete()
+        }
     }
+    
+    struct AddRoleToUser: Migration {
+      
+        
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("users")
+                .field("role", .string, .sql(raw: User.Role.normalUser.rawValue))
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("users")
+                .deleteField("role")
+                .update()
+        }
+    }
+}
 
-    func revert(on database: Database) -> EventLoopFuture<Void> {
-        return database.schema("users").delete()
-    }
-}
-}
+
+
 
 
 

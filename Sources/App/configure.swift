@@ -51,6 +51,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.CreateRoomMigration())
     app.migrations.add(TokenMigration())
     app.migrations.add(Room.AddCityNameToRoomMigration())
+    app.migrations.add(User.AddRoleToUser())
     
     seed(app.db)
     try app.autoMigrate().wait()
