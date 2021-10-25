@@ -11,16 +11,12 @@ import Vapor
 class AdminController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let route = routes.grouped("admin")
+        let secure = route.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         
+        secure.get("dashboard", use: dashboard)
         route.get("login", use: new)
         route.post("login", use: login)
         
-        var secure = route.grouped(User.credentialsAuthenticator())
-        
-        secure = secure.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        
-        secure.get("dashboard", use: dashboard)
-
 
     }
     

@@ -42,8 +42,7 @@ final class User : Model, Content {
     @Field(key: "imageurl")
     var image : String?
     
-    @Field(key: "password")
-    var password : String
+   
     
     @Field(key: "name")
     var name : String?
@@ -202,23 +201,10 @@ struct UserAuthenticator: BearerAuthenticator {
 
 
 
-extension User: ModelCredentialsAuthenticatable {
-    static var passwordHashKey: KeyPath<User, Field<String>> {
-        \User.$password
-    }
-    
-    static let usernameKey = \User.$email
-//    static let passwordHashKey = \User.$password
-
-    func verify(password: String) throws -> Bool {
-        try Bcrypt.verify(password, created: self.password ?? "blabla")
-    }
-}
-
-
 extension User {
     enum Role: String, Codable {
-        case admin, normalUser
+        case admin = "1"
+        case normalUser = "2"
     }
     
     func hasRole(_ role: Role) -> Bool {

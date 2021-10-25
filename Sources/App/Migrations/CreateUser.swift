@@ -28,7 +28,7 @@ extension User {
         
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             return database.schema("users")
-                .field("role", .string, .sql(raw: User.Role.normalUser.rawValue))
+                .field("role", .string ,.sql(.default(User.Role.normalUser.rawValue)))
                 .update()
         }
         
