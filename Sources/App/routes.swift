@@ -53,7 +53,7 @@ func routes(_ app: Application) throws {
         return try BannerController().index(req: req)
     }
     app.get("admin") { req in
-        return req.view.render("admin/index")
+        return req.view.render("admin/adminMaster")
     }
     
 
