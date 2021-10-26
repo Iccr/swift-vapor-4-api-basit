@@ -48,10 +48,11 @@ class RoomWebController: RouteCollection {
         struct Context: Encodable {
             var user: User
             var room: Room?
+            var images: [String] = []
         }
         let user  = try req.auth.require(User.self)
         return try RoomStore().edit(req: req).flatMap { room in
-            return req.view.render("editRoom", Context(user: user, room: room))
+            return req.view.render("editRoom", Context(user: user, room: room, images: room.vimages.map({req.baseUrl+"/uploads/\($0)"}) ))
         }  
     }
     
@@ -82,6 +83,7 @@ class RoomWebController: RouteCollection {
         struct Context: Encodable {
             var user: User
             var room: Room?
+            var images: [String] = []
         }
         return req.view.render("addRoom", Context(user: user))
         
