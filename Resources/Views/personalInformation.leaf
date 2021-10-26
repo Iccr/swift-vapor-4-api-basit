@@ -9,9 +9,12 @@
                     <input type="hidden" name="id" value="#(user.id)">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" value="#(user.name)" name="name" class="form-control" data-bv-field="name" id="name"
-                             placeholder="Name">
-                    </div>
+                        <div class="input-group newsletter">
+                            <input class="form-control" placeholder="Name" value="#(user.name)" name="name" id="newsletterEmail" type="text">
+                            <span class="input-group-append">
+                                <a class="nav-link bg-danger text-white" href="/logout">Sign Out</a>
+                            </span> </div>
+                         </div>
 
                     <div class="form-group">
                         <label for="emailID">Email ID</label>
