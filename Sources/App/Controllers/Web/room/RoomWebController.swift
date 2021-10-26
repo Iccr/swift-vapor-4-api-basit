@@ -15,7 +15,6 @@ class RoomWebController: RouteCollection {
         let rooms = routes.grouped("rooms")
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
         let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        
         rooms.get(use: index) // /rooms
         rooms.post( use: create)
         secureRooms.post("destroy", use: destroy) // /rooms/destroy
@@ -48,11 +47,10 @@ class RoomWebController: RouteCollection {
         struct Context: Encodable {
             var user: User
             var room: Room?
-            var images: [String] = []
         }
         let user  = try req.auth.require(User.self)
         return try RoomStore().edit(req: req).flatMap { room in
-            return req.view.render("editRoom", Context(user: user, room: room, images: room.vimages.map({req.baseUrl+"/uploads/\($0)"}) ))
+            return req.view.render("editRoom", Context(user: user, room: room))
         }  
     }
     
@@ -83,7 +81,6 @@ class RoomWebController: RouteCollection {
         struct Context: Encodable {
             var user: User
             var room: Room?
-            var images: [String] = []
         }
         return req.view.render("addRoom", Context(user: user))
         
