@@ -10,7 +10,6 @@ import Vapor
 import Fluent
 
 class RoomWebController: RouteCollection {
-   
     func boot(routes: RoutesBuilder) throws {
         let rooms = routes.grouped("rooms")
         let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
@@ -23,7 +22,6 @@ class RoomWebController: RouteCollection {
         secureRooms.get("new", use: new) // rooms/new
         secureRooms.get("edit", ":id", use: edit) // rooms/edit/1
         secureRooms.post(":id", use: update) // rooms/edit/1
-        
     }
     
     func index(req: Request) throws -> EventLoopFuture<View> {
@@ -47,13 +45,15 @@ class RoomWebController: RouteCollection {
         struct Context: Encodable {
             var user: User
             var room: Room?
+            var images: [String]
         }
         let user  = try req.auth.require(User.self)
         return try RoomStore().edit(req: req).flatMap { room in
-            return req.view.render("editRoom", Context(user: user, room: room))
+            return req.view.render("editRoom", Context(user: user, room: room, images: room.vimages.map({
+                req.baseUrl + "/uploads/" + $0
+            })))
         }  
     }
-    
     
     func update(req: Request) throws -> EventLoopFuture<Response> {
         let input = try req.content.decode(Room.Update.self)
@@ -72,10 +72,9 @@ class RoomWebController: RouteCollection {
                 var url = "myrooms"
             }
             return req.view.render("myroom", Context(items: page.items, user: user))
-            
         }
     }
-    
+
     func new(req: Request) throws -> EventLoopFuture<View> {
         let user = try req.auth.require(User.self)
         struct Context: Encodable {
@@ -83,7 +82,6 @@ class RoomWebController: RouteCollection {
             var room: Room?
         }
         return req.view.render("addRoom", Context(user: user))
-        
     }
     
     func showProfile(req: Request) -> EventLoopFuture<View> {
@@ -95,22 +93,17 @@ class RoomWebController: RouteCollection {
         return  req.view.render("personalInformation", Context(user: user))
     }
     
-
     func destroy(req: Request) throws -> EventLoopFuture<Response> {
-        
         return try RoomStore().delete(req: req).map { deleted in
             req.redirect(to: "/myrooms")
         }
     }
-    
-    
 }
 
 
 
 extension Date {
     func timeAgoDisplay() -> String {
-        
         let calendar = Calendar.current
         let minuteAgo = calendar.date(byAdding: .minute, value: -1, to: Date())!
         let hourAgo = calendar.date(byAdding: .hour, value: -1, to: Date())!
