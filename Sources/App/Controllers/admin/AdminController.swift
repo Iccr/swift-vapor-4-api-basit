@@ -8,18 +8,7 @@
 import Foundation
 import Vapor
 
-struct EnsureAdminUserMiddleware: Middleware {
 
-   func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
-
-    guard let user = request.auth.get(User.self), user.role == .admin else {
-        return request.eventLoop.future(error:  Abort.redirect(to: "/"))
-    }
-
-    return next.respond(to: request)
-    }
-
-}
 
 class AdminController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
@@ -31,7 +20,9 @@ class AdminController: RouteCollection {
         secure.get("dashboard", use: dashboard)
         secure.get("rentals", use: rentals)
         secure.get("city", use: city)
+        secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
+        secure.post("city", "delete", use: cityDelete)
     }
     
     func new(req: Request) throws -> EventLoopFuture<View> {
@@ -69,4 +60,30 @@ class AdminController: RouteCollection {
     func cityNew(req: Request) throws -> EventLoopFuture<View> {
         return req.view.render("admin/pages/cityForm")
     }
+    
+    func cityCreate(req: Request) throws -> EventLoopFuture<Response> {
+        try CityStore().create(req: req).map { city in
+            return req.redirect(to: "/admin/city")
+        }
+    }
+    
+  
+    func cityDelete(req: Request) throws -> EventLoopFuture<Response> {
+        try CityStore().delete(req: req).map { city in
+            return req.redirect(to: "/admin/city")
+        }
+    }
+}
+
+struct EnsureAdminUserMiddleware: Middleware {
+
+   func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
+
+    guard let user = request.auth.get(User.self), user.role == .admin else {
+        return request.eventLoop.future(error:  Abort.redirect(to: "/"))
+    }
+
+    return next.respond(to: request)
+    }
+
 }

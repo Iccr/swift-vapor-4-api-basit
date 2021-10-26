@@ -75,8 +75,15 @@ final class City : Codable, Model, Content {
         
         
     }
+    
+    struct DeleteInput: Content {
+        var id: Int
+    }
+    
 
 }
+
+
 
 extension City {
     func responseFrom(baseUrl: String) ->  City.Output {
