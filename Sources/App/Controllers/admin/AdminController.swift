@@ -31,10 +31,7 @@ class AdminController: RouteCollection {
         secure.get("dashboard", use: dashboard)
         secure.get("rentals", use: rentals)
         secure.get("city", use: city)
-       
-        
-        
-
+        secure.get("city", "new", use: cityNew)
     }
     
     func new(req: Request) throws -> EventLoopFuture<View> {
@@ -67,5 +64,9 @@ class AdminController: RouteCollection {
             }
             return req.view.render("admin/pages/city", Context(items: cities))
         }
+    }
+    
+    func cityNew(req: Request) throws -> EventLoopFuture<View> {
+        return req.view.render("admin/pages/cityForm")
     }
 }
