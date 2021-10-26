@@ -25,10 +25,9 @@
                 </div>
                 #endfor
               </div>
-              <!-- <p class="reviews mb-0">
-                <span class="reviews-score px-2 py-1 rounded font-weight-600 text-light">4.7</span> <span
-                  class="font-weight-600">Excellent</span> <a class="text-black-50" href="#">(188 reviews)</a>
-              </p> -->
+              <p class="reviews mb-0">
+                 <a class="text-black-50" href="#">#(item.timesAgo)</a>
+              </p>
             </div>
             <div class="col-sm-3 text-right d-flex d-sm-block align-items-center">
               <div class="text-success text-3 mb-0 mb-sm-1 order-2 ">&nbsp;</div>
@@ -47,7 +46,7 @@
                 </a>
               #else:
                 <a href="http://maps.google.com/maps?z=12&t=m&q=loc:#(item.lat)+#(item.long)" target="_blank"
-                class=" link order-4 ml-auto">Show in Map</a>
+                class=" order-4 ml-auto">Show in Map</a>
               #endif
               </form>
               

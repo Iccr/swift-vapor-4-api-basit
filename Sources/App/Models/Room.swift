@@ -214,6 +214,7 @@ final class Room: Codable, Model, Content {
         var createdAt: Date?
         var updatedAt: Date?
         var features: [String]
+        var timesAgo: String
         
         
     }
@@ -489,7 +490,8 @@ final class Room: Codable, Model, Content {
                 preference: r.preference,
                 createdAt: r.createdAt,
                 updatedAt: r.updatedAt,
-                features: r.getFeautres()
+                features: r.getFeautres(),
+                timesAgo: r.createdAt?.timeAgoDisplay() ?? ""
             )
         }
         
