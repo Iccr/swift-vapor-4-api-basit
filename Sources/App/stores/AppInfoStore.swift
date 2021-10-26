@@ -11,7 +11,7 @@ import Vapor
 class AppInfoStore {
     func getAppInfo(req: Request) throws -> EventLoopFuture<AppInfo> {
         let banners = try BannerStore().getAllBanner(req: req)
-        let cities = try CityStore().getAllCity(req: req)
+        let cities = try CityStore().getAllCity(req: req).mapEach({$0.responseFrom(baseUrl: req.baseUrl)})
         return banners.and(cities).map(AppInfo.init)
         
     }

@@ -24,8 +24,6 @@ extension User {
     }
     
     struct AddRoleToUser: Migration {
-      
-        
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             return database.schema("users")
                 .field("role", .string ,.sql(.default(User.Role.normalUser.rawValue)))
@@ -35,6 +33,20 @@ extension User {
         func revert(on database: Database) -> EventLoopFuture<Void> {
             return database.schema("users")
                 .deleteField("role")
+                .update()
+        }
+    }
+    
+    struct AddStatusToCity: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("cities")
+                .field("status", .bool, .sql(.default(false)))
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            return database.schema("cities")
+                .deleteField("status")
                 .update()
         }
     }

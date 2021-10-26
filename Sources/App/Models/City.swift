@@ -20,6 +20,9 @@ final class City : Codable, Model, Content {
 
     @Field(key: "name")
     var name : String?
+    
+    @Field(key: "status")
+    var status : Bool
 
     @Field(key: "image_url")
     var imageUrl : String?

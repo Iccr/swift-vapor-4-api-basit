@@ -17,7 +17,8 @@ struct CityController: RouteCollection {
     }
     
     func index(req: Request) throws -> EventLoopFuture<CommonResponse<[City.Output]>> {
-        try CityStore().getAllCity(req: req).map(CommonResponse.init)
+        return try CityStore().getAllCity(req: req).mapEach {$0.responseFrom(baseUrl: req.baseUrl)}.map( CommonResponse.init)
+//        return CommonResponse.init(data: cities)
     }
     
    
