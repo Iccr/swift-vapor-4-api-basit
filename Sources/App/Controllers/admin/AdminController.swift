@@ -23,6 +23,8 @@ class AdminController: RouteCollection {
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
         secure.post("city", "delete", use: cityDelete)
+        secure.get("city", "edit", ":id", use: cityEdit)
+        
     }
     
     func new(req: Request) throws -> EventLoopFuture<View> {
@@ -58,12 +60,25 @@ class AdminController: RouteCollection {
     }
     
     func cityNew(req: Request) throws -> EventLoopFuture<View> {
-        return req.view.render("admin/pages/cityForm")
+        struct Context: Encodable {
+            var i: City?
+            var edit = false
+        }
+        return req.view.render("admin/pages/cityForm", Context())
     }
     
     func cityCreate(req: Request) throws -> EventLoopFuture<Response> {
-        try CityStore().create(req: req).map { city in
-            return req.redirect(to: "/admin/city")
+        
+        if let _ = (try? req.content.decode(City.self))?.id {
+            // update if id is present
+            return try CityStore().update(req: req).map { city in
+                req.redirect(to: "/admin/city")
+            }
+        }else {
+            // else create
+            return try CityStore().create(req: req).map { city in
+                return req.redirect(to: "/admin/city")
+            }
         }
     }
     
@@ -72,6 +87,19 @@ class AdminController: RouteCollection {
         try CityStore().delete(req: req).map { city in
             return req.redirect(to: "/admin/city")
         }
+    }
+    
+    func cityEdit(req: Request) throws -> EventLoopFuture<View> {
+        let id = req.parameters.get("id", as: Int.self)
+        struct Context: Encodable {
+            var city: City?
+            var edit = true
+        }
+        return try CityStore().find(id, req: req)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { city in
+                req.view.render("/admin/pages/cityForm", Context(city: city))
+            }
     }
 }
 

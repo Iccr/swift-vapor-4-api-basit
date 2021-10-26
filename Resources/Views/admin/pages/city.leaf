@@ -44,7 +44,7 @@
                         <td>
                         
                         <form action="/admin/city/delete" method="post">
-                          <a class="btn btn-info btn-sm" href="/categories/#(category.id)/edit">
+                          <a class="btn btn-info btn-sm" href="/admin/city/edit/#(item.id)">
                               <i class="fas fa-pencil-alt">
                               </i>
                               Edit

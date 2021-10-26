@@ -19,7 +19,7 @@ class BannerStore {
 
 class CityStore {
     func getAllCity(req: Request) throws -> EventLoopFuture<[City]> {
-        return City.query(on: req.db).with(\.$rooms).all()
+        return City.query(on: req.db).with(\.$rooms).sort(\.$createdAt, .ascending).all()
     }
     
     func create(req: Request) throws -> EventLoopFuture<City> {
@@ -30,11 +30,29 @@ class CityStore {
         }
     }
     
-    func delete(req: Request) throws -> EventLoopFuture<Voidi> {
+    func delete(req: Request) throws -> EventLoopFuture<Void> {
         let toDelete = try req.content.decode(City.DeleteInput.self)
         return City.query(on: req.db)
             .filter(\.$id == toDelete.id)
             .delete()
+    }
+    
+    func update(req: Request) throws -> EventLoopFuture<City> {
+        let toUpdate = try req.content.decode(City.self)
+        return try self.find(toUpdate.id, req: req)
+            .unwrap(or: Abort(.badRequest))
+            .flatMap { city in
+                city.name = toUpdate.name
+                city.imageUrl = toUpdate.imageUrl
+                city.description = toUpdate.description
+                return city.update(on: req.db).map {
+                    return city
+                }
+            }
+    }
+    
+    func find(_ id: Int?, req: Request) throws -> EventLoopFuture<City?> {
+        return City.find(id, on: req.db)
     }
 }
 
