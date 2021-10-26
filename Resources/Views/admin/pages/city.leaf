@@ -14,8 +14,13 @@
           <div class="row">
             <div class="col-md-6">
               <div class="card">
-                <div class="card-header">
+                <div class="card-header text-right">
                   <h3 class="card-title">City</h3>
+                  <a class="btn btn-success btn-sm" href="/categories/#(category.id)/edit">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Add new
+                          </a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -34,7 +39,7 @@
                         <td>#(item.id)</td>
                         <td>#(item.name)</td>
                         <td>
-                            <img src="#(item.image)" alt="room image" width=100 height=60>
+                            <img src="#(item.imageUrl)" alt="room image" width=100 height=60>
                         </td>
                         <td>
                         <form action="/categories/delete" method="post">
