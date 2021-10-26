@@ -14,7 +14,6 @@
                   #(item.type)</span></h4>
                   #(item.address)
               <p class="car-features d-flex align-items-center mb-2 text-4">
-
                 <span data-toggle="tooltip" data-original-title="#(item.preference)"> <small>Preference:
                     #(item.preference)</small></span>
               </p>

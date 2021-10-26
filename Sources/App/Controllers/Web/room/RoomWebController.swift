@@ -134,3 +134,17 @@ extension Date {
         return "\(diff) weeks ago"
     }
 }
+
+
+
+class UrlMaker {
+    var req: Request
+    
+    init(req: Request) {
+        self.req = req
+    }
+    
+    func url() -> String {
+        return req.url.path
+    }
+}
