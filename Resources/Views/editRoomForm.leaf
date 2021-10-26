@@ -158,8 +158,8 @@
                  <img src="#(image)" alt="#(image)" width="100" height="100" style="object-fit: contain;">
                 #endfor
                 <label for="images">Images</label>
-                <input type="file" multiple class="form-control" 
-                  id="images"  name="images[]" required="" placeholder="Description">
+                <!-- <input type="file" multiple class="form-control" 
+                  id="images"  name="images[]" disabled required="" placeholder="Description"> -->
               </div>
 
               <div class="form-group">
