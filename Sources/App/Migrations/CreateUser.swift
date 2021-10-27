@@ -18,8 +18,7 @@ extension User {
                 // old db fields
                 .field("auth_token", .string)
                 .field("device_type", .string)
-                .field("device_id", .string)
-                .field("fcm_token", .string)
+                .field("device_id", .string)i
                 .field("fb_id", .string)
                 .field("g_id", .string)
                 // old db fields

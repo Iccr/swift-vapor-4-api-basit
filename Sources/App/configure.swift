@@ -20,20 +20,26 @@ public func configure(_ app: Application) throws {
 
     let jwtSecret = Environment.get("JWT_SECRET") ?? "blablaSecret"
     app.jwt.signers.use(.hs256(key: jwtSecret))
-    let hostname = Environment.get("DATABASE_HOSTNAME") ?? "localhost"
-    var port: Int = 5433
+    let hostname = Environment.get("DATABASE_HOSTNAME") ?? "127.0.0.1"
+//    var port: Int = 5433
+        var port: Int = 3306
     if let _p = Environment.get("DATABASE_PORT"), let _port = Int(_p) {
         port = _port
     }
-    let username = Environment.get("DATABASE_USERNAME") ?? "ccr"
-    let dbName = Environment.get("DATABASE_NAME") ?? "vfinder"
-    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "password"
+    let username = Environment.get("DATABASE_USERNAME") ?? "deploy"
+    let dbName = Environment.get("DATABASE_NAME") ?? "roomfinder"
+    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "P@ssword"
     
 //    app.middleware.use(app.sessions.middleware)
     
+    
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
-    app.databases.use(.mysql(configuration: .init(hostname: hostname, username: username, password: dbPassword)), as: .mysql)
+    print("\(username)@\(hostname):\(port)/\(dbName)")
+    app.databases.use(
+        .mysql(configuration: .init(
+                hostname: hostname, port: port, username: username, password: dbPassword, database: dbName, tlsConfiguration: .none)),
+        as: .mysql)
 //    app.databases.use(
 //        .postgres(
 //            hostname: hostname,
