@@ -47,7 +47,7 @@ class RoomStore {
                 
             }
         }.flatten(on: req.eventLoop).map { filenames in
-            room.vimages = filenames
+            room.vimages = filenames.joined(separator: ",")
         }.flatMap { _ in
             return City.query(on: req.db)
                 .filter(\.$id == input.city_id)
@@ -116,7 +116,8 @@ class RoomStore {
         return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
             .flatMap { room in
                 do {
-                    try room.vimages.forEach({ filename in
+                    let images = room.vimages.components(separatedBy: ",")
+                    try images.forEach({ filename in
                         let path = uploadPath + filename
                         let manager = FileManager.default
                         

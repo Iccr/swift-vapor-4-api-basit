@@ -26,8 +26,8 @@ final class Room: Codable, Model, Content {
     @Field(key: "price")
     var price : Double?
     
-    @Field(key: "vimages")
-    var vimages : [String]
+    @Field(key: "images")
+    var vimages : String
     
     
     //    @Field(key: "userId")
@@ -105,7 +105,7 @@ final class Room: Codable, Model, Content {
         self.id = id
         
         self.price = price
-        self.vimages = vimages
+        self.vimages = vimages.joined(separator: ",")
         self.cityName = cityName
         //        self.vimages = vimages ?? ["sadfasdf"]
         //        self.userId = userId
@@ -158,7 +158,7 @@ final class Room: Codable, Model, Content {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decodeIfPresent(Int.self, forKey: .id)
         price = try values.decodeIfPresent(Double.self, forKey: .price)
-        vimages = try values.decodeIfPresent(Array<String>.self, forKey: .vimages) ?? []
+        vimages = try values.decodeIfPresent(String.self, forKey: .vimages) ?? ""
         //        userId = try values.decodeIfPresent(Int.self, forKey: .userId)
         type = try values.decodeIfPresent(String.self, forKey: .type)
         noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
@@ -462,7 +462,8 @@ final class Room: Codable, Model, Content {
     extension Room {
         func responseFrom(baseUrl: String)-> Room.Output {
             let r = self
-            let coverImage: String = baseUrl + "/uploads/" + (r.vimages.first ?? "")
+            let images = r.vimages.components(separatedBy: ",")
+            let coverImage: String = baseUrl + "/uploads/" + (images.first ?? "")
             return .init(
                 coverImage: coverImage,
                 nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "",
@@ -470,7 +471,7 @@ final class Room: Codable, Model, Content {
                 user: $user.value?.getBasicProfile() ,
                 id: r.id,
                 price: r.price,
-                images: r.vimages.map {baseUrl + "/uploads/" + $0},
+                images: images.map {baseUrl + "/uploads/" + $0},
                 type: r.type,
                 noOfRooms: r.noOfRooms,
                 kitchen: r.kitchen,
