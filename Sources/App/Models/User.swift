@@ -24,9 +24,9 @@ final class User : Model, Content {
     var rooms: [Room]
     
     @Field(key: "email")
-    var email : String
+    var email : String?
     
-    @Field(key: "imageurl")
+    @Field(key: "image")
     var image : String?
     
    
@@ -82,11 +82,11 @@ final class User : Model, Content {
 
 
     
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: "createdAt", on: .create)
         var createdAt: Date?
 
 
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: "updatedAt", on: .update)
     var updatedAt: Date?
     
 

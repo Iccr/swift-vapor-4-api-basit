@@ -16,6 +16,7 @@ class RoomStore {
         return self.querries(query: query, params: searchQuery)
             .with(\.$city)
             .with(\.$user)
+            .sort(\.$createdAt, .descending)
             .paginate(for: req).map { page in
                 page.map { $0.responseFrom(baseUrl: req.baseUrl)
                 }

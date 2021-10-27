@@ -67,6 +67,8 @@ public func configure(_ app: Application) throws {
     app.migrations.add(User.AddRoleToUser())
     app.migrations.add(User.AddStatusToCity())
     app.migrations.add(Room.AddCityIdToRoomReference())
+    app.migrations.add(User.AddImageToUser())
+    
     
     
 

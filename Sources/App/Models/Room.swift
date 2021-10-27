@@ -39,7 +39,7 @@ final class Room: Codable, Model, Content {
     @Field(key: "city_name")
     var cityName : String?
     
-    @Field(key: "no_of_rooms")
+    @Field(key: "noOfRooms")
     var noOfRooms : Int?
     
     @Field(key: "kitchen")
@@ -88,10 +88,10 @@ final class Room: Codable, Model, Content {
     var preference : String?
     
     
-    @Timestamp(key: "created_at", on: .create)
+    @Timestamp(key: "createdAt", on: .create)
     var createdAt: Date?
     
-    @Timestamp(key: "updated_at", on: .update)
+    @Timestamp(key: "updatedAt", on: .update)
     var updatedAt: Date?
     
     init(id: Int? = nil, price: Double, vimages: [String],
@@ -463,15 +463,15 @@ final class Room: Codable, Model, Content {
         func responseFrom(baseUrl: String)-> Room.Output {
             let r = self
             let images = r.vimages.components(separatedBy: ",")
-            let coverImage: String = baseUrl + "/uploads/" + (images.first ?? "")
-            return .init(
+            let coverImage: String = baseUrl + "/uploads/" + (images.first ?? "") + ".jpg"
+            return  Room.Output.init(
                 coverImage: coverImage,
                 nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "",
                 city: $city.value?.responseFrom(baseUrl: baseUrl),
                 user: $user.value?.getBasicProfile() ,
                 id: r.id,
                 price: r.price,
-                images: images.map {baseUrl + "/uploads/" + $0},
+                images: images.map {baseUrl + "/uploads/" + $0 + ".jpg"},
                 type: r.type,
                 noOfRooms: r.noOfRooms,
                 kitchen: r.kitchen,

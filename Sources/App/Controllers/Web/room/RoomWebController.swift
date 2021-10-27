@@ -51,7 +51,7 @@ class RoomWebController: RouteCollection {
         return try RoomStore().edit(req: req).flatMap { room in
             let images = room.vimages.components(separatedBy: ",")
             return req.view.render("editRoom", Context(user: user, room: room, images: images.map({
-                req.baseUrl + "/uploads/" + $0
+                req.baseUrl + "/uploads/" + $0 + ".jpg"
             })))
         }  
     }

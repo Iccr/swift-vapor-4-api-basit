@@ -58,6 +58,22 @@ extension User {
         }
     }
     
+    struct AddImageToUser: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            database.schema("users").field("image", .string)
+                .field("appleUserIdentifier", .string)
+                .field("provider", .string)
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            database.schema("users").deleteField("image")
+                .deleteField("appleUserIdentifier")
+                .deleteField("provider")
+                .update()
+        }
+    }
+    
     
     //    auth_token
     //    device_id
