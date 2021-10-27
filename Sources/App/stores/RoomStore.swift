@@ -178,7 +178,7 @@ extension RoomStore {
     
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
         if let val = params.city, !val.isEmpty {
-            query.filter(.sql(raw: "LOWER(city_name) ILIKE '%\(val)%'"))
+            query.filter(.sql(raw: "LOWER(city_name) LIKE '%\(val.lowercased())%'"))
         }
         
         if  !params.type.isEmpty {
@@ -189,7 +189,7 @@ extension RoomStore {
         }
         if let val = params.floor, val != "any" {
 //            query.filter(\.$floor == val)
-            query.filter(.sql(raw: "LOWER(floor) ILIKE '%\(val)%'"))
+            query.filter(.sql(raw: "LOWER(floor) LIKE '%\(val.lowercased())%'"))
         }
         
         if let val = params.address {
@@ -217,17 +217,17 @@ extension RoomStore {
 //        }
         
         if let val = params.water {
-            query.filter(.sql(raw: "LOWER(water) ILIKE '%\(val)%'"))
+            query.filter(.sql(raw: "LOWER(water) LIKE '%\(val.lowercased())%'"))
 //            query.filter(\.$water ~~ val)
         }
         
         if let val = params.internet {
-            query.filter(.sql(raw: "LOWER(internet) ILIKE '%\(val)%'"))
+            query.filter(.sql(raw: "LOWER(internet) LIKE '%\(val.lowercased())%'"))
 //            query.filter(\.$internet ~~ val)
         }
         
         if let val = params.preference {
-            query.filter(.sql(raw: "LOWER(preference) ILIKE '%\(val)%'"))
+            query.filter(.sql(raw: "LOWER(preference) LIKE '%\(val.lowercased())%'"))
 //            query.filter(\.$preference ~~ val)
         }
         
