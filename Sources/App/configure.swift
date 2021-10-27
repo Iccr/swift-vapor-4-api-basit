@@ -40,9 +40,9 @@ public func configure(_ app: Application) throws {
         .mysql(configuration: .init(
                 hostname: "localhost",
                 port: 3306,
-                username: "",
-                password: "",
-                database: "",
+                username: "deploy",
+                password: "P@ssword",
+                database: "roomfinder",
                 tlsConfiguration: .none
         )),
         as: .mysql)
@@ -66,6 +66,8 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.AddCityNameToRoomMigration())
     app.migrations.add(User.AddRoleToUser())
     app.migrations.add(User.AddStatusToCity())
+    app.migrations.add(Room.AddCityIdToRoomReference())
+    
     
 
     try app.autoMigrate().wait()

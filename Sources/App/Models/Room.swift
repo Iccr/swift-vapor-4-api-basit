@@ -17,7 +17,7 @@ final class Room: Codable, Model, Content {
     @Parent(key: "city_id")
     var city: City
     
-    @Parent(key: "user_id")
+    @Parent(key: "userId")
     var user: User
     
     @ID(custom: "id")

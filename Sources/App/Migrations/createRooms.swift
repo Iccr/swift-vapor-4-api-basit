@@ -62,6 +62,20 @@ extension Room {
         
         
     }
+    
+    struct AddCityIdToRoomReference: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            database.schema("rooms")
+            .field("city_id", .int, .foreignKey("cities", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+            .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            database.schema("rooms")
+                .deleteField("city_id")
+                .update()
+        }
+    }
 }
 
 //
