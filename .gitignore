@@ -10,3 +10,5 @@ Sources/App/Environment.swift
 Public/samples
 Public/uploads
 docker-compose.yml
+mysql/
+mysql_dump/

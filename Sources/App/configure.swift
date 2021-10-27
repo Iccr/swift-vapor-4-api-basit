@@ -20,15 +20,15 @@ public func configure(_ app: Application) throws {
 
     let jwtSecret = Environment.get("JWT_SECRET") ?? "blablaSecret"
     app.jwt.signers.use(.hs256(key: jwtSecret))
-    let hostname = Environment.get("DATABASE_HOSTNAME") ?? "127.0.0.1"
+    let hostname = Environment.get("DATABASE_HOST") ?? "127.0.0.1"
 //    var port: Int = 5433
         var port: Int = 3306
-    if let _p = Environment.get("DATABASE_PORT"), let _port = Int(_p) {
+    if let _p = Environment.get("PORT"), let _port = Int(_p) {
         port = _port
     }
-    let username = Environment.get("DATABASE_USERNAME") ?? "deploy"
-    let dbName = Environment.get("DATABASE_NAME") ?? "roomfinder"
-    let dbPassword = Environment.get("DATABASE_PASSWORD") ?? "P@ssword"
+    let username = Environment.get("USER") ?? "deploy"
+    let dbName = Environment.get("DATABASE") ?? "roomfinder"
+    let dbPassword = Environment.get("PASSWORD") ?? "P@ssword"
     
 //    app.middleware.use(app.sessions.middleware)
     
@@ -38,7 +38,13 @@ public func configure(_ app: Application) throws {
     print("\(username)@\(hostname):\(port)/\(dbName)")
     app.databases.use(
         .mysql(configuration: .init(
-                hostname: hostname, port: port, username: username, password: dbPassword, database: dbName, tlsConfiguration: .none)),
+                hostname: "localhost",
+                port: 3306,
+                username: "",
+                password: "",
+                database: "",
+                tlsConfiguration: .none
+        )),
         as: .mysql)
 //    app.databases.use(
 //        .postgres(
@@ -54,9 +60,9 @@ public func configure(_ app: Application) throws {
     
     app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Banner.CreateBannerMigration())
-    app.migrations.add(User.CreateUserMigration())
-    app.migrations.add(Room.CreateRoomMigration())
-    app.migrations.add(TokenMigration())
+//    app.migrations.add(User.CreateUserMigration())
+//    app.migrations.add(Room.CreateRoomMigration())
+//    app.migrations.add(TokenMigration())
     app.migrations.add(Room.AddCityNameToRoomMigration())
     app.migrations.add(User.AddRoleToUser())
     app.migrations.add(User.AddStatusToCity())
