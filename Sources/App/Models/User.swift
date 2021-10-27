@@ -11,20 +11,7 @@ import Vapor
 import JWT
 
 
-final class UserContainer : Codable {
-    let user : User?
 
-    enum CodingKeys: String, CodingKey {
-
-        case user = "user"
-    }
-
-    required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        user = try values.decodeIfPresent(User.self, forKey: .user)
-    }
-
-}
 
 
 final class User : Model, Content {
@@ -53,7 +40,7 @@ final class User : Model, Content {
     @Field(key: "appleUserIdentifier")
     var appleUserIdentifier: String?
     
-    @Field(key: "fcm")
+    @Field(key: "fcm_token")
     var fcm : String?
     
     @Enum(key: "role")
@@ -63,6 +50,37 @@ final class User : Model, Content {
       
     @Field(key: "provider")
     var provider : String?
+    
+    
+  @Field(key: "auth_token")
+  var auth_token : String?
+    
+    @Field(key: "device_id")
+    var device_id : String?
+    
+    
+    @Field(key: "device_type")
+    var device_type : String?
+    
+    @Field(key: "fb_id")
+    var fb_id : String?
+    
+    @Field(key: "fb_id")
+    var g_id : String?
+    
+    
+
+    
+    //    auth_token
+    //    device_id
+    //    device_type
+    //    fc -> fcm_token
+    //    fb_id
+    //    g_id
+    //    updated_at -> updatedAt
+    //    created_at -> createdAt
+
+
     
     @Timestamp(key: "created_at", on: .create)
         var createdAt: Date?
@@ -214,4 +232,20 @@ extension User {
     var isAdmin: Bool {
         return self.role == .admin
     }
+}
+
+
+final class UserContainer : Codable {
+    let user : User?
+
+    enum CodingKeys: String, CodingKey {
+
+        case user = "user"
+    }
+
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        user = try values.decodeIfPresent(User.self, forKey: .user)
+    }
+
 }

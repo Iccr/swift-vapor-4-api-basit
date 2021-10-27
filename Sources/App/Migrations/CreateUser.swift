@@ -10,11 +10,19 @@ extension User {
                 .field("name", .string)
                 .field("token", .string)
                 .field("appleUserIdentifier", .string)
-                .field("fcm", .string)
+                .field("fcm_token", .string)
                 //            .field("user_id", .int, .required)
                 .field("provider", .string, .required)
-                .field("created_at", .datetime)
-                .field("updated_at", .datetime)
+                .field("createdAt", .datetime)
+                .field("updatedAt", .datetime)
+                // old db fields
+                .field("auth_token", .string)
+                .field("device_type", .string)
+                .field("device_id", .string)
+                .field("fcm_token", .string)
+                .field("fb_id", .string)
+                .field("g_id", .string)
+                // old db fields
                 .create()
         }
         
@@ -50,6 +58,19 @@ extension User {
                 .update()
         }
     }
+    
+    
+    //    auth_token
+    //    device_id
+    //    device_type
+    //    fcm -> fcm_token
+    //    fb_id
+    //    g_id
+    //    updated_at -> updatedAt
+    //    created_at -> createdAt
+
+    
+
 }
 
 
@@ -69,9 +90,13 @@ struct TokenMigration: Migration {
             .field("createdAt", .datetime, .required)
             .field("expiresAt", .datetime)
             .create()
+        
+        
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         database.schema(Token.schema).delete()
     }
+    
+   
 }

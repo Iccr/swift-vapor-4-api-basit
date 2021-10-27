@@ -1,5 +1,6 @@
 import Fluent
 import FluentPostgresDriver
+import FluentMySQLDriver
 import Leaf
 import Vapor
 import JWT
@@ -32,16 +33,16 @@ public func configure(_ app: Application) throws {
     
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
-    
-    app.databases.use(
-        .postgres(
-            hostname: hostname,
-            port: port,
-            username: username,
-            password: dbPassword,
-            database: dbName,
-            maxConnectionsPerEventLoop: 5),
-        as: .psql)
+    app.databases.use(.mysql(configuration: .init(hostname: hostname, username: username, password: dbPassword)), as: .mysql)
+//    app.databases.use(
+//        .postgres(
+//            hostname: hostname,
+//            port: port,
+//            username: username,
+//            password: dbPassword,
+//            database: dbName,
+//            maxConnectionsPerEventLoop: 5),
+//        as: .psql)
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
     
@@ -54,8 +55,9 @@ public func configure(_ app: Application) throws {
     app.migrations.add(User.AddRoleToUser())
     app.migrations.add(User.AddStatusToCity())
     
-    seed(app.db)
+
     try app.autoMigrate().wait()
+    //    seed(app.db)
     app.logger.log(level: .info, "migration complete")
     try routes(app)
     app.routes.all.forEach { route in
