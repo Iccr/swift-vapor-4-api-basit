@@ -49,10 +49,8 @@ class RoomWebController: RouteCollection {
         }
         let user  = try req.auth.require(User.self)
         return try RoomStore().edit(req: req).flatMap { room in
-            let images = room.vimages.components(separatedBy: ",")
-            return req.view.render("editRoom", Context(user: user, room: room, images: images.map({
-                req.baseUrl + "/uploads/" + $0 + ".jpg"
-            })))
+            let images = room.getImages(baseUrl: req.baseUrl)
+            return req.view.render("editRoom", Context(user: user, room: room, images: images))
         }  
     }
     

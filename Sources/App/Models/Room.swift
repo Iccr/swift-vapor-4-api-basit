@@ -462,8 +462,10 @@ final class Room: Codable, Model, Content {
     extension Room {
         func responseFrom(baseUrl: String)-> Room.Output {
             let r = self
-            let images = r.vimages.components(separatedBy: ",")
-            let coverImage: String = baseUrl + "/uploads/" + (images.first ?? "") + ".jpg"
+            let images = r.getImages(baseUrl: baseUrl)
+       
+            
+            let coverImage: String = images.first ?? ""
             return  Room.Output.init(
                 coverImage: coverImage,
                 nepaliPrice: (self.price ?? 0).getNumberWithNepaliFormat() ?? "",
@@ -471,7 +473,7 @@ final class Room: Codable, Model, Content {
                 user: $user.value?.getBasicProfile() ,
                 id: r.id,
                 price: r.price,
-                images: images.map {baseUrl + "/uploads/" + $0 + ".jpg"},
+                images: images,
                 type: r.type,
                 noOfRooms: r.noOfRooms,
                 kitchen: r.kitchen,
@@ -604,5 +606,21 @@ extension Int {
 extension Bool {
     var toString: String {
         return "\(self)"
+    }
+}
+
+extension Room {
+    func getImages(baseUrl: String) -> [String] {
+        let images = self.vimages.components(separatedBy: ",")
+        return images.map {
+            if let ext = URL.init(string: $0)?.pathExtension, !ext.isEmpty {
+                return baseUrl + "/uploads/" + $0
+            }else {
+                return baseUrl + "/uploads/" + $0 + ".jpg"
+            }
+            
+            
+        }
+        
     }
 }

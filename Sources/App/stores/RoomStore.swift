@@ -56,6 +56,7 @@ class RoomStore {
         }.flatMap { city in
             room.$user.id = user.id ?? -1
             room.$city.id = city?.id ?? -1
+            room.occupied = false
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
             }
