@@ -46,7 +46,7 @@
                                 checked
                             #endif
                           >
-                          <label class="custom-control-label d-block" for="flat">Flat <small class="text-muted float-right">99</small></label>
+                          <label class="custom-control-label d-block" for="flat">Flat <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
 
@@ -59,7 +59,7 @@
                           onchange="$('#bookingCars').submit();"
                           #if( contains(query.type, "room") ): checked #endif
                           > 
-                            <label class="custom-control-label d-block" for="room">Room <small class="text-muted float-right">76</small></label>
+                            <label class="custom-control-label d-block" for="room">Room <small class="text-muted float-right"></small></label>
                           </div>
 
                           <div class="custom-control custom-checkbox">
@@ -72,7 +72,7 @@
                             #if( contains(query.type, "appartment") ): checked #endif
                             onchange="$('#bookingCars').submit();"
                             >
-                            <label class="custom-control-label d-block" for="midsize">Appartment <small class="text-muted float-right">31</small></label>
+                            <label class="custom-control-label d-block" for="midsize">Appartment <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input 
@@ -84,7 +84,7 @@
                             #if( contains(query.type, "house") ): checked #endif
                             onchange="$('#bookingCars').submit();"
                             >
-                            <label class="custom-control-label d-block" for="standard">House <small class="text-muted float-right">12</small></label>
+                            <label class="custom-control-label d-block" for="standard">House <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input 
@@ -96,7 +96,7 @@
                             #if( contains(query.type, "commercial") ): checked #endif
                             onchange="$('#bookingCars').submit();"
                             >
-                            <label class="custom-control-label d-block" for="fullsize">Commercial Place <small class="text-muted float-right">5</small></label>
+                            <label class="custom-control-label d-block" for="fullsize">Commercial Place <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input 
@@ -108,7 +108,7 @@
                             #if( contains(query.type, "office") ): checked #endif
                             onchange="$('#bookingCars').submit();"
                             >
-                            <label class="custom-control-label d-block" for="minivan">Office Space <small class="text-muted float-right">27</small></label>                      </div>
+                            <label class="custom-control-label d-block" for="minivan">Office Space <small class="text-muted float-right"></small></label>                      </div>
                           <div class="custom-control custom-checkbox">
                             <input 
                             type="checkbox" 
@@ -119,7 +119,7 @@
                             #if( contains(query.type, "other") ): checked #endif
                             onchange="$('#bookingCars').submit();"i
                             >
-                            <label class="custom-control-label d-block" for="suv">Other <small class="text-muted float-right">66</small></label>
+                            <label class="custom-control-label d-block" for="suv">Other <small class="text-muted float-right"></small></label>
                           </div>
                           <!-- <div class="custom-control custom-checkbox">
                             <input type="checkbox" id="van" name="carType" class="custom-control-input">
@@ -144,7 +144,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.kitchen == "available" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="1to2">Available<small class="text-muted float-right">85</small></label>
+                            <label class="custom-control-label d-block" for="1to2">Available<small class="text-muted float-right"></small></label>
                           </div>
                           
                         </div>
@@ -162,7 +162,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.internet == "not available" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="kitchen_not_available">Not Available<small class="text-muted float-right">15</small></label>
+                            <label class="custom-control-label d-block" for="kitchen_not_available">Not Available<small class="text-muted float-right"></small></label>
                           </div>
 
                           <div class="custom-control custom-radio">
@@ -171,7 +171,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.internet == "paid" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="paid">Paid<small class="text-muted float-right">106</small></label>
+                            <label class="custom-control-label d-block" for="paid">Paid<small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="Free" name="internet" class="custom-control-input"
@@ -179,7 +179,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.internet == "free" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="Free">Free<small class="text-muted float-right">85</small></label>
+                            <label class="custom-control-label d-block" for="Free">Free<small class="text-muted float-right"></small></label>
                           </div>
                           
                         </div>
@@ -198,7 +198,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.floor == "roof top" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="roofTop">Roof Top<small class="text-muted float-right">58</small></label>
+                            <label class="custom-control-label d-block" for="roofTop">Roof Top<small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="groudFloor" name="floor" class="custom-control-input"
@@ -206,7 +206,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.floor == "ground floor" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="groudFloor">Ground Floor<small class="text-muted float-right">168</small></label>
+                            <label class="custom-control-label d-block" for="groudFloor">Ground Floor<small class="text-muted float-right"></small></label>
                           </div>
 
                           <div class="custom-control custom-radio">
@@ -215,7 +215,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.floor == "any" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="anyFloor">Any Floor<small class="text-muted float-right">168</small></label>
+                            <label class="custom-control-label d-block" for="anyFloor">Any Floor<small class="text-muted float-right"></small></label>
                           </div>
 
                         </div>
@@ -233,7 +233,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( contains(query.parking, "Car") ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="parkingCar">car <small class="text-muted float-right">499</small></label>
+                            <label class="custom-control-label d-block" for="parkingCar">car <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input type="checkbox" id="parkingBike" name="parking" class="custom-control-input"
@@ -241,7 +241,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( contains(query.parking, "Bike") ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="parkingBike">Bike <small class="text-muted float-right">310</small></label>
+                            <label class="custom-control-label d-block" for="parkingBike">Bike <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-checkbox">
                             <input type="checkbox" id="parkingVan" name="parking" class="custom-control-input"
@@ -249,7 +249,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( contains(query.parking, "Van/Suv") ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="parkingVan">Van/Suv <small class="text-muted float-right">225</small></label>
+                            <label class="custom-control-label d-block" for="parkingVan">Van/Suv <small class="text-muted float-right"></small></label>
                           </div>
                         </div>
                       </div>
@@ -269,7 +269,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.water == "plenty" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="plenty">Plenty <small class="text-muted float-right">499</small></label>
+                            <label class="custom-control-label d-block" for="plenty">Plenty <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="jsutok" name="water" class="custom-control-input"
@@ -277,7 +277,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.water == "just ok"): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="jsutok">Just Ok <small class="text-muted float-right">310</small></label>
+                            <label class="custom-control-label d-block" for="jsutok">Just Ok <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="careful" name="water" class="custom-control-input"
@@ -285,7 +285,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.water ==  "need to be careful" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="careful"> Need to be careful <small class="text-muted float-right">225</small></label>
+                            <label class="custom-control-label d-block" for="careful"> Need to be careful <small class="text-muted float-right"></small></label>
                           </div>
                         </div>
                       </div>
@@ -303,7 +303,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.preference ==  "family" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="small">Small Family <small class="text-muted float-right">499</small></label>
+                            <label class="custom-control-label d-block" for="small">Small Family <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="employee" name="preference" class="custom-control-input"
@@ -311,7 +311,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.preference ==  "employee" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="employee">Employee <small class="text-muted float-right">310</small></label>
+                            <label class="custom-control-label d-block" for="employee">Employee <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="couple" name="preference" class="custom-control-input"
@@ -319,7 +319,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.preference ==  "couple" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="couple"> Couple <small class="text-muted float-right">225</small></label>
+                            <label class="custom-control-label d-block" for="couple"> Couple <small class="text-muted float-right"></small></label>
                           </div>
                           <div class="custom-control custom-radio">
                             <input type="radio" id="student" name="preference" class="custom-control-input"
@@ -327,7 +327,7 @@
                             onchange="$('#bookingCars').submit();"
                             #if( query.preference ==  "student" ): checked #endif
                             >
-                            <label class="custom-control-label d-block" for="student"> Student <small class="text-muted float-right">225</small></label>
+                            <label class="custom-control-label d-block" for="student"> Student <small class="text-muted float-right"></small></label>
                           </div>
                         </div>
                       </div>
