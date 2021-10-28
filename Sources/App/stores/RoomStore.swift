@@ -247,6 +247,8 @@ extension RoomStore {
                  query.sort(\.$price, .descending)
             }
         }
+        
+        query.filter(\.$occupied == false)
         return query
     }
 }
