@@ -128,12 +128,13 @@ extension User {
     }
     
     struct BasicProfile: Codable {
+        var id: Int?
         var name: String?
         var image: String?
     }
     
     func getBasicProfile() -> BasicProfile {
-        return .init(name: self.name, image: self.image)
+        return .init(id: self.id,name: self.name, image: self.image)
     }
     
     func getProfile() -> User.Profile {

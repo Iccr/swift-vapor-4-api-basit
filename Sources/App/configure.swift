@@ -1,5 +1,5 @@
 import Fluent
-import FluentPostgresDriver
+
 import FluentMySQLDriver
 import Leaf
 import Vapor
@@ -26,23 +26,20 @@ public func configure(_ app: Application) throws {
     if let _p = Environment.get("PORT"), let _port = Int(_p) {
         port = _port
     }
-    let username = Environment.get("USER") ?? "deploy"
-    let dbName = Environment.get("DATABASE") ?? "roomfinder"
-    let dbPassword = Environment.get("PASSWORD") ?? "P@ssword"
-    
-//    app.middleware.use(app.sessions.middleware)
-    
+    let username = Environment.get("USER") ?? ""
+    let dbName = Environment.get("DATABASE") ?? ""
+    let dbPassword = Environment.get("PASSWORD") ?? ""
     
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
-    print("\(username)@\(hostname):\(port)/\(dbName)")
+
     app.databases.use(
         .mysql(configuration: .init(
-                hostname: "localhost",
-                port: 3306,
-                username: "deploy",
-                password: "P@ssword",
-                database: "roomfinder",
+                hostname: hostname,
+                port: port,
+                username: username,
+                password: dbPassword,
+                database: dbName,
                 tlsConfiguration: .none
         )),
         as: .mysql)
