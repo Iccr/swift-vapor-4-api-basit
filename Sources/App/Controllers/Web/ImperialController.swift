@@ -19,7 +19,7 @@ struct ImperialController: RouteCollection {
         //            fatalError("Google callback URL not set")
         //        }
         
-        let googleCallbackURL = "http://localhost:8080/oauth/google"
+        let googleCallbackURL = "https://roomfindernepal.com/oauth/google"
         try routes.oAuth(
             from: Google.self,
             authenticate: "login-google",
