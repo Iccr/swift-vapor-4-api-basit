@@ -41,7 +41,8 @@ public func configure(_ app: Application) throws {
                 password: dbPassword,
                 database: dbName,
                 tlsConfiguration: .none
-        )),
+            
+        ), maxConnectionsPerEventLoop: 5),
         as: .mysql)
 //    app.databases.use(
 //        .postgres(
@@ -69,7 +70,7 @@ public func configure(_ app: Application) throws {
     
     
 
-    try app.autoMigrate().wait()
+    try? app.autoMigrate().wait()
     //    seed(app.db)
     app.logger.log(level: .info, "migration complete")
     try routes(app)

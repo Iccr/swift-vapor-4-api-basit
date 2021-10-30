@@ -249,7 +249,7 @@ extension RoomStore {
             }
         }
         
-        query.filter(\.$occupied == false)
+        query.filter(.sql(raw: "occupied = false"))
         return query
     }
 }
