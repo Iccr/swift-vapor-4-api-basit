@@ -44,15 +44,7 @@ public func configure(_ app: Application) throws {
             
         ), maxConnectionsPerEventLoop: 5),
         as: .mysql)
-//    app.databases.use(
-//        .postgres(
-//            hostname: hostname,
-//            port: port,
-//            username: username,
-//            password: dbPassword,
-//            database: dbName,
-//            maxConnectionsPerEventLoop: 5),
-//        as: .psql)
+
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
     

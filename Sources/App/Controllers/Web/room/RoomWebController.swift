@@ -76,6 +76,7 @@ class RoomWebController: RouteCollection {
 
     func new(req: Request) throws -> EventLoopFuture<View> {
         let user = try req.auth.require(User.self)
+        req.logger.log(level: .critical, "user inside new is \(user)", metadata: nil)
         struct Context: Encodable {
             var user: User
             var room: Room?
