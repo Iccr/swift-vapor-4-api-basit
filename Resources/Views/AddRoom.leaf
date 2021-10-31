@@ -1,6 +1,181 @@
 #extend("master"):
     #export("content"):
-       #extend("partials/roomForm")
+       <div class="container">
+              <div class="row">
+                <div class="col-lg-9">
+                  <div class="bg-light shadow-md rounded p-4">
+                    <!-- Personal Information
+                      ============================================= -->
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <h4 class="mb-4">Property Information</h4>
+                        <form id="addRoom" action="/rooms" method="post" enctype="multipart/form-data">
+                         
+                          <input type="hidden" name="userId" value="#if(user): user.id #endif">
+                          <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="text"  class="form-control" name="price" data-bv-field="price" id="price"
+                              required="" placeholder="Price">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="noOfRooms">No of rooms</label>
+                            <input type="number"  class="form-control" data-bv-field="noOfRooms"
+                              id="noOfRooms"  name="noOfRooms" required="" placeholder="no of rooms">
+                          </div>
+
+                           <div class="form-group">
+                            <label for="phone">Contact number</label>
+                            <input type="text"  class="form-control" data-bv-field="phone"
+                              id="phone"  name="phone" required="" placeholder="Contact number">
+                          </div>
+                          <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" data-bv-field="address"
+                              id="address"  name="address" required="" placeholder="Address">
+                          </div>
+
+
+
+                          <div class="form-group">
+                            <label for="type">Type</label>
+                            <select class="custom-select" id="type" name="type">
+                              <option value=""> --- Please Select --- </option>
+                              <option value="Flat" >Flat</option>
+                              <option value="Room">Room</option>
+                              <option value="Appartment">Appartment</option>
+                              <option value="Commercial Place">Commercial place</option>
+                              <option value="Office Space">Office space</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="floor">Floor</label>
+                            <select class="custom-select" id="floor" name="floor">
+                              <option value=""> --- Please Select --- </option>
+                              <option value="Roof top">Roof top</option>
+                              <option value="Ground foor">Ground foor</option>
+                              <option value="Other">Other</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="internet">Internet</label>
+                            <select class="custom-select" id="internet" name="internet">
+                              <option value=""> --- Please Select --- </option>
+                              <option value="Not available">Not available</option>
+                              <option value="Free">Free</option>
+                              <option value="Paid">Paid</option>
+                            </select>
+                          </div>
+
+                        <div class="form-group">
+                            <label for="kitchen">Kitchen</label>
+                            <select class="custom-select" id="kitchen" name="kitchen">
+                              <option value=""> --- Please Select --- </option>
+                              <option value="Not available">Not available</option>
+                              <option value="Free">Available</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="city">City</label>
+                            <select class="custom-select" id="city" name="city_id">
+                              <option value=""> --- Please Select --- </option>
+                              <option value="1">Kathmandu</option>
+                              <option value="2">Pokhara</option>
+                            </select>
+                          </div>
+
+                           <div class="form-group">
+                            <label for="parking">Parking</label>
+
+                            <div class="form-check custom-control custom-checkbox">
+                                <input id="carParking" name="parking" class="custom-control-input" type="checkbox" value="Car">
+                                <label class="custom-control-label" for="carParking">Car</label>
+                            </div>
+                            <div class="form-check custom-control custom-checkbox">
+                                <input id="bikeParking" name="parking" class="custom-control-input" type="checkbox" value="Bike">
+                                <label class="custom-control-label" for="bikeParking">Bike</label>
+                            </div>
+                            <div class="form-check custom-control custom-checkbox">
+                                <input id="suvParking" name="parking" class="custom-control-input" type="checkbox" value="Suv/Jeep">
+                                <label class="custom-control-label" for="suvParking">Suv/Jeep</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="parking">Water</label>
+
+                            <div class="form-check custom-control custom-radio">
+                                <input id="plenty" name="water" class="custom-control-input" type="radio" value="Car">
+                                <label class="custom-control-label" for="plenty">Plenty</label>
+                            </div>
+                            <div class="form-check custom-control custom-radio">
+                                <input id="justok" name="water" class="custom-control-input" type="radio" value="Bike">
+                                <label class="custom-control-label" for="justok">Just ok</label>
+                            </div>
+                            <div class="form-check custom-control custom-radio">
+                                <input id="careful" name="water" class="custom-control-input" type="radio" value="Suv/Jeep">
+                                <label class="custom-control-label" for="careful">Needs to be careful</label>
+                            </div>
+                          </div>
+
+
+                           <div class="form-group">
+                            <label for="parking">Preference</label>
+
+                            <div class="form-check custom-control custom-radio">
+                                <input id="preferenceFamily" name="preference" class="custom-control-input" type="radio" value="Car">
+                                <label class="custom-control-label" for="preferenceFamily">Small Family</label>
+                            </div>
+                            <div class="form-check custom-control custom-radio">
+                                <input id="preferenceEmployee" name="preference" class="custom-control-input" type="radio" value="Bike">
+                                <label class="custom-control-label" for="preferenceEmployee">Employee</label>
+                            </div>
+                            <div class="form-check custom-control custom-radio">
+                                <input id="preferenceCouple" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                                <label class="custom-control-label" for="preferenceCouple">Couple</label>
+                            </div>
+                             <div class="form-check custom-control custom-radio">
+                                <input id="preferenceStudent" name="preference" class="custom-control-input" type="radio" value="Suv/Jeep">
+                                <label class="custom-control-label" for="preferenceStudent">Student</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="images">Images</label>
+                            <input type="file" multiple class="form-control"
+                              id="images"  name="images[]" required="" placeholder="Description">
+                          </div>
+
+                          <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea type="text"  class="form-control" data-bv-field="address"
+                              id="description"  name="description" required="" placeholder="Description"></textarea>
+                          </div>
+
+                          <button class="btn btn-primary" type="submit">Add Now</button>
+                        </form>
+                      </div>
+                      <div class="col-lg-4 mt-4 mt-lg-0 ">
+                        <div class="bg-light-2 p-3">
+                          <p class="mb-2">We value your Privacy.</p>
+                          <p class="text-1 mb-0">We will not sell or distribute your contact information. Read our <a
+                              href="#">Privacy Policy</a>.</p>
+                          <hr>
+                          <p class="mb-2">Billing Enquiries</p>
+                          <p class="text-1 mb-0">Do not hesitate to reach our <a href="#">support team</a> if you have any queries.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Personal Information end -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
            
        
     #endexport
