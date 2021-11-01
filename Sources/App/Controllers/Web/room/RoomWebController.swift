@@ -112,7 +112,7 @@ extension Date {
         
         if minuteAgo < self {
             let diff = Calendar.current.dateComponents([.second], from: self, to: Date()).second ?? 0
-            return "\(diff) sec ago"
+            return diff == < 10 ?  "Just Now" : \(diff) sec ago"
         } else if hourAgo < self {
             let diff = Calendar.current.dateComponents([.minute], from: self, to: Date()).minute ?? 0
             return "\(diff) min ago"
