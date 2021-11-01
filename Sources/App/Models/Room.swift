@@ -463,8 +463,6 @@ final class Room: Codable, Model, Content {
         func responseFrom(baseUrl: String)-> Room.Output {
             let r = self
             let images = r.getImages(baseUrl: baseUrl)
-       
-            
             let coverImage: String = images.first ?? ""
             return  Room.Output.init(
                 coverImage: coverImage,
