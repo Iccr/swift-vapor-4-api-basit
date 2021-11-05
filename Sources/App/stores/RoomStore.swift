@@ -114,7 +114,7 @@ class RoomStore {
     func delete(req: Request) throws -> EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
         let toDelete = try req.content.decode(Room.DeleteInput.self)
-
+        
         return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
             .flatMap { room in
                 do {
