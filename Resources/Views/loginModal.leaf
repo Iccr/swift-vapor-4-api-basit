@@ -1,4 +1,4 @@
-<div id="login-signup" class="modal fade" role="dialog" aria-hidden="true">
+<div id="login-signup" class="modal fade" role="dialog" aria-hidden="false">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content p-sm-3">
       <div class="modal-body">

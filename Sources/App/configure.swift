@@ -18,8 +18,10 @@ public func configure(_ app: Application) throws {
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
     app.logger.logLevel = .debug
-    app.http.server.configuration.port = 5000
+//    app.http.server.configuration.port = 5000
     app.leaf.tags["flasher"] = Flasher()
+    
+    
     let jwtSecret = Environment.get("JWT_SECRET") ?? "blablaSecret"
     app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOST") ?? "127.0.0.1"

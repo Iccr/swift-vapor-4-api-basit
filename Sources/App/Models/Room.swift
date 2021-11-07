@@ -328,6 +328,7 @@ final class Room: Codable, Model, Content {
         var per: Int? = 10
         var alert: String?
         var alertLevel: Int?
+        var loginRequired: Bool = false
         
         
 //        func previousPage(baseurl: String) -> String {

@@ -22,6 +22,7 @@ extension Room {
         var isAdmin: Bool
         var alert: String?
         var alertLevel: Int?
+        var loginRequired: Bool = false
     }
     
     static func getContext(baseUrl: String,
@@ -61,7 +62,8 @@ extension Room {
          ),
          isAdmin: user?.isAdmin ?? false,
          alert: query.alert,
-         alertLevel: query.alertLevel ?? 1
+         alertLevel: query.alertLevel ?? 1,
+         loginRequired: query.loginRequired 
          
         )
     }
