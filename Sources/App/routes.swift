@@ -66,14 +66,10 @@ func routes(_ app: Application) throws {
     // admin
     
     try app.register(collection: AdminController())
-        
-        
-        
-        
     app.get { req in
-        return try RoomWebController().index(req: req)
+        try RoomWebController().index(req: req)
+        
     }
-    
 }
 
 

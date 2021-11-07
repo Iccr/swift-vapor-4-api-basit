@@ -2,13 +2,14 @@
 #extend("master"):
     #export("content"):
         <section class="container">
-        
+                        #flasher()
                   <div class="row">
                     <form id="bookingCars" class="d-block mb-2" method="get" action="/">
                   </div>
                   <div class="form-row">
                   <div class="col-md-6 col-lg"> 
                   </div>
+                  
                   <div class="col-md-12 col-lg form-group">
                     <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="city" value="#(query.city)">
                     <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="page" value="1">

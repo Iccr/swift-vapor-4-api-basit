@@ -20,7 +20,8 @@ extension Room {
         var user: User?
         var pageModel: PageModel
         var isAdmin: Bool
-        var alert: AppAlert?
+        var alert: String?
+        var alertLevel: Int?
     }
     
     static func getContext(baseUrl: String,
@@ -59,7 +60,9 @@ extension Room {
              page: page.metadata.page
          ),
          isAdmin: user?.isAdmin ?? false,
-         alert: AppAlert(message: query.error, type: query.errorType ?? 0)
+         alert: query.alert,
+         alertLevel: query.alertLevel ?? 1
+         
         )
     }
     

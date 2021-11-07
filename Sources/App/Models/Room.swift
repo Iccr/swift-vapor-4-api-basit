@@ -326,8 +326,8 @@ final class Room: Codable, Model, Content {
         var price: String?
         var page: Int? = 1
         var per: Int? = 10
-        var error: String?
-        var errorType: Int?
+        var alert: String?
+        var alertLevel: Int?
         
         
 //        func previousPage(baseurl: String) -> String {
