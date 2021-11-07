@@ -8,9 +8,6 @@
         </ul>
         <div class="tab-content pt-4">
           <div class="row">
-            <div class="col-12 mb-3">
-              <button type="button" class="btn btn-block btn-outline-primary">Login with Facebook</button>
-            </div>
             <div class="col-12">
              <a href="/login-google">
               <button type="button" class="btn btn-block btn-outline-danger">Login with Google</button>
