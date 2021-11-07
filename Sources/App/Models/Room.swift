@@ -326,6 +326,10 @@ final class Room: Codable, Model, Content {
         var price: String?
         var page: Int? = 1
         var per: Int? = 10
+        var error: String?
+        var errorType: Int?
+        
+        
 //        func previousPage(baseurl: String) -> String {
 //            var copy = self
 ////            copy.page = (page == nil || page! <= 1) ? 1 :( page! - 1)
@@ -621,4 +625,10 @@ extension Room {
         }
         
     }
+}
+
+
+struct AppAlert: Content {
+    var message: String?
+    var type: Int // 0 none, 1 info, 2 warning, 3 error
 }

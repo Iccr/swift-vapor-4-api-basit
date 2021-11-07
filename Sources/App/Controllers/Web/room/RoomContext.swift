@@ -7,6 +7,9 @@
 
 import Foundation
 import Fluent
+import Vapor
+
+
 extension Room {
     struct Context: Encodable {
         var title: String
@@ -17,6 +20,7 @@ extension Room {
         var user: User?
         var pageModel: PageModel
         var isAdmin: Bool
+        var alert: AppAlert?
     }
     
     static func getContext(baseUrl: String,
@@ -36,6 +40,8 @@ extension Room {
         let next = paginator.nextPage(baseurl: baseUrl)
         let maxPage =  Int(ceil(Double(page.metadata.total)/Double(page.metadata.per)))
         
+        
+        
         return Room.Context(
          title: "Rooms",
          items: page.items,
@@ -51,7 +57,9 @@ extension Room {
              loops: maxPage == 0 ? [] : Array(1...maxPage),
              per: page.metadata.per,
              page: page.metadata.page
-         ), isAdmin: user?.isAdmin ?? false
+         ),
+         isAdmin: user?.isAdmin ?? false,
+         alert: AppAlert(message: query.error, type: query.errorType ?? 0)
         )
     }
     
