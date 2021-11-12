@@ -1,10 +1,10 @@
-// swift-tools-version:5.5.0
+// swift-tools-version:5.4.0
 import PackageDescription
 
 let package = Package(
     name: "basti",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v11)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
