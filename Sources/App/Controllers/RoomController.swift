@@ -14,9 +14,9 @@ struct RoomController: RouteCollection {
         
     }
     
-    func index(req: Request) throws -> EventLoopFuture<CommonResponse<Page<Room.Output>>> {
+    func index(req: Request)  throws -> EventLoopFuture<CommonResponse<Page<Room.Output>>> {
         let query = try req.query.decode(Room.Querry.self)
-        return RoomStore().getAllRooms(query, req: req)
+        return  RoomStore().getAllRooms(query, req: req)
             .map(CommonResponse.init)
         
     }

@@ -12,15 +12,16 @@ import Fluent
 class RoomStore {
     func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<Page<Room.Output>> {
         let query =  Room.query(on: req.db)
-        
-        return self.querries(query: query, params: searchQuery)
+         return self.querries(query: query, params: searchQuery)
             .with(\.$city)
             .with(\.$user)
             .sort(\.$createdAt, .descending)
-            .paginate(for: req).map { page in
+            .paginate(for: req)
+            .map { page in
                 page.map { $0.responseFrom(baseUrl: req.baseUrl)
                 }
             }
+
     }
     
     func create(req: Request) throws ->  EventLoopFuture<Room.Output> {
@@ -242,7 +243,7 @@ extension RoomStore {
         }
         
         if let val = params.noOfRooms {
-            query.filter(\.$noOfRooms <= val)
+            query.filter(\.$noOfRooms >i= val)
         }
         
         if let val = params.price {

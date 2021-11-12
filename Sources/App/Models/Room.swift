@@ -456,6 +456,8 @@ final class Room: Codable, Model, Content {
             if let page = query.page {
                 _query.append(URLQueryItem(name: "page", value: page.toString))
             }
+            
+            
 
             _query.append(URLQueryItem(name: "per", value: query.per?.toString ?? 10.toString))
             

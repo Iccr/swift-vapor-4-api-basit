@@ -12,8 +12,13 @@ import Fluent
 class RoomWebController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let rooms = routes.grouped("rooms")
-        let secureRooms = rooms.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
-        let secureRoutes = routes.grouped(User.redirectMiddleware(path: "/?loginRequired=true"))
+        let secureRooms = rooms
+            .grouped(
+                User.redirectMiddleware(path: "/?loginRequired=true")
+            )
+        let secureRoutes = routes
+            .grouped(
+                User.redirectMiddleware(path: "/?loginRequired=true"))
         rooms.get(use: index) // /rooms
         rooms.post( use: create)
         secureRooms.post("destroy", use: destroy) // /rooms/destroy
@@ -27,7 +32,9 @@ class RoomWebController: RouteCollection {
     func index(req: Request) throws -> EventLoopFuture<View> {
         let query = try req.query.decode(Room.Querry.self)
         let user = req.auth.get(User.self)
-        return RoomStore().getAllRooms(query, req: req).flatMap { page in
+        return RoomStore()
+            .getAllRooms(query, req: req)
+            .flatMap { page in
             return req.view.render(
                 "index",
                 Room.getContext(baseUrl: req.baseUrl, page: page, query: query, user: user)
