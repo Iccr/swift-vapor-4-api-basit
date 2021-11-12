@@ -243,7 +243,7 @@ extension RoomStore {
         }
         
         if let val = params.noOfRooms {
-            query.filter(\.$noOfRooms >i= val)
+            query.filter(\.$noOfRooms >= val)
         }
         
         if let val = params.price {
