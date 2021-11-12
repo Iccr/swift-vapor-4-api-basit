@@ -241,6 +241,10 @@ extension RoomStore {
             query.filter(\.$price <= val)
         }
         
+        if let val = params.noOfRooms {
+            query.filter(\.$noOfRooms <= val)
+        }
+        
         if let val = params.price {
             if val == "low-to-high" {
                 query.sort(\.$price, .ascending)
