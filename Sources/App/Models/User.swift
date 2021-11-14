@@ -119,3 +119,16 @@ final class UserContainer : Codable {
     }
 
 }
+
+
+extension User {
+    struct Input: Content {
+        var email: String?
+        var imageurl: String?
+        var name : String?
+        var token : String
+        var appleUserIdentifier: String?
+        var provider : String
+        var fcm: String?
+    }
+}

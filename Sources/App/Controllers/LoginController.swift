@@ -32,8 +32,8 @@ struct LoginController: RouteCollection {
     }
     
     func create(req: Request) throws -> EventLoopFuture<CommonResponse<User>> {
-        let input = try req.content.decode(UserContainer.self).user
-        guard let provider = AuthProvider.init(rawValue: input?.provider ?? "") else {
+        let input = try req.content.decode(User.Input.self)
+        guard let provider = AuthProvider.init(rawValue: input.provider ?? "") else {
             throw Abort(.badRequest, reason: "provider not found")
         }
         
@@ -47,8 +47,8 @@ struct LoginController: RouteCollection {
         }
     }
     
-    func signUpWithGoogle(req: Request, input: User?) throws -> EventLoopFuture<User> {
-        let result =   SocialSession().verifyGoogle(token: input?.token ?? "", req: req)
+    func signUpWithGoogle(req: Request, input: User.Input) throws -> EventLoopFuture<User> {
+        let result =   SocialSession().verifyGoogle(token: input.token ?? "", req: req)
         return result.flatMapThrowing { response -> User in
             let user = response.user
             if let error = response.error {
@@ -79,8 +79,8 @@ struct LoginController: RouteCollection {
         
     }
     
-    func signUpWithFacebook(req: Request, input: User?) -> EventLoopFuture<User> {
-        let result =   SocialSession().verifyFacebook(token: input?.token ?? "", req: req)
+    func signUpWithFacebook(req: Request, input: User.Input) -> EventLoopFuture<User> {
+        let result =   SocialSession().verifyFacebook(token: input.token ?? "", req: req)
         return result.flatMap { response in
             let user = User.getUser(from: response)
             

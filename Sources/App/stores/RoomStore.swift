@@ -21,7 +21,6 @@ class RoomStore {
                 page.map { $0.responseFrom(baseUrl: req.baseUrl)
                 }
             }
-
     }
     
     func create(req: Request) throws ->  EventLoopFuture<Room.Output> {
