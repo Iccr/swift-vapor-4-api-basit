@@ -31,9 +31,9 @@ struct LoginController: RouteCollection {
         }
     }
     
-    func create(req: Request) throws -> EventLoopFuture<CommonResponse<User>> {
+    func create(req: Request) throws -> EventLoopFuture<CommonResponse<User.Output>> {
         let input = try req.content.decode(User.Input.self)
-        guard let provider = AuthProvider.init(rawValue: input.provider ?? "") else {
+        guard let provider = AuthProvider.init(rawValue: input.provider) else {
             throw Abort(.badRequest, reason: "provider not found")
         }
         
@@ -47,14 +47,14 @@ struct LoginController: RouteCollection {
         }
     }
     
-    func signUpWithGoogle(req: Request, input: User.Input) throws -> EventLoopFuture<User> {
-        let result =   SocialSession().verifyGoogle(token: input.token ?? "", req: req)
-        return result.flatMapThrowing { response -> User in
+    func signUpWithGoogle(req: Request, input: User.Input) throws -> EventLoopFuture<User.Output> {
+        let result =   SocialSession().verifyGoogle(token: input.token, req: req)
+        return result.flatMapThrowing { response -> User.Output in
             let user = response.user
             if let error = response.error {
                 throw (Abort(.unauthorized, reason: error))
             }
-            return user
+            return user.responsefrom()
         }.flatMap { user in
             return User.findByEmail(user.email ?? "", req: req)
                 .flatMap { _user in
@@ -75,12 +75,10 @@ struct LoginController: RouteCollection {
                     }
                 }
         }
-            
-        
     }
     
-    func signUpWithFacebook(req: Request, input: User.Input) -> EventLoopFuture<User> {
-        let result =   SocialSession().verifyFacebook(token: input.token ?? "", req: req)
+    func signUpWithFacebook(req: Request, input: User.Input) -> EventLoopFuture<User.Output> {
+        let result =   SocialSession().verifyFacebook(token: input.token, req: req)
         return result.flatMap { response in
             let user = User.getUser(from: response)
             
@@ -114,7 +112,7 @@ extension LoginController {
         let appleIdentityToken: String
     }
     
-    func signUpWithApple(req: Request) throws -> EventLoopFuture<User> {
+    func signUpWithApple(req: Request) throws -> EventLoopFuture<User.Output> {
         let userBody = try req.content.decode(SIWARequestBody.self)
         
         return req.jwt.apple.verify(
@@ -157,18 +155,13 @@ extension LoginController {
         email: String? = nil,
         provider: String,
         req: Request
-    ) -> EventLoopFuture<User> {
+    ) -> EventLoopFuture<User.Output> {
         return User.assertUniqueEmail(email ?? "", req: req).flatMap {
             let user: User = .init( id: nil, email: email ?? "", imageurl: nil, name: name, token: nil, appleUserIdentifier: appleUserIdentifier, provider: provider, fcm: nil)
             // 5
             return user.save(on: req.db)
                 .flatMap {
-                    guard let accessToken = try? user.createAccessToken(req: req) else {
-                        return req.eventLoop.future(error: Abort(.internalServerError))
-                    }
-                    
-                    user.token = accessToken.value
-                    return req.eventLoop.makeSucceededFuture(user)
+                    return updateAccessToken(user, req: req)
                 }
         }
     }
@@ -179,7 +172,7 @@ extension LoginController {
         name: String? = nil,
         
         req: Request
-    )  -> EventLoopFuture<User> {
+    )  -> EventLoopFuture<User.Output> {
         // 2
         
         return User.findByAppleIdentifier(appleIdentifier, req: req)
@@ -199,14 +192,7 @@ extension LoginController {
             }
             // 5
             .flatMap { user in
-                guard let accessToken = try? user.createAccessToken(req: req) else {
-                    return req.eventLoop.future(error: Abort(.internalServerError))
-                }
-                return accessToken.save(on: req.db).flatMapThrowing {
-                    // 6
-                    user.token = accessToken.value
-                    return user
-                }
+                updateAccessToken(user, req: req)
             }
     }
     
@@ -216,7 +202,7 @@ extension LoginController {
         name: String? = nil,
         
         req: Request
-    )  -> EventLoopFuture<User> {
+    )  -> EventLoopFuture<User.Output> {
         return  User.findByEmail(email, req: req)
             .unwrap(or: Abort(.notFound))
             .flatMap { user -> EventLoopFuture<User> in
@@ -230,14 +216,23 @@ extension LoginController {
 //                    .transform(to: user)
             }
             .flatMap { user in
-                guard let accessToken = try? user.createAccessToken(req: req) else {
-                    return req.eventLoop.future(error: Abort(.internalServerError))
-                }
-//                return accessToken.save(on: req.db).flatMapThrowing {
-                    user.token = accessToken.value
-                return req.eventLoop.future(user)
+                return updateAccessToken(user, req: req)
+//                guard let accessToken = try? user.createAccessToken(req: req) else {
+//                    return req.eventLoop.future(error: Abort(.internalServerError))
+//                }
+////                return accessToken.save(on: req.db).flatMapThrowing {
+//                user.token = accessToken.value
+//                return req.eventLoop.future(user)
 //                }
             }
+    }
+    
+    static func updateAccessToken(_ user: User, req: Request) -> EventLoopFuture<User.Output> {
+        guard let accessToken = try? user.createAccessToken(req: req) else {
+            return req.eventLoop.future(error: Abort(.internalServerError))
+        }
+        user.token = accessToken.value
+        return req.eventLoop.future(user.responsefrom())
     }
     
     func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
