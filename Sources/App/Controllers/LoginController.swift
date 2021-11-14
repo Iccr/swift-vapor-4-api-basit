@@ -166,12 +166,9 @@ extension LoginController {
                     guard let accessToken = try? user.createAccessToken(req: req) else {
                         return req.eventLoop.future(error: Abort(.internalServerError))
                     }
-                    return accessToken.save(on: req.db).flatMap {
-                        user.token = accessToken.value
-                        return user.update(on: req.db).map {
-                            user
-                        }
-                    }
+                    
+                    user.token = accessToken.value
+                    return req.eventLoop.makeSucceededFuture(user)
                 }
         }
     }
