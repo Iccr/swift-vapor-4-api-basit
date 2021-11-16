@@ -12,7 +12,7 @@
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div class="card">
                 
                 <div class="card card-info">
@@ -32,6 +32,20 @@
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Image</label>
                         <div class="col-sm-10">
                           <input type="text" class="form-control" value="#(city.imageUrl)" name="imageUrl" id="inputPassword3" placeholder="Image">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputLat3" class="col-sm-2 col-form-label">Latitude</label>
+                        <div class="col-sm-10">
+                          <input type="number" min=0 step='any' class="form-control" value="#(city.lat)" name="lat" id="inputLat3" placeholder="Latitude">
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="inputLong3" class="col-sm-2 col-form-label">Longitude</label>
+                        <div class="col-sm-10">
+                          <input type="number" min=0 step='any'  class="form-control" value="#(city.long)" name="long" id="inputLong3" placeholder="Longitude">
                         </div>
                       </div>
                      <div class="form-group row">
