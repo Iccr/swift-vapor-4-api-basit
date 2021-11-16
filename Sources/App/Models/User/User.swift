@@ -100,28 +100,3 @@ final class User : Model, Content {
     }
  
 }
-
-
-extension User {
-    struct Input: Content {
-        var email: String?
-        var imageurl: String?
-        var name : String?
-        var token : String
-        var appleUserIdentifier: String?
-        var provider : String
-        var fcm: String?
-    }
-    
-    struct Output: Content {
-        var id: Int?
-        var name: String?
-        var token: String?
-        var image: String?
-        var email:String?
-    }
-    
-    func responsefrom() -> User.Output {
-        return .init(id: self.id, name: self.name, token: self.token, image: self.image, email: self.email)
-    }
-}
