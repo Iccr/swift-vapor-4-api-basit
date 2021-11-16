@@ -5,8 +5,6 @@ import Leaf
 import Vapor
 import JWT
 
-
-
 import Foundation
 // configures your application
 public func configure(_ app: Application) throws {
@@ -18,25 +16,19 @@ public func configure(_ app: Application) throws {
     app.middleware.use(file)
     app.routes.defaultMaxBodySize = "10mb"
     app.logger.logLevel = .debug
-//    app.http.server.configuration.port = 5000
     app.leaf.tags["flasher"] = Flasher()
-    
-    
     let jwtSecret = Environment.get("JWT_SECRET") ?? "blablaSecret"
     app.jwt.signers.use(.hs256(key: jwtSecret))
     let hostname = Environment.get("DATABASE_HOST") ?? "127.0.0.1"
-//    var port: Int = 5433
-        var port: Int = 3306
+    var port: Int = 3306
     if let _p = Environment.get("PORT"), let _port = Int(_p) {
         port = _port
     }
     let username = Environment.get("USER") ?? ""
     let dbName = Environment.get("DATABASE") ?? ""
     let dbPassword = Environment.get("PASSWORD") ?? ""
-    
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
-
     app.databases.use(
         .mysql(configuration: .init(
                 hostname: hostname,
@@ -45,15 +37,13 @@ public func configure(_ app: Application) throws {
                 password: dbPassword,
                 database: dbName,
                 tlsConfiguration: .none
-            
         ), maxConnectionsPerEventLoop: 5),
         as: .mysql)
-
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
-    
     app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Banner.CreateBannerMigration())
+//    The following migration already present in legacy database. Hence not required to migrate for now
 //    app.migrations.add(User.CreateUserMigration())
 //    app.migrations.add(Room.CreateRoomMigration())
 //    app.migrations.add(TokenMigration())
@@ -62,18 +52,15 @@ public func configure(_ app: Application) throws {
     app.migrations.add(User.AddStatusToCity())
     app.migrations.add(Room.AddCityIdToRoomReference())
     app.migrations.add(User.AddImageToUser())
+    app.migrations.add(City.AddLatLongToCity())
     
-    
-    
-
     try? app.autoMigrate().wait()
-    //    seed(app.db)
+//    seed(app.db)
     app.logger.log(level: .info, "migration complete")
     try routes(app)
     app.routes.all.forEach { route in
         print(route)
-    }
-    
+    }   
 }
 
 func seed(_ db: Database)  {
@@ -113,32 +100,3 @@ func seed(_ db: Database)  {
     }
 }
 
-
-
-
-
-
-struct CommonResponse<T: Content>: Content {
-    let data: T
-}
-
-
-
-class Apple {
-    struct AccessToken {
-      static let expirationTime: TimeInterval = 30 * 24 * 60 * 60 // 30 days
-    }
-
-    struct SIWA {
-      static let applicationIdentifier =  Environment.get("IOS_APP_ID") ?? ""
-      static let servicesIdentifier = "SIWA_SERVICES_IDENTIFIER" //e.g. com.raywenderlich.siwa-vapor.services
-      static let redirectURL = "SIWA_REDIRECT_URL" // e.g. https://foobar.ngrok.io/web/auth/siwa/callback
-    }
-}
-
-
-extension Request {
-    var baseUrl: String {
-        return Environment.get("SERVER_URL") ?? ""
-    }
-}
