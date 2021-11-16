@@ -30,11 +30,11 @@ final class City : Codable, Model, Content {
     @Field(key: "description")
     var description : String?
     
-    @Field(key: "lat")
+    @OptionalField(key: "lat")
     var lat : Double?
     
     
-    @Field(key: "long")
+    @OptionalField(key: "long")
     var long : Double?
     
 
@@ -49,11 +49,13 @@ final class City : Codable, Model, Content {
         
     }
 
-    init(id: Int? = nil, name: String, image: String, description: String) {
+    init(id: Int? = nil, name: String, image: String, description: String, lat: Double? = nil, long: Double? = nil) {
         self.id = id
         self.name = name
         self.imageUrl = image
         self.description = description
+        self.lat = lat
+        self.long = long
     }
 }
 

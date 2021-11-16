@@ -31,20 +31,22 @@ class CityStore {
     }
     
     func delete(req: Request) throws -> EventLoopFuture<Void> {
-        let toDelete = try req.content.decode(City.DeleteInput.self)
+        let toDelete = try req.content.decode(City.IDInput.self)
         return City.query(on: req.db)
             .filter(\.$id == toDelete.id)
             .delete()
     }
     
     func update(req: Request) throws -> EventLoopFuture<City> {
-        let toUpdate = try req.content.decode(City.self)
+        let toUpdate = try req.content.decode(City.UpdateInput.self)
         return try self.find(toUpdate.id, req: req)
             .unwrap(or: Abort(.badRequest))
             .flatMap { city in
                 city.name = toUpdate.name
-                city.imageUrl = toUpdate.imageUrl
-                city.description = toUpdate.description
+                city.imageUrl = toUpdate.image ?? city.imageUrl
+                city.description = toUpdate.description ?? city.description
+                city.lat = toUpdate.lat ?? city.lat
+                city.long = toUpdate.long ?? city.long
                 return city.update(on: req.db).map {
                     return city
                 }

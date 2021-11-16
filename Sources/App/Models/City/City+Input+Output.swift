@@ -18,8 +18,27 @@ extension City {
        var createdAt: Date?
        var updatedAt: Date?
    }
-
-   struct DeleteInput: Content {
-       var id: Int
-   }
+    
+    struct Input: Content {
+        var id: Int?
+        var name : String?
+        var image : String?
+        var description : String?
+        var lat: Double?
+        var long: Double?
+    }
+    
+    struct UpdateInput: Content {
+        var id: Int
+        var name : String?
+        var image : String?
+        var description : String?
+        var lat: Double?
+        var long: Double?
+    }
+    
+    
+    struct IDInput: Content {
+        var id: Int
+    }
 }
