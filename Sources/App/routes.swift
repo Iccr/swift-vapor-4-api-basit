@@ -29,8 +29,6 @@ func routes(_ app: Application) throws {
         return try RoomController().update(req: req)
     }
     
-    
-    
     // Free
     api.get("rooms") { req in
         return try RoomController().index(req: req)

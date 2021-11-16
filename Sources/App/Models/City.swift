@@ -31,11 +31,11 @@ final class City : Codable, Model, Content {
     var description : String?
     
     @Field(key: "lat")
-    var lat : double?
+    var lat : Double?
     
     
     @Field(key: "long")
-    var long : double?
+    var long : Double?
     
 
     @Timestamp(key: "created_at", on: .create)

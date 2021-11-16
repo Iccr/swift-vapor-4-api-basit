@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Vapor
 
 extension Request {
     var baseUrl: String {

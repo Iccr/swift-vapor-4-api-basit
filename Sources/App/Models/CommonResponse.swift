@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Vapor
 
 
 struct CommonResponse<T: Content>: Content {

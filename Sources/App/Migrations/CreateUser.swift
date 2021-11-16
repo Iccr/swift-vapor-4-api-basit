@@ -68,8 +68,8 @@ extension User {
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema(Schema.User).
-                deleteField("image")
+            database.schema(Schema.User)
+                .deleteField("image")
                 .deleteField("appleUserIdentifier")
                 .deleteField("provider")
                 .update()
