@@ -23,7 +23,7 @@ class CityStore {
     }
     
     func create(req: Request) throws -> EventLoopFuture<City> {
-        let city = try req.content.decode(City.self)
+        let city = try req.content.decode(City.Input.self).city
         return city.create(on: req.db).map {
             city
                 

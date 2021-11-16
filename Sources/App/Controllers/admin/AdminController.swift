@@ -11,7 +11,7 @@ import Vapor
 
 
 class AdminController: RouteCollection {
-
+    
     
     func boot(routes: RoutesBuilder) throws {
         
@@ -75,30 +75,23 @@ class AdminController: RouteCollection {
     
     func cityCreate(req: Request) throws -> EventLoopFuture<Response> {
         let _city = try? req.content.decode(City.Input.self)
-        
         do {
-            
-        if let _ = _city?.id {
-            // update if id is present
-            
-            return try CityStore().update(req: req).map { city in
-                req.redirect(to: "/admin/city")
-            }
-        }else {
-            // else create
-           
-                return try CityStore().create(req: req).map { city in
-                 return req.redirect(to: "/admin/city")
+            if let _ = _city?.id {
+                // update if id is present
+                return try CityStore().update(req: req).map { city in
+                    req.redirect(to: "/admin/city")
                 }
-            
-            
-        }
+            }else {
+                return try CityStore().create(req: req).map { city in
+                    return req.redirect(to: "/admin/city")
+                }
+            }
         } catch {
-            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/new/?alert=\(error.localizedDescription)&priority=3i"))
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/new/?alert=\(error)&priority=3"))
         }
     }
     
-  
+    
     func cityDelete(req: Request) throws -> EventLoopFuture<Response> {
         try CityStore().delete(req: req).map { city in
             return req.redirect(to: "/admin/city")
@@ -119,22 +112,22 @@ class AdminController: RouteCollection {
             }
     }
     
-
+    
     
     
 }
 
 struct EnsureAdminUserMiddleware: Middleware {
-
-   func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
-
-    guard let user = request.auth.get(User.self), user.role == .admin else {
-        return request.eventLoop.future(error:  Abort.redirect(to: "/"))
+    
+    func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
+        
+        guard let user = request.auth.get(User.self), user.role == .admin else {
+            return request.eventLoop.future(error:  Abort.redirect(to: "/"))
+        }
+        
+        return next.respond(to: request)
     }
-
-    return next.respond(to: request)
-    }
-
+    
 }
 
 

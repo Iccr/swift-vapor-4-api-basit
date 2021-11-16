@@ -9,7 +9,7 @@ import Foundation
 import Fluent
 import Vapor
 
-final class City : Codable, Model, Content {
+final class City : Model, Content {
     static let schema: String = "cities"
     
     @Children(for: \.$city)
@@ -49,7 +49,7 @@ final class City : Codable, Model, Content {
         
     }
 
-    init(id: Int? = nil, name: String, image: String, description: String, lat: Double? = nil, long: Double? = nil) {
+    init(id: Int? = nil, name: String, image: String?, description: String?, lat: Double? = nil, long: Double? = nil) {
         self.id = id
         self.name = name
         self.imageUrl = image

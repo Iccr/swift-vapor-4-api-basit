@@ -37,5 +37,10 @@ extension City {
         var id: Int
     }
     
-    
+}
+
+extension City.Input {
+    var city: City {
+        return .init(name: self.name, image: self.image, description: self.description, lat: self.lat, long: self.long)
+    }
 }
