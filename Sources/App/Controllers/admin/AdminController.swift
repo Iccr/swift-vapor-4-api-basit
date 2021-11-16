@@ -68,8 +68,9 @@ class AdminController: RouteCollection {
         struct Context: Encodable {
             var city: City?
             var edit = false
+            var alert: AppAlert?
         }
-        return req.view.render("admin/pages/cityForm", Context())
+        return req.view.render("admin/pages/cityForm", Context(alert: req.alert))
     }
     
     func cityCreate(req: Request) throws -> EventLoopFuture<Response> {
@@ -93,7 +94,7 @@ class AdminController: RouteCollection {
             
         }
         } catch {
-            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/new/?alert=\(error.localizedDescription)"))
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/new/?alert=\(error.localizedDescription)&priority=3i"))
         }
     }
     
