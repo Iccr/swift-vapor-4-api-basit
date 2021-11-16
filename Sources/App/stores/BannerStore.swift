@@ -38,7 +38,7 @@ class CityStore {
     }
     
     func update(req: Request) throws -> EventLoopFuture<City> {
-        let toUpdate = try req.content.decode(City.UpdateInput.self)
+        let toUpdate = try req.content.decode(City.Input.self)
         return try self.find(toUpdate.id, req: req)
             .unwrap(or: Abort(.badRequest))
             .flatMap { city in

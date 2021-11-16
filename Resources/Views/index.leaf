@@ -2,7 +2,8 @@
 #extend("master"):
     #export("content"):
         <section class="container">
-                        #flasher()
+                        
+                        
                   <div class="row">
                     <form id="bookingCars" class="d-block mb-2" method="get" action="/">
                   </div>

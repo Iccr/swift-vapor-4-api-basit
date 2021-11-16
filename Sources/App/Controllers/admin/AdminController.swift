@@ -24,7 +24,6 @@ class AdminController: RouteCollection {
         secure.get("city", use: city)
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
-        secure.post("city","update", use: cityUpdate)
         secure.post("city", "delete", use: cityDelete)
         secure.get("city", "edit", ":id", use: cityEdit)
         
@@ -71,18 +70,28 @@ class AdminController: RouteCollection {
     }
     
     func cityCreate(req: Request) throws -> EventLoopFuture<Response> {
-        let _ = try req.content.decode(City.Input.self)
         let _city = try? req.content.decode(City.Input.self)
+        
+        do {
+            
         if let _ = _city?.id {
             // update if id is present
+            
             return try CityStore().update(req: req).map { city in
                 req.redirect(to: "/admin/city")
             }
         }else {
             // else create
-            return try CityStore().create(req: req).map { city in
-                return req.redirect(to: "/admin/city")
-            }
+           
+                return try CityStore().create(req: req).map { city in
+                 return req.redirect(to: "/admin/city")
+                }
+            
+            
+        }
+        } catch {
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/?error=\(error)"))
+            print("fuck you bitch")
         }
     }
     
@@ -99,17 +108,12 @@ class AdminController: RouteCollection {
             var city: City?
             var edit = true
         }
+        
         return try CityStore().find(id, req: req)
             .unwrap(or: Abort(.notFound))
             .flatMap { city in
                 req.view.render("/admin/pages/cityForm", Context(city: city))
             }
-    }
-    
-    func cityUpdate(req: Request) throws -> EventLoopFuture<Response> {
-        return try CityStore().update(req: req).map { city in
-            req.redirect(to: "/admin/city")
-        }
     }
 }
 
