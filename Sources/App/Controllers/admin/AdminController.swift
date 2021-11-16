@@ -11,9 +11,10 @@ import Vapor
 
 
 class AdminController: RouteCollection {
-    
+
     
     func boot(routes: RoutesBuilder) throws {
+        
         let route = routes.grouped("admin")
         let secure = route.grouped(EnsureAdminUserMiddleware())
         route.get("login", use: new)
@@ -53,11 +54,13 @@ class AdminController: RouteCollection {
     }
     
     func city(req: Request) throws -> EventLoopFuture<View> {
+        
         try CityStore().getAllCity(req: req).flatMap { cities in
             struct Context: Encodable {
                 var items: [City]
+                var alert: AppAlert?
             }
-            return req.view.render("admin/pages/city", Context(items: cities))
+            return req.view.render("admin/pages/city", Context(items: cities, alert: req.alert))
         }
     }
     
@@ -91,7 +94,6 @@ class AdminController: RouteCollection {
         }
         } catch {
             return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/?error=\(error)"))
-            print("fuck you bitch")
         }
     }
     
@@ -115,6 +117,10 @@ class AdminController: RouteCollection {
                 req.view.render("/admin/pages/cityForm", Context(city: city))
             }
     }
+    
+
+    
+    
 }
 
 struct EnsureAdminUserMiddleware: Middleware {
@@ -128,4 +134,11 @@ struct EnsureAdminUserMiddleware: Middleware {
     return next.respond(to: request)
     }
 
+}
+
+
+extension Request {
+    var alert: AppAlert? {
+        try? query.decode(AppAlert.self)
+    }
 }

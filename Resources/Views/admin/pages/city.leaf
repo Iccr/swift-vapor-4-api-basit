@@ -7,9 +7,7 @@
               <div class="card">
                 <div class="card-header text-right">
                   #flasher()
-                  <div id="veda-falsher" class="alert alert-danger" role="alert">
-                    lado
-                  </div>
+              
                   <h3 class="card-title">City</h3>
                   <a class="btn btn-success btn-sm" href="/admin/city/new">
                     <i class="fas fa-pencil-alt">

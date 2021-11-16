@@ -28,7 +28,14 @@ extension City {
         var long: Double?
     }
     
+    struct Query: Content {
+        var alert: String
+        var alertLevel: Int = 1
+    }
+    
     struct IDInput: Content {
         var id: Int
     }
+    
+    
 }

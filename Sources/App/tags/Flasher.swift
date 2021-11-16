@@ -15,11 +15,13 @@ struct FlasherTagError: Error {}
 
 class Flasher: LeafTag, UnsafeUnescapedLeafTag {
     func render(_ ctx: LeafContext) throws -> LeafData {
-        guard let error = ctx.data["alert"]?.string else {
+       
+        let message = ctx.data["alert"]?.dictionary?["alert"]?.string
+        let level = ctx.data["alert"]?.dictionary?["priority"]?.int ?? 1
+        guard let _ = message else {
             return LeafData.string(nil)
         }
- 
-        let level = ctx.data["alertLevel"] ?? 1
+
         var alertClass = ""
         switch level {
             case 0:
@@ -38,7 +40,7 @@ class Flasher: LeafTag, UnsafeUnescapedLeafTag {
         return LeafData.string(
                 """
                     <div id = "veda-falsher" class="alert \(alertClass)" role="alert">
-                        \(error)
+                        \(message ?? "")
                     </div>
                 """
         )}
