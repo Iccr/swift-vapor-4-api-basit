@@ -13,12 +13,12 @@ import Fluent
 extension Room {
     struct CreateRoomMigration: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("rooms")
+            return database.schema(Schema.Room)
                 .field("id", .int, .identifier(auto: true))
                 .field("price", .double)
                 .field("vimages", .array(of: .string))
-                .field("city_id", .int, .foreignKey("cities", .key("id"), onDelete: .cascade, onUpdate: .cascade))
-                .field("user_id", .int, .foreignKey("users", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+                .field("city_id", .int, .foreignKey(Schema.City, .key("id"), onDelete: .cascade, onUpdate: .cascade))
+                .field("user_id", .int, .foreignKey(Schema.User, .key("id"), onDelete: .cascade, onUpdate: .cascade))
                 .field("type", .string)
                 .field("no_of_rooms", .int)
                 .field("kitchen", .string)
@@ -42,20 +42,20 @@ extension Room {
         }
 
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("rooms").delete()
+            return database.schema(Schema.Room).delete()
         }
     }
     
     struct AddCityNameToRoomMigration: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("rooms")
+            return database.schema(Schema.Room)
                 .field("city_name", .string)
                 .update()
                 
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("rooms")
+            return database.schema(Schema.Room)
                 .deleteField("city_name")
                 .update()
         }
@@ -65,13 +65,13 @@ extension Room {
     
     struct AddCityIdToRoomReference: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("rooms")
-            .field("city_id", .int, .foreignKey("cities", .key("id"), onDelete: .cascade, onUpdate: .cascade))
+            database.schema(Schema.Room)
+                .field("city_id", .int, .foreignKey(Schema.City, .key("id"), onDelete: .cascade, onUpdate: .cascade))
             .update()
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("rooms")
+            database.schema(Schema.Room)
                 .deleteField("city_id")
                 .update()
         }

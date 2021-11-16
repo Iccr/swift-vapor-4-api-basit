@@ -9,9 +9,11 @@ import Fluent
 
 
 extension City {
+    
+    
     struct CreateCityMigration: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("cities")
+            database.schema(Schema.City)
                 .field("id", .int, .identifier(auto: true))
                 .field("name", .string, .required)
                 .field("image_url", .string, .required)
@@ -22,7 +24,23 @@ extension City {
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("cities").delete()
+            database.schema(Schema.City).delete()
+        }
+    }
+    
+    struct AddLatLongToCity: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.City)
+                .field("lat", .double)
+                .field("long", .double)
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.City)
+                .deleteField("lat")
+                .deleteField("long")
+                .update()
         }
     }
 

@@ -29,6 +29,14 @@ final class City : Codable, Model, Content {
 
     @Field(key: "description")
     var description : String?
+    
+    @Field(key: "lat")
+    var lat : double?
+    
+    
+    @Field(key: "long")
+    var long : double?
+    
 
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?

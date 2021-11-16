@@ -3,7 +3,7 @@ import Fluent
 extension User {
     struct CreateUserMigration: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("users")
+            return database.schema(Schema.User)
                 .field("id", .int, .identifier(auto: true))
                 .field("email", .string)
                 .field("imageurl", .string)
@@ -26,19 +26,19 @@ extension User {
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("users").delete()
+            return database.schema(Schema.User).delete()
         }
     }
     
     struct AddRoleToUser: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("users")
+            return database.schema(Schema.User)
                 .field("role", .string ,.sql(.default(User.Role.normalUser.rawValue)))
                 .update()
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("users")
+            return database.schema(Schema.User)
                 .deleteField("role")
                 .update()
         }
@@ -46,13 +46,13 @@ extension User {
     
     struct AddStatusToCity: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("cities")
+            return database.schema(Schema.User)
                 .field("status", .bool, .sql(.default(false)))
                 .update()
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            return database.schema("cities")
+            return database.schema(Schema.User)
                 .deleteField("status")
                 .update()
         }
@@ -60,14 +60,16 @@ extension User {
     
     struct AddImageToUser: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("users").field("image", .string)
+            database.schema(Schema.User)
+                .field("image", .string)
                 .field("appleUserIdentifier", .string)
                 .field("provider", .string)
                 .update()
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema("users").deleteField("image")
+            database.schema(Schema.User).
+                deleteField("image")
                 .deleteField("appleUserIdentifier")
                 .deleteField("provider")
                 .update()
@@ -97,9 +99,9 @@ extension User {
 struct TokenMigration: Migration {
     
     func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema(Token.schema)
+        database.schema(Schema.Token)
             .field("id", .int, .identifier(auto: true))
-            .field("userID", .int, .references("users", "id"))
+            .field("userID", .int, .references(Schema.User, "id"))
             .field("value", .string, .required)
             .unique(on: "value")
             .field("createdAt", .datetime, .required)

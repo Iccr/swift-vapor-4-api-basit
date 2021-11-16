@@ -9,10 +9,8 @@ import Fluent
 
 extension Banner {
     struct CreateBannerMigration: Migration {
-        let schemaName = "banners"
-        
         func prepare(on database: Database) -> EventLoopFuture<Void> {
-            database.schema(schemaName)
+            database.schema(Schema.Banner)
                 .field("id", .int, .identifier(auto: true))
                 .field("title", .string, .required)
                 .field("subtitle", .string, .required)
@@ -25,7 +23,7 @@ extension Banner {
         }
         
         func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema(schemaName).delete()
+            database.schema(Schema.Banner).delete()
         }
     }
 }
