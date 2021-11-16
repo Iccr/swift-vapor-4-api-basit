@@ -93,7 +93,7 @@ class AdminController: RouteCollection {
             
         }
         } catch {
-            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/?error=\(error)"))
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/city/new/?alert=\(error.localizedDescription)"))
         }
     }
     
