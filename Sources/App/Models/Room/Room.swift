@@ -11,7 +11,7 @@ import Fluent
 
 
 
-final class Room: Codable, Model, Content {
+final class Room: Model, Content {
     static let schema: String = "rooms"
     
     @Parent(key: "city_id")
@@ -128,58 +128,6 @@ final class Room: Codable, Model, Content {
     
     init() { }
     
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case price = "price"
-        case vimages = "vimages"
-        case userId = "userId"
-        case type = "type"
-        case noOfRooms = "no_of_rooms"
-        case kitchen = "kitchen"
-        case floor = "floor"
-        case lat = "lat"
-        case long = "long"
-        case address = "address"
-        case district = "district"
-        case state = "state"
-        case localGov = "local_gov"
-        case parking = "parking"
-        case water = "water"
-        case internet = "internet"
-        case phone = "phone"
-        case description = "description"
-        case occupied = "occupied"
-        case preference = "preference"
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decodeIfPresent(Int.self, forKey: .id)
-        price = try values.decodeIfPresent(Double.self, forKey: .price)
-        vimages = try values.decodeIfPresent(String.self, forKey: .vimages) ?? ""
-        //        userId = try values.decodeIfPresent(Int.self, forKey: .userId)
-        type = try values.decodeIfPresent(String.self, forKey: .type)
-        noOfRooms = try values.decodeIfPresent(Int.self, forKey: .noOfRooms)
-        kitchen = try values.decodeIfPresent(String.self, forKey: .kitchen)
-        floor = try values.decodeIfPresent(String.self, forKey: .floor)
-        lat = try values.decodeIfPresent(Double.self, forKey: .lat)
-        long = try values.decodeIfPresent(Double.self, forKey: .long)
-        address = try values.decodeIfPresent(String.self, forKey: .address)
-        district = try values.decodeIfPresent(String.self, forKey: .district)
-        state = try values.decodeIfPresent(String.self, forKey: .state)
-        localGov = try values.decodeIfPresent(String.self, forKey: .localGov)
-        parking = try values.decodeIfPresent(String.self, forKey: .parking)
-        water = try values.decodeIfPresent(String.self, forKey: .water)
-        internet = try values.decodeIfPresent(String.self, forKey: .internet)
-        phone = try values.decodeIfPresent(String.self, forKey: .phone)
-        description = try values.decodeIfPresent(String.self, forKey: .description)
-        occupied = try values.decodeIfPresent(Bool.self, forKey: .occupied)
-        preference = try values.decodeIfPresent(String.self, forKey: .preference)
-        createdAt = try values.decodeIfPresent(Date.self, forKey: .createdAt)
-        updatedAt = try values.decodeIfPresent(Date.self, forKey: .updatedAt)
-    }
     
     
     
@@ -329,42 +277,6 @@ final class Room: Codable, Model, Content {
         var alert: String?
         var alertLevel: Int?
         var loginRequired: Bool = false
-        
-        
-//        func previousPage(baseurl: String) -> String {
-//            var copy = self
-////            copy.page = (page == nil || page! <= 1) ? 1 :( page! - 1)
-//            if let page = page, page > 1 {
-//                copy.page = page - 1
-//            }else {
-//                copy.page = 1
-//            }
-//            var components = URLComponents()
-//            components.scheme = "http"
-//            components.host = "localhost"
-//            components.port = 8080
-//            components.path = "/api/v1"
-//            components.queryItems = getQeury(query: copy)
-//            return  (components.url?.absoluteString ?? "")
-//        }
-//
-//        func nextPage(baseurl: String, totalPage: Int) -> String {
-//            var copy = self
-////            copy.page = (page == nil || page! <= 1) ? 1 :( page! - 1)
-//            if let page = page, page < totalPage {
-//                copy.page = page + 1
-//            }else {
-//                copy.page = 1
-//            }
-//
-//            var components = URLComponents()
-//            components.scheme = "http"
-//            components.host = "localhost"
-//            components.port = 8080
-////            components.path = ""
-//            components.queryItems = getQeury()
-//            return components.url?.absoluteString ?? ""
-//        }
         
         func getQeury() -> [URLQueryItem] {
             let query = self
@@ -532,103 +444,8 @@ final class Room: Codable, Model, Content {
         }
     }
     
-    extension Room {
-        struct Entity: Content {
-            var images: [File]
-            var city_id: Int
-        }
-    }
     
-    extension Double {
-        func getNumberWithNepaliFormat( precision: Int = 2) -> String? {
-            let number = self
-            
-            if  number != 0 {
-                let nsNumber = NSNumber.init(value: number)
-                let formatter = NumberFormatter()
-                formatter.numberStyle = .decimal
-                formatter.maximumFractionDigits = precision
-                formatter.usesGroupingSeparator = true
-                formatter.groupingSize = 3
-                formatter.secondaryGroupingSize = 2
-                formatter.maximumFractionDigits = precision
-                let result = formatter.string(for: nsNumber)
-                return result
-            }
-            return nil
-        }
-        
-        func getShortCurrency( precision: Int = 2) -> String? {
-            let number = self
-            
-            if  number != 0 {
-                if number < 1_000 {
-                    return "Rs.\(number)"
-                }else if number >= 1_000 && number < 10_000 {
-                    let remainder = number.remainder(dividingBy: 1000)
-                    return remainder  == 0 ? "1K" : "1.\(remainder)k"
-                } else if number >= 10_000 && number < 100_000 {
-                    let remainder = number.remainder(dividingBy: 10_000)
-                    return remainder == 0 ? "10K" : "10.\(remainder)k"
-                }else if number >= 100_000  {
-                    let remainder = number.remainder(dividingBy: 100_000)
-                    return remainder  == 0 ? "100K" : "100.\(remainder)k"
-                }
-                
-                //            let nsNumber = NSNumber.init(value: number)
-                //            let formatter = NumberFormatter()
-                //            formatter.numberStyle = .decimal
-                //            formatter.maximumFractionDigits = precision
-                //            formatter.usesGroupingSeparator = true
-                //            formatter.groupingSize = 3
-                //            formatter.secondaryGroupingSize = 2
-                //            formatter.maximumFractionDigits = precision
-                //            let result = formatter.string(for: nsNumber)
-                //            return result
-            }
-            return nil
-        }
-    }
 
-
-
-extension Double {
-    var toString: String {
-        return "\(self)"
-    }
-}
-
-
-
-extension Int {
-    var toString: String {
-        return "\(self)"
-    }
-}
-
-
-
-extension Bool {
-    var toString: String {
-        return "\(self)"
-    }
-}
-
-extension Room {
-    func getImages(baseUrl: String) -> [String] {
-        let images = self.vimages.components(separatedBy: ",")
-        return images.map {
-            if let ext = URL.init(string: $0)?.pathExtension, !ext.isEmpty {
-                return baseUrl + "/uploads/" + $0
-            }else {
-                return baseUrl + "/uploads/" + $0 + ".jpg"
-            }
-            
-            
-        }
-        
-    }
-}
 
 
 struct AppAlert: Content {
