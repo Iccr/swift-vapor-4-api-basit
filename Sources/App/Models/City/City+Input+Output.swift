@@ -10,14 +10,16 @@ import Vapor
 extension City {
     
     struct Output: Content {
-       var id: Int?
-       var name : String?
-       var image : String?
-       var count: Int?
-       var description : String?
-       var createdAt: Date?
-       var updatedAt: Date?
-   }
+        var id: Int?
+        var name : String?
+        var image : String?
+        var count: Int?
+        var lat: Double?
+        var long: Double?
+        var description : String?
+        var createdAt: Date?
+        var updatedAt: Date?
+    }
     
     struct Input: Content {
         var id: Int?

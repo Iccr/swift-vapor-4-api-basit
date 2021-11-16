@@ -11,7 +11,11 @@ import Foundation
 extension City {
     func responseFrom(baseUrl: String) ->  City.Output {
         let city = self
-        return .init(id: city.id , name: city.name, image: baseUrl + (city.imageUrl ?? ""), count: city.$rooms.value?.count, description: city.description)
+        var imageUrl: String? = nil
+        if let image = city.imageUrl, !image.isEmpty {
+            imageUrl =  baseUrl + image
+        }
+        return .init(id: city.id , name: city.name, image: imageUrl, count: city.$rooms.value?.count, lat: city.lat, long: city.long, description: city.description)
     }
 }
 
