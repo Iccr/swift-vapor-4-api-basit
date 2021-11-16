@@ -102,25 +102,6 @@ final class User : Model, Content {
 }
 
 
-
-
-
-final class UserContainer : Codable {
-    let user : User?
-
-    enum CodingKeys: String, CodingKey {
-
-        case user = "user"
-    }
-
-    required init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        user = try values.decodeIfPresent(User.self, forKey: .user)
-    }
-
-}
-
-
 extension User {
     struct Input: Content {
         var email: String?
