@@ -107,13 +107,9 @@ struct TokenMigration: Migration {
             .field("createdAt", .datetime, .required)
             .field("expiresAt", .datetime)
             .create()
-        
-        
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
         database.schema(Token.schema).delete()
     }
-    
-   
 }
