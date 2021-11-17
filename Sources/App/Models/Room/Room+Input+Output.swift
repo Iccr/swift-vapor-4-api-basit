@@ -38,7 +38,7 @@ extension Room {
         var updatedAt: Date?
         var features: [String]
         var timesAgo: String
-        var verified: Bool
+        var verified: Bool?
     }
     
     struct Update: Content {
@@ -95,7 +95,7 @@ extension Room {
         //        var userId: Int?
         var id: Int?
         var price : Double
-        var vimages : [String] = []
+        var imgs: [String]?
         var type : String
         var noOfRooms : Int
         var kitchen : String
@@ -103,21 +103,21 @@ extension Room {
         var lat : Double
         var long : Double
         var address : String
-        var district : String
-        var state : String
-        var localGov : String
+        var district : String?
+        var state : String?
+        var localGov : String?
         var parking : String
         var water : String
         var internet : String
         var phone : String
-        var description : String
+        var description : String?
         var occupied : Bool
         var preference : String
         var createdAt: Date?
         var updatedAt: Date?
         
         func getRoom(city: City, user: User) -> Room {
-            return .init(id: self.id, price: self.price, vimages: self.vimages, city: city, user: user, cityName: self.cityName, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
+            return Room.init(id: self.id, price: self.price, vimages:  [], city: city, user: user, cityName: self.cityName, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
         }
     }
     

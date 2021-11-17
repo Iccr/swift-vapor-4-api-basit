@@ -27,7 +27,7 @@ final class Room: Model, Content {
     var price : Double?
     
     @Field(key: "images")
-    var vimages : String
+    var vimages : String?
     
     
     //    @Field(key: "userId")
@@ -36,49 +36,49 @@ final class Room: Model, Content {
     @Field(key: "type")
     var type : String?
     
-    @Field(key: "city_name")
+    @OptionalField(key: "city_name")
     var cityName : String?
     
-    @Field(key: "noOfRooms")
+    @OptionalField(key: "noOfRooms")
     var noOfRooms : Int?
     
-    @Field(key: "kitchen")
+    @OptionalField(key: "kitchen")
     var kitchen : String?
     
-    @Field(key: "floor")
+    @OptionalField(key: "floor")
     var floor : String?
     
-    @Field(key: "lat")
+    @OptionalField(key: "lat")
     var lat : Double?
     
-    @Field(key: "long")
+    @OptionalField(key: "long")
     var long : Double?
     
-    @Field(key: "address")
+    @OptionalField(key: "address")
     var address : String?
     
-    @Field(key: "district")
+    @OptionalField(key: "district")
     var district : String?
     
-    @Field(key: "state")
+    @OptionalField(key: "state")
     var state : String?
     
-    @Field(key: "localGov")
+    @OptionalField(key: "localGov")
     var localGov : String?
     
-    @Field(key: "parking")
+    @OptionalField(key: "parking")
     var parking : String?
     
-    @Field(key: "water")
+    @OptionalField(key: "water")
     var water : String?
     
-    @Field(key: "internet")
+    @OptionalField(key: "internet")
     var internet : String?
     
-    @Field(key: "phone")
+    @OptionalField(key: "phone")
     var phone : String?
     
-    @Field(key: "description")
+    @OptionalField(key: "description")
     var description : String?
     
     @Field(key: "occupied")
@@ -87,7 +87,7 @@ final class Room: Model, Content {
     @Field(key: "verified")
     var verified : Bool
     
-    @Field(key: "preference")
+    @OptionalField(key: "preference")
     var preference : String?
     
     
@@ -102,8 +102,8 @@ final class Room: Model, Content {
          user: User,
          cityName: String?,
          type: String, noOfRooms: Int, kitchen: String,
-         floor: String, lat: Double, long: Double, address: String, district: String, state: String, localGov: String,
-         parking: String,  water: String, internet: String, phone: String, description: String,
+         floor: String, lat: Double, long: Double, address: String, district: String?, state: String?, localGov: String?,
+         parking: String,  water: String, internet: String, phone: String, description: String?,
          occupied: Bool, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
         self.id = id
         

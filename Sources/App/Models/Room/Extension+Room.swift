@@ -10,7 +10,7 @@ import Vapor
 
 extension Room {
     func getImages(baseUrl: String) -> [String] {
-        let images = self.vimages.components(separatedBy: ",")
+        let images = self.vimages?.components(separatedBy: ",") ?? []
         return images.map {
             if let ext = URL.init(string: $0)?.pathExtension, !ext.isEmpty {
                 return baseUrl + "/uploads/" + $0

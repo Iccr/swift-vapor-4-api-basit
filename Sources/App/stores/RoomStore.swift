@@ -44,8 +44,8 @@ class RoomStore {
         let user: User = try req.auth.require()
         req.logger.log(level: .critical, "found user: \(user)")
         req.logger.log(level: .critical, "decoding room from post body")
-        let room = try req.content.decode(Room.self)
-        req.logger.log(level: .critical, "decoded room: \(room)")
+        var _room = try req.content.decode(Room.Input.self)
+        req.logger.log(level: .critical, "decoded room: \(_room)")
         req.logger.log(level: .critical, "decoding  Room.Entity as input")
         let input = try req.content.decode(Room.Entity.self)
         req.logger.log(level: .critical, "decoded  input: \(input)")
@@ -63,14 +63,16 @@ class RoomStore {
                 
             }
         }.flatten(on: req.eventLoop).map { filenames in
-            room.vimages = filenames.joined(separator: ",")
+            _room.imgs = filenames
         }.flatMap { _ in
             return City.query(on: req.db)
                 .filter(\.$id == input.city_id)
                 .first()
-        }.flatMap { city in
-            room.$user.id = user.id ?? -1
-            room.$city.id = city?.id ?? -1
+                
+        }.unwrap(or: Abort(.notFound))
+        .flatMap { city in
+            
+            let room = _room.getRoom(city: city, user: user)
             room.occupied = false
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
@@ -133,7 +135,7 @@ class RoomStore {
         return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
             .flatMap { room in
                 do {
-                    let images = room.vimages.components(separatedBy: ",")
+                    let images = room.vimages?.components(separatedBy: ",") ?? []
                     try images.forEach({ filename in
                         let path = uploadPath + filename
                         let manager = FileManager.default
