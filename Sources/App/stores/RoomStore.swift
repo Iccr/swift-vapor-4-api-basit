@@ -73,7 +73,10 @@ class RoomStore {
         .flatMap { city in
             
             let room = _room.getRoom(city: city, user: user)
+            room.$city.id = city.id ?? -1
+            room.$user.id = user.id ?? -1
             room.occupied = false
+            room.cityName = city.name
             return room.create(on: req.db).map {
                 return room.responseFrom(baseUrl: req.baseUrl)
             }

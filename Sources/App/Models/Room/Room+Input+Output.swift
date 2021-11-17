@@ -100,8 +100,8 @@ extension Room {
         var noOfRooms : Int
         var kitchen : String
         var floor : String
-        var lat : Double
-        var long : Double
+        var lat : Double?
+        var long : Double?
         var address : String
         var district : String?
         var state : String?
@@ -111,13 +111,13 @@ extension Room {
         var internet : String
         var phone : String
         var description : String?
-        var occupied : Bool
+        var occupied : Bool?
         var preference : String
         var createdAt: Date?
         var updatedAt: Date?
         
         func getRoom(city: City, user: User) -> Room {
-            return Room.init(id: self.id, price: self.price, vimages:  [], city: city, user: user, cityName: self.cityName, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
+            return Room.init(id: self.id, price: self.price, vimages: self.imgs ?? [], city: city, user: user, cityName: self.cityName, type: self.type, noOfRooms: self.noOfRooms, kitchen: self.kitchen, floor: self.floor, lat: self.lat, long: self.long, address: self.address, district: self.district, state: self.state, localGov: self.localGov, parking: self.parking, water: self.water, internet: self.internet, phone: self.phone, description: self.description, occupied: self.occupied, preference: self.preference.isEmpty ?  "Anyone" : self.preference, createdAt: self.createdAt, updatedAt: self.updatedAt)
         }
     }
     

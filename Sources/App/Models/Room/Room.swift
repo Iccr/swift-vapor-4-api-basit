@@ -102,9 +102,9 @@ final class Room: Model, Content {
          user: User,
          cityName: String?,
          type: String, noOfRooms: Int, kitchen: String,
-         floor: String, lat: Double, long: Double, address: String, district: String?, state: String?, localGov: String?,
+         floor: String, lat: Double?, long: Double?, address: String, district: String?, state: String?, localGov: String?,
          parking: String,  water: String, internet: String, phone: String, description: String?,
-         occupied: Bool, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
+         occupied: Bool?, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
         self.id = id
         
         self.price = price
@@ -123,7 +123,7 @@ final class Room: Model, Content {
         self.internet = internet
         self.phone = phone
         self.description = description
-        self.occupied = occupied
+        self.occupied = occupied ?? false
         self.preference = preference
         self.createdAt = createdAt
         self.updatedAt = updatedAt
