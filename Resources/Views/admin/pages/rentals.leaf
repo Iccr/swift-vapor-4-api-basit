@@ -15,7 +15,7 @@
                       <tr>
                         <th style="width: 10px">Id</th>
                         <th>Rooms</th>
-                        <th>Status</th>
+                        <th >Status</th>
                         <th style="width: 40px">images</th>
                       </tr>
                     </thead>
@@ -25,11 +25,12 @@
                         <td>#(room.id)</td>
                         <td>#(room.address)</td>
                         <td>
-                          <div class="progress progress-xs">
-                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-
-                          </div>
+                        <div class="card">
+                         <button class="btn btn-primary btn-sm">
+                              #(room.occupied)
+                            </button>
                         </td>
+                        </div>
                         <td>
                         #for(image in room.images):
                         
