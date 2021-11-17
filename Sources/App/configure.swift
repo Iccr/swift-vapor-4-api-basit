@@ -53,6 +53,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.AddCityIdToRoomReference())
     app.migrations.add(User.AddImageToUser())
     app.migrations.add(City.AddLatLongToCity())
+    app.migrations.add(Room.AddVerifiedFieldToRoom())
     
     try? app.autoMigrate().wait()
 //    seed(app.db)

@@ -76,6 +76,20 @@ extension Room {
                 .update()
         }
     }
+    
+    struct AddVerifiedFieldToRoom: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.Room)
+                .field("verified", .bool, .sql(.default(false)))
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.Room)
+                .deleteField("verified")
+                .update()
+        }
+    }
 }
 
 //
