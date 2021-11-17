@@ -15,6 +15,7 @@ class RoomStore {
          return self.querries(query: query, params: searchQuery)
             .with(\.$city)
             .with(\.$user)
+            .filter(\.$verified == true)
             .sort(\.$createdAt, .descending)
             .paginate(for: req)
             .map { page in
