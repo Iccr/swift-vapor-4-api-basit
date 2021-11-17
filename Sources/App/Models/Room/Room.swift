@@ -84,6 +84,9 @@ final class Room: Model, Content {
     @Field(key: "occupied")
     var occupied : Bool
     
+    @Field(key: "verified")
+    var verified : Bool
+    
     @Field(key: "preference")
     var preference : String?
     
