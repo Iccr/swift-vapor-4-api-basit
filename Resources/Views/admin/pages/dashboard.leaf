@@ -1,24 +1,5 @@
-#extend("admin/adminbase"):
-  #export("body"):
-        <body class="hold-transition sidebar-mini layout-fixed">
-        <div class="wrapper">
-
-          #extend("admin/adminNavbar")
-          #extend("admin/adminSidebarContainer")
-
-          <div class="content-wrapper">
-            #extend("admin/contentHeader")
-            #extend("admin/content")
-          </div>
-
-            #extend("admin/footer")
-          <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-          </aside>
-        </div>
-
-        #extend("admin/adminScripts")
-        </body>
-
+#extend("admin/adminMaster"):
+#export("content"):
+    #extend("admin/content")    
   #endexport
 #endextend
