@@ -1,18 +1,9 @@
-#extend("admin/adminbase"):
-#export("body"):
-
-<body class="hold-transition sidebar-mini layout-fixed">
-  <div class="wrapper">
-
-    #extend("admin/adminNavbar")
-    #extend("admin/adminSidebarContainer")
-
-    <div class="content-wrapper">
-      #extend("admin/contentHeader")
+#extend("admin/adminMaster"):
+#export("content"):
       <section class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Parking</h3>
@@ -95,17 +86,6 @@
 
     </div><!-- /.container-fluid -->
     </section>
-
-  </div>
-
-  #extend("admin/footer")
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  </div>
-
-  #extend("admin/adminScripts")
-</body>
 
 #endexport
 #endextend

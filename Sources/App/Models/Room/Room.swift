@@ -82,7 +82,7 @@ final class Room: Model, Content {
     var description : String?
     
     @Field(key: "occupied")
-    var occupied : Bool?
+    var occupied : Bool
     
     @Field(key: "preference")
     var preference : String?

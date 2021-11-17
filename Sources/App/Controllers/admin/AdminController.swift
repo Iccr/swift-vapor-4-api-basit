@@ -41,8 +41,11 @@ class AdminController: RouteCollection {
     
     func dashboard(req: Request) throws -> EventLoopFuture<View> {
         let user = try req.auth.require(User.self)
+        
         if user.hasRole(.admin) {
-            return req.view.render("admin/pages/dashboard")
+            return AdminDashboardStore().dashboard(req: req, user: user).flatMap { context in
+                return req.view.render("admin/pages/dashboard", context)
+            }
         }
         
         throw Abort.redirect(to: "/")
