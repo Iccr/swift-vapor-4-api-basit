@@ -41,23 +41,27 @@ class AdminController: RouteCollection {
     
     func dashboard(req: Request) throws -> EventLoopFuture<View> {
         let user = try req.auth.require(User.self)
-        
         if user.hasRole(.admin) {
             return AdminDashboardStore().dashboard(req: req, user: user).flatMap { context in
                 return req.view.render("admin/pages/dashboard", context)
             }
         }
-        
         throw Abort.redirect(to: "/")
     }
     
     func rentals(req: Request) throws -> EventLoopFuture<View> {
-        return req.view.render("admin/pages/rentals")
+        let user = try req.auth.require(User.self)
+        struct RentalContext: Content {
+            var rooms: [Room.Output]
+        }
+        return RoomStore().getAllRooms(req: req).flatMap { rooms in
+            return req.view.render("admin/pages/rentals", RentalContext(rooms: rooms))
+            
+        }
         
     }
     
     func city(req: Request) throws -> EventLoopFuture<View> {
-        
         try CityStore().getAllCity(req: req).flatMap { cities in
             struct Context: Encodable {
                 var items: [City]
@@ -139,3 +143,8 @@ extension Request {
         try? query.decode(AppAlert.self)
     }
 }
+
+
+
+
+

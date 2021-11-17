@@ -23,6 +23,20 @@ class RoomStore {
             }
     }
     
+    func getAllRooms(req: Request) -> EventLoopFuture<[Room.Output]> {
+        let query =  Room.query(on: req.db)
+         return query
+            .with(\.$city)
+            .with(\.$user)
+            .sort(\.$createdAt, .descending)
+            .all()
+            .map { rooms in
+                return rooms.map {
+                    $0.responseFrom(baseUrl: req.baseUrl)
+                }
+            }
+    }
+    
     func create(req: Request) throws ->  EventLoopFuture<Room.Output> {
         req.logger.log(level: .critical, "creating rooms")
         req.logger.log(level: .critical, "looking for authenticated user")

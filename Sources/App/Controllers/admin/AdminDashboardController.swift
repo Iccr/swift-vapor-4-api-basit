@@ -17,7 +17,6 @@ class AdminDashboardStore {
             .and(getUserCount(req: req))
         
         return combined.map { (value: (((apc: Int, pc: Int), cc: Int), uc: Int)) in
-           print(value)
             return AdminDashboardContext(
                             name: user.name ?? user.email ?? "",
                             image: user.image ?? "/admin/dist/img/user2-160x160.jpg",
