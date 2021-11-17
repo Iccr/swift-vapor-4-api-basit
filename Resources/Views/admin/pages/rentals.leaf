@@ -26,9 +26,16 @@
                         <td>#(room.address)</td>
                         <td>
                         <div class="card">
-                         <button class="btn btn-primary btn-sm">
-                              #(room.occupied)
-                            </button>
+                        #if(room.verified):
+                           <a href="admin/rentals/verify/#(room.id)" class="btn btn-primary  btn-sm">
+                              #(room.verified)
+                           </a>
+                        #else:
+                           <a href="admin/rentals/verify/#(room.id)" class="btn btn-secondary  btn-sm">
+                              #(room.verified)
+                           </a>
+                        #endif
+                        
                         </td>
                         </div>
                         <td>

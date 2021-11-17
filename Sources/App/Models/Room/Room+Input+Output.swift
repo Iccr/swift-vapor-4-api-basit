@@ -38,6 +38,7 @@ extension Room {
         var updatedAt: Date?
         var features: [String]
         var timesAgo: String
+        var verified: Bool
     }
     
     struct Update: Content {

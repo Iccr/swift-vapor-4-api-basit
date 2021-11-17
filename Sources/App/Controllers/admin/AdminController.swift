@@ -22,6 +22,7 @@ class AdminController: RouteCollection {
         
         secure.get("dashboard", use: dashboard)
         secure.get("rentals", use: rentals)
+        secure.get("rentals", "verify", "id", use: updateRoomVerify)
         secure.get("city", use: city)
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
@@ -59,6 +60,20 @@ class AdminController: RouteCollection {
             
         }
         
+    }
+    
+    func updateRoomVerify(req: Request) -> EventLoopFuture<Response> {
+        let id = req.parameters.get("id", as: Int.self)
+        return Room.find(id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { room in
+                room.verified = !room.verified
+                return room.update(on: req.db).map {
+                    req.redirect(to: "/rentals")
+                }
+            }
+        
+            
     }
     
     func city(req: Request) throws -> EventLoopFuture<View> {
