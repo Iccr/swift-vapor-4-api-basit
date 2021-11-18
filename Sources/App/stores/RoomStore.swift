@@ -147,55 +147,22 @@ class RoomStore {
                             if let url: URL = .init(string:"file://"+path) {
                                 try manager.removeItem(at: url)
                             }
-
                         }
                     })
                 } catch(let error)  {
                     return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
                 }
 
-                
-                
                 return room.delete(on: req.db).map {
                     return room.responseFrom(baseUrl: req.baseUrl)
                 }
             }
-//        return Room.find(user?.id, on: req.db).unwrap(or: Abort(.notFound))
-//            .flatMapThrowing { room in
-//
-//                try room.vimages.forEach { filename in
-//                    let path = uploadPath + filename
-//                    let manager = FileManager.default
-//                    if manager.fileExists(atPath: path ) {
-//                        if let url: URL = .init(string: path) {
-//                            try manager.removeItem(at: url)
-//                        }
-//
-//                    }
-//                }
-//
-//                return room.delete(on: req.db).map {
-//                    return room.responseFrom(baseUrl: req.ba)
-//                }
-//            }
     }
-    
-//    if let room  = room {
-//        room.occupied = input.occupied
-//        return room.update(on: req.db).map {
-//         return room.responseFrom(baseUrl: req.baseUrl)
-//       }
-//    }
-//    throw Abort(.notFound)
     
 }
 
 
 extension RoomStore {
-//    Planet.query(on: database)
-//        .join(Star.self, on: \Planet.$star.$id == \Star.$id)
-//        .filter(Star.self, \.$name == "Sun")
-//        .all()
     
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
         if let val = params.city, !val.isEmpty {
