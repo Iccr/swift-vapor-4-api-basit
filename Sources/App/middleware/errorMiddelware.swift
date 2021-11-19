@@ -41,7 +41,7 @@ class MyErrorMiddleware: Middleware {
 //                    source = nil
             }
             
-            let response = Response(status: status, headers: headers)
+                let response = Response(status: .ok, headers: headers)
             
             let errorResponse = ErrorResponse( message: reason)
 //            json = try JSONEncoder().encode(["error": result.message])
