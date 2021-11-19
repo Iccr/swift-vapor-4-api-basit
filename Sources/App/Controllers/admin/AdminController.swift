@@ -22,7 +22,7 @@ class AdminController: RouteCollection {
         
         secure.get("dashboard", use: dashboard)
         secure.get("rentals", use: rentals)
-        secure.get("rentals", "verify", "id", use: updateRoomVerify)
+        secure.get("rentals", "verify", ":id", use: updateRoomVerify)
         secure.get("city", use: city)
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
@@ -69,11 +69,9 @@ class AdminController: RouteCollection {
             .flatMap { room in
                 room.verified = !room.verified
                 return room.update(on: req.db).map {
-                    req.redirect(to: "/rentals")
+                    req.redirect(to: "/admin/rentals")
                 }
             }
-        
-            
     }
     
     func city(req: Request) throws -> EventLoopFuture<View> {
@@ -158,6 +156,8 @@ extension Request {
         try? query.decode(AppAlert.self)
     }
 }
+
+
 
 
 

@@ -16,7 +16,7 @@
                         <th style="width: 10px">Id</th>
                         <th>Rooms</th>
                         <th >Status</th>
-                        <th style="width: 40px">images</th>
+                        <th style="width: 100px">images</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -27,12 +27,12 @@
                         <td>
                         <div class="card">
                         #if(room.verified):
-                           <a href="admin/rentals/verify/#(room.id)" class="btn btn-primary  btn-sm">
-                              #(room.verified)
+                           <a href="/admin/rentals/verify/#(room.id)" class="btn btn-primary  btn-sm">
+                              verified
                            </a>
                         #else:
-                           <a href="admin/rentals/verify/#(room.id)" class="btn btn-secondary  btn-sm">
-                              #(room.verified)
+                           <a href="/admin/rentals/verify/#(room.id)" class="btn btn-secondary">
+                              Not verified
                            </a>
                         #endif
                         

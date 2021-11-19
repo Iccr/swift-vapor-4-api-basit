@@ -42,7 +42,8 @@ extension Room {
             createdAt: r.createdAt,
             updatedAt: r.updatedAt,
             features: r.getFeautres(),
-            timesAgo: r.createdAt?.timeAgoDisplay() ?? ""
+            timesAgo: r.createdAt?.timeAgoDisplay() ?? "",
+            verified: r.verified
         )
     }
 }
