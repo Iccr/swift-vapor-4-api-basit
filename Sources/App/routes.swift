@@ -54,12 +54,13 @@ func routes(_ app: Application) throws {
         return req.view.render("admin/adminMaster")
     }
     
-
+    
     // web
     try app.register(collection: LoginWebController())
     try app.register(collection: RoomWebController())
     try app.register(collection: UserWebController())
-    try app.register(collection: AppInfoController())
+    
+    try api.register(collection: AppInfoController())
     
     // admin
     
