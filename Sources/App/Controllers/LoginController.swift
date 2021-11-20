@@ -109,7 +109,10 @@ extension LoginController {
     struct SIWARequestBody: Content {
         let firstName: String?
         let lastName: String?
-        let appleIdentityToken: String
+        let token: String
+        var appleIdentityToken: String {
+            return token
+        }
     }
     
     func signUpWithApple(req: Request) throws -> EventLoopFuture<User.Output> {
