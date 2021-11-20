@@ -30,26 +30,19 @@ func routes(_ app: Application) throws {
     }
     
     // Free
-    api.get("rooms") { req in
-        return try RoomController().index(req: req)
-    }
-    
-    api.get("rooms", ":id") { req in
-        return try RoomController().show(req: req)
-    }
-    
-    api.post("login") {req  in
-        return try LoginController().create(req: req)
-    }
-   
-    
-    api.get("cities") { req in
-        return try CityController().index(req: req)
-    }
-    
-    api.get("banners") { req in
-        return try BannerController().index(req: req)
-    }
+//    api.get("rooms") { req in
+//        return try RoomController().index(req: req)
+//    }
+//
+//    api.get("rooms", ":id") { req in
+//        return try RoomController().show(req: req)
+//    }
+    try api.register(collection: RoomController())
+
+    //    api
+    try api.register(collection: LoginController())
+    try api.register(collection: CityController())
+    try api.register(collection: BannerController())
     app.get("admin") { req in
         return req.view.render("admin/adminMaster")
     }

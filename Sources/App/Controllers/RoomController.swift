@@ -11,7 +11,16 @@ import Vapor
 
 struct RoomController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        
+//        api.get("rooms") { req in
+//            return try RoomController().index(req: req)
+//        }
+//
+//        api.get("rooms", ":id") { req in
+//            return try RoomController().show(req: req)
+//        }
+        let route = routes.grouped("rooms")
+        route.get(":id", use: show)
+        route.get( use: index)
     }
     
     func index(req: Request)  throws -> EventLoopFuture<CommonResponse<Page<Room.Output>>> {

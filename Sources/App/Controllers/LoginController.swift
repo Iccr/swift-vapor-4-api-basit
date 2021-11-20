@@ -22,13 +22,8 @@ struct LoginController: RouteCollection {
     
     
     func boot(routes: RoutesBuilder) throws {
-        let todos = routes.grouped("login")
-        
-        //        todos.post(use: create)
-        
-        todos.group(":loginID") { todo in
-            todo.delete(use: delete)
-        }
+        let route = routes.grouped("login")
+        route.post( use: create)
     }
     
     func create(req: Request) throws -> EventLoopFuture<CommonResponse<User.Output>> {

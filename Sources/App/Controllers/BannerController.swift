@@ -12,7 +12,9 @@ import Vapor
 
 struct BannerController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        
+        let route = routes.grouped("banners")
+        route.get(use: index)
+
     }
     
     func index(req: Request) throws -> EventLoopFuture<CommonResponse<[Banner.Output]>> {

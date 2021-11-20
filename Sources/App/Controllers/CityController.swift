@@ -13,7 +13,8 @@ import Vapor
 
 struct CityController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        
+        let route = routes.grouped("cities")
+        route.get( use: index)
     }
     
     func index(req: Request) throws -> EventLoopFuture<CommonResponse<[City.Output]>> {
