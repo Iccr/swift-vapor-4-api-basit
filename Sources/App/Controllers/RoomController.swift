@@ -25,18 +25,19 @@ struct RoomController: RouteCollection {
         let query = try req.query.decode(Room.Querry.self)
         return  RoomStore().getAllRooms(query, req: req)
             .map(CommonResponse.init)
-        
     }
     
     func create(req: Request) throws -> EventLoopFuture<CommonResponse<Room.Output>> {
-        
         return try RoomStore().create(req: req)
             .map(CommonResponse.init)
     }
     
     func show(req: Request) throws -> EventLoopFuture<CommonResponse<Room.Output>>  {
-        return  try RoomStore().getWithId(req: req)
-            .map(CommonResponse.init)
+        if let id = req.parameters.get("id", as: Int.self) {
+            return  try RoomStore().getWithId(id: id, db: req.db, baseUrl: req.baseUrl)
+                .map(CommonResponse.init)
+        }
+        throw Abort(.notFound)
     }
     
     func getMyRooms(req: Request) throws -> EventLoopFuture<CommonResponse<Page<Room.Output>>> {

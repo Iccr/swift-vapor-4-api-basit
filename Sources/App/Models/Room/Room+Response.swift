@@ -46,4 +46,5 @@ extension Room {
             verified: r.verified
         )
     }
+
 }

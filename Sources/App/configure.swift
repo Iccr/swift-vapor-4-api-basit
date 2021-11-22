@@ -45,6 +45,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Banner.CreateBannerMigration())
 //    The following migration already present in legacy database. Hence not required to migrate for now
+    
 //    app.migrations.add(User.CreateUserMigration())
 //    app.migrations.add(Room.CreateRoomMigration())
 //    app.migrations.add(TokenMigration())

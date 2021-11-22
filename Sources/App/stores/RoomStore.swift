@@ -77,8 +77,12 @@ class RoomStore {
             room.$user.id = user.id ?? -1
             room.occupied = false
             room.cityName = city.name
-            return room.create(on: req.db).map {
-                return room.responseFrom(baseUrl: req.baseUrl)
+            return room.create(on: req.db).flatMapThrowing {
+                let id = room.id ?? -1
+               return try self.getWithId(id: id, db: req.db, baseUrl: req.baseUrl)
+                
+            }.flatMap { room in
+                return room
             }
         }
     }
@@ -93,16 +97,14 @@ class RoomStore {
             .unwrap(or: Abort(.notFound))
     }
     
-    func getWithId(req: Request) throws -> EventLoopFuture<Room.Output> {
-        if let _id = req.parameters.get("id"), let id = Int(_id) {
-            return Room.find(id, on: req.db).flatMapThrowing { room in
-                if let room = room {
-                    return room.responseFrom(baseUrl: req.baseUrl)
-                }
-                throw Abort(.notFound)
+    func getWithId(id: Int, db: Database, baseUrl: String) throws -> EventLoopFuture<Room.Output> {
+        return Room.query(on: db)
+            .filter(\.$id == id)
+            .first()
+            .unwrap(or: Abort(.notFound))
+            .map { room in
+                room.responseFrom(baseUrl: baseUrl)
             }
-        }
-        throw Abort(.notFound)
     }
     
     func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room.Output]> {
