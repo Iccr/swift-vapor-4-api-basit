@@ -24,9 +24,10 @@ public func configure(_ app: Application) throws {
     if let _p = Environment.get("PORT"), let _port = Int(_p) {
         port = _port
     }
-    let username = Environment.get("USER") ?? ""
-    let dbName = Environment.get("DATABASE") ?? ""
-    let dbPassword = Environment.get("PASSWORD") ?? ""
+    let username = "deploy"
+    let dbName =  "roomfinder"
+    let dbPassword =  "P@ssword"
+    
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
     app.databases.use(
@@ -54,6 +55,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(User.AddImageToUser())
     app.migrations.add(City.AddLatLongToCity())
     app.migrations.add(Room.AddVerifiedFieldToRoom())
+    app.migrations.add(Room.UpdateImageFieldToText())
     
     try? app.autoMigrate().wait()
 //    seed(app.db)

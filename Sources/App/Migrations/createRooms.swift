@@ -7,6 +7,7 @@
 
 import Foundation
 import Fluent
+import MySQLNIO
 
 
 
@@ -87,6 +88,20 @@ extension Room {
         func revert(on database: Database) -> EventLoopFuture<Void> {
             database.schema(Schema.Room)
                 .deleteField("verified")
+                .update()
+        }
+    }
+    
+    struct UpdateImageFieldToText: Migration {
+        func prepare(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.Room)
+                .updateField("images", .sql(.text))
+                .update()
+        }
+        
+        func revert(on database: Database) -> EventLoopFuture<Void> {
+            database.schema(Schema.Room)
+                .updateField("images", .string)
                 .update()
         }
     }
