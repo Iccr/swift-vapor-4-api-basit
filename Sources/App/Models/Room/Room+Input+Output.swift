@@ -86,7 +86,7 @@ extension Room {
         return self
     }
     
-    struct DeleteInput: Content {
+    struct IDInput: Content {
         var id: Int
     }
     

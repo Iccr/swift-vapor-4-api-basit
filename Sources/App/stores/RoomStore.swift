@@ -116,6 +116,7 @@ class RoomStore {
     func getMyRoomsWithPagination(req: Request, user: User) -> EventLoopFuture<Page<Room.Output>>  {
         return Room.query(on: req.db)
             .filter(\.$user.$id == user.id ?? -1)
+            .with(\.$city)
             .paginate(for: req)
             .map { page in
                 page.map { $0.responseFrom(baseUrl: req.baseUrl)
@@ -147,7 +148,7 @@ class RoomStore {
     
     func delete(req: Request) throws -> EventLoopFuture<Room.Output> {
         let uploadPath = req.application.directory.publicDirectory + "uploads/"
-        let toDelete = try req.content.decode(Room.DeleteInput.self)
+        let toDelete = try req.content.decode(Room.IDInput.self)
         
         return Room.find(toDelete.id, on: req.db).unwrap(or: Abort(.badRequest))
             .flatMap { room in
