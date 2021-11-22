@@ -7,6 +7,7 @@
 
 import Foundation
 import Vapor
+import Fluent
 
 extension Room {
     struct Output: Content {
@@ -122,3 +123,4 @@ extension Room {
     }
     
 }
+

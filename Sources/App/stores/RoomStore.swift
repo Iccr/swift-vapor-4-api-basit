@@ -109,6 +109,16 @@ class RoomStore {
         return user.$rooms.get(on: req.db).mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
     }
     
+    func getMyRoomsWithPagination(req: Request, user: User) -> EventLoopFuture<Page<Room.Output>>  {
+        return Room.query(on: req.db)
+            .filter(\.$user.$id == user.id ?? -1)
+            .paginate(for: req)
+            .map { page in
+                page.map { $0.responseFrom(baseUrl: req.baseUrl)
+                }
+            }
+    }
+    
     func update(req: Request, input: Room.Update) throws -> EventLoopFuture<Room.Output> {
         return Room.find(input.id, on: req.db)
             .unwrap(or: Abort(.notFound))

@@ -37,6 +37,7 @@ extension Room {
         var per: Int? = 10
         var alert: String?
         var alertLevel: Int?
+        var userId: Int?
         var loginRequired: Bool = false
         
         func getQeury() -> [URLQueryItem] {
