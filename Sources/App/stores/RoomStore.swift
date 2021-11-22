@@ -100,6 +100,8 @@ class RoomStore {
     func getWithId(id: Int, db: Database, baseUrl: String) throws -> EventLoopFuture<Room.Output> {
         return Room.query(on: db)
             .filter(\.$id == id)
+            .with(\.$city)
+            .with(\.$user)
             .first()
             .unwrap(or: Abort(.notFound))
             .map { room in
