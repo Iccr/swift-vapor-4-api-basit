@@ -10,7 +10,7 @@ import Foundation
 
 
 extension Room {
-    func responseFrom(baseUrl: String)-> Room.Output {
+    func responseFrom(baseUrl: String, authenticated: Bool = false)-> Room.Output {
         let r = self
         let images = r.getImages(baseUrl: baseUrl)
         let coverImage: String = images.first ?? ""
@@ -35,7 +35,7 @@ extension Room {
             parking: r.parking,
             water: r.water,
             internet: r.internet,
-            phone: r.phone,
+            phone: authenticated ?  r.phone : nil,
             description: r.description,
             occupied: r.occupied,
             preference: r.preference,

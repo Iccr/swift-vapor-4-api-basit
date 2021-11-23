@@ -30,6 +30,7 @@ public func configure(_ app: Application) throws {
     
     app.middleware.use(app.sessions.middleware)
     app.middleware.use(User.sessionAuthenticator())
+    
     app.databases.use(
         .mysql(configuration: .init(
                 hostname: hostname,

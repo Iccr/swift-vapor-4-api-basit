@@ -84,6 +84,7 @@ extension Room {
         description = update.description ?? description
         occupied = update.occupied ?? occupied
         preference = update.preference ?? preference
+        phone = update.phone ?? phone
         return self
     }
     

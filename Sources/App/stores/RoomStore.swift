@@ -16,6 +16,7 @@ class RoomStore {
             .with(\.$city)
             .with(\.$user)
             .filter(\.$verified == true)
+            .filter(\.$occupied == false)
             .sort(\.$createdAt, .descending)
             .paginate(for: req)
             .map { page in
@@ -79,7 +80,7 @@ class RoomStore {
             room.cityName = city.name
             return room.create(on: req.db).flatMapThrowing {
                 let id = room.id ?? -1
-               return try self.getWithId(id: id, db: req.db, baseUrl: req.baseUrl)
+               return try self.getWithId(id: id, db: req.db, baseUrl: req.baseUrl, authenticated: true)
                 
             }.flatMap { room in
                 return room
@@ -97,15 +98,18 @@ class RoomStore {
             .unwrap(or: Abort(.notFound))
     }
     
-    func getWithId(id: Int, db: Database, baseUrl: String) throws -> EventLoopFuture<Room.Output> {
+    func getWithId(id: Int, db: Database, baseUrl: String, authenticated: Bool) throws -> EventLoopFuture<Room.Output> {
+        
         return Room.query(on: db)
             .filter(\.$id == id)
+            .filter(\.$verified == true)
+            .filter(\.$occupied == false)
             .with(\.$city)
             .with(\.$user)
             .first()
             .unwrap(or: Abort(.notFound))
             .map { room in
-                room.responseFrom(baseUrl: baseUrl)
+                room.responseFrom(baseUrl: baseUrl, authenticated: authenticated)
             }
     }
     

@@ -11,9 +11,9 @@ import Vapor
 
 struct RoomController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let route = routes.grouped("rooms")
+        let route = routes.grouped("rooms").grouped(UserAuthenticator())
+//            .grouped(UserAuthenticator())
         let secure = routes.grouped(UserAuthenticator()).grouped(User.guardMiddleware())
-        
         route.get(":id", use: show)
         route.get( use: index)
         secure.patch("rooms", use: update)
@@ -36,8 +36,10 @@ struct RoomController: RouteCollection {
     }
     
     func show(req: Request) throws -> EventLoopFuture<CommonResponse<Room.Output>>  {
+        let user =  req.auth.get(User.self)
         if let id = req.parameters.get("id", as: Int.self) {
-            return  try RoomStore().getWithId(id: id, db: req.db, baseUrl: req.baseUrl)
+            return  try RoomStore()
+                .getWithId(id: id, db: req.db, baseUrl: req.baseUrl, authenticated: user != nil)
                 .map(CommonResponse.init)
         }
         throw Abort(.notFound)
