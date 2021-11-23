@@ -64,6 +64,7 @@ extension Room {
         var preference : String?
     }
     
+    
     func get(update: Update) -> Room {
         price = update.price ?? price
         type = update.type ?? type

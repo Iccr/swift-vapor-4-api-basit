@@ -17,6 +17,7 @@ struct RoomController: RouteCollection {
         route.get(":id", use: show)
         route.get( use: index)
         secure.patch("rooms", use: update)
+        secure.patch("rooms","occupied", use: occupied)
         secure.get("myRooms", use: getMyRooms)
         secure.post("rooms", use: create)
         secure.post("rooms","destroy", use: delete)
@@ -53,8 +54,15 @@ struct RoomController: RouteCollection {
         return try RoomStore().update(req: req, input: input).map(CommonResponse.init)
     }
     
+
+    
     func delete(req: Request)  throws -> EventLoopFuture<CommonResponse<Room.Output>>  {
         _ = try req.auth.require(User.self)
         return try RoomStore().delete(req: req).map(CommonResponse.init)
+    }
+    
+    func occupied(req: Request)  throws -> EventLoopFuture<CommonResponse<Room.Output>>  {
+        let input = try req.content.decode(Room.Update.self)
+        return try RoomStore().occupied(req: req, input: input).map(CommonResponse.init)
     }
 }

@@ -128,12 +128,26 @@ class RoomStore {
         return Room.find(input.id, on: req.db)
             .unwrap(or: Abort(.notFound))
             .flatMap { room in
-                return room.get(update: input)
-                        .update(on: req.db).map {
+                let room =  room.get(update: input)
+                room.verified = false
+                return room.update(on: req.db).map {
                     room.responseFrom(baseUrl: req.baseUrl)
                 }
             }
     }
+    
+    func occupied(req: Request, input: Room.Update) throws -> EventLoopFuture<Room.Output> {
+        return Room.find(input.id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { room in
+                room.occupied = input.occupied ?? room.occupied
+                return room.update(on: req.db).map {
+                    room.responseFrom(baseUrl: req.baseUrl)
+                }
+            }
+    }
+    
+    
     
     func showMyRooms(req: Request) throws -> EventLoopFuture<[Room.Output]> {
         let user = req.auth.get(User.self)
