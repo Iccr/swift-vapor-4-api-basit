@@ -11,6 +11,7 @@ import FluentKit
 class CreateAppVersion: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema(Schema.AppVersion)
+            .field("id", .int, .identifier(auto: true))
             .field("android", .string)
             .field("ios", .string)
             .field("created_at", .datetime)
