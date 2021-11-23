@@ -13,5 +13,6 @@ struct Schema {
     static let  Room = "rooms"
     static let Banner = "banners"
     static let Token = "tokens"
+    static let AppVersion = "app_versions"
     
 }
