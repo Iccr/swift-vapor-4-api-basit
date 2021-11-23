@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import Vapor
+import Fluent
 
 final class AppVersion: Model, Content {
     static let schema: String = "app_versions"
@@ -17,8 +18,8 @@ final class AppVersion: Model, Content {
     @OptionalField(key: "ios")
     var ios : String?
     
-    @OptionalField(key: "status")
-    var android : android?
+    @OptionalField(key: "android")
+    var android : String?
     
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
@@ -33,5 +34,22 @@ final class AppVersion: Model, Content {
         self.id = id
         self.ios = ios
         self.android = android
+    }
+}
+
+
+extension AppVersion {
+    struct Output: Content {
+        var ios: String?
+        var android: String?
+    }
+}
+
+extension AppVersion {
+    var output: AppVersion.Output {
+        .init(ios: self.ios, android: self.android)
+    }
+    func response() -> AppVersion.Output {
+        .init(ios: self.ios, android: self.android)
     }
 }
