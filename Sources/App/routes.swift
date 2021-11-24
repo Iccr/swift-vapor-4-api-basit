@@ -17,6 +17,7 @@ func routes(_ app: Application) throws {
     try api.register(collection: LoginController())
     try api.register(collection: CityController())
     try api.register(collection: BannerController())
+    try api.register(collection: ReportController())
     
     app.get("admin") { req in
         return req.view.render("admin/adminMaster")

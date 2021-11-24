@@ -31,7 +31,6 @@ final class Report : Model, Content {
     @Timestamp(key: "created_at", on: .create)
     var createdAt: Date?
     
-    // When this Planet was last updated.
     @Timestamp(key: "updated_at", on: .update)
     var updatedAt: Date?
 
@@ -39,10 +38,29 @@ final class Report : Model, Content {
         
     }
 
-    init(id: Int? = nil, reason: String, remarks: String) {
+    init(id: Int? = nil, propertyId: Int,  reason: String, remarks: String) {
         self.id = id
+        self.propertyId = propertyId
         self.reason = reason
         self.remarks = remarks
     }
 }
 
+extension Report {
+    struct Input: Content{
+        var id: Int
+        var reason: String
+        var remarks: String
+    }
+    
+    struct Output: Content {
+        var message: String
+    }
+}
+
+
+extension Report.Input {
+    var report: Report {
+        .init(id: nil, propertyId: self.id, reason: self.reason, remarks: self.remarks)
+    }
+}

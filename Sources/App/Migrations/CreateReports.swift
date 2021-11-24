@@ -18,6 +18,7 @@ extension Report {
             database.schema(Schema.Report)
                 .field("id", .int, .identifier(auto: true))
                 .field("reason", .string, .required)
+                .field("propertyId",.int, .required)
                 .field("remarks", .string, .required)
                 .field("created_at", .datetime)
                 .field("updated_at", .datetime)
