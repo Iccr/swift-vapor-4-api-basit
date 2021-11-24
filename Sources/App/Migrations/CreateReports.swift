@@ -12,10 +12,8 @@ import Foundation
 import Fluent
 
 
-extension City {
-    
-    
-    struct CreateCityMigration: Migration {
+extension Report {
+    struct CreateReportMigration: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             database.schema(Schema.Report)
                 .field("id", .int, .identifier(auto: true))

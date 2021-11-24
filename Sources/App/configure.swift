@@ -59,6 +59,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.AddVerifiedFieldToRoom())
     app.migrations.add(Room.UpdateImageFieldToText())
     app.migrations.add(CreateAppVersion())
+    app.migrations.add(Report.CreateReportMigration())
     
     try? app.autoMigrate().wait()
 //    seed(app.db)
