@@ -33,6 +33,13 @@ class MyErrorMiddleware: Middleware {
                     // not an abort error, and not debuggable or in dev mode
                     // just deliver a generic 500 to avoid exposing any sensitive error info
                     print("error.localizedDescription")
+                    print(error.localizedDescription)
+                          print("errordescription")
+//                          print(error.description))
+                        print("error.errorDescription")
+//                    print(error.errorDescription)
+                    print("error")
+                    print(error)
                     request.logger.log(level: .critical, "Something Went Wrong")
                     request.logger.log(level: .critical, Logger.Message.init(stringLiteral: error.localizedDescription))
                     reason = "Something went wrong."

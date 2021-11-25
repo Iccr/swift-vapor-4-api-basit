@@ -80,7 +80,9 @@ class RoomStore {
             room.cityName = city.name
             return room.create(on: req.db).flatMapThrowing {
                 let id = room.id ?? -1
-               return try self.getWithId(id: id, db: req.db, baseUrl: req.baseUrl, authenticated: true)
+                return  Room.query(on: req.db).filter(\.$id == id).first().unwrap(or: Abort(.notFound)).map({ room in
+                    return room.responseFrom(baseUrl: req.baseUrl)
+                })
                 
             }.flatMap { room in
                 return room
