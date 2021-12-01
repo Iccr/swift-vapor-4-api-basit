@@ -78,6 +78,9 @@ final class Room: Model, Content {
     @OptionalField(key: "phone")
     var phone : String?
     
+    @OptionalField(key: "featured")
+    var featured : Bool?
+    
     @OptionalField(key: "description")
     var description : String?
     
@@ -104,7 +107,7 @@ final class Room: Model, Content {
          type: String, noOfRooms: Int, kitchen: String,
          floor: String, lat: Double?, long: Double?, address: String, district: String?, state: String?, localGov: String?,
          parking: String,  water: String, internet: String, phone: String, description: String?,
-         occupied: Bool?, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil ) {
+         occupied: Bool?, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil, featured: Bool? = nil ) {
         self.id = id
         
         self.price = price
@@ -127,6 +130,8 @@ final class Room: Model, Content {
         self.preference = preference
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.featured = featured
+        
     }
     
     init() { }

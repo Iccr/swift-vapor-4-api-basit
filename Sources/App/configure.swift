@@ -43,6 +43,7 @@ public func configure(_ app: Application) throws {
         as: .mysql)
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
+    
     app.migrations.add(City.CreateCityMigration())
     app.migrations.add(Banner.CreateBannerMigration())
 //    The following migration already present in legacy database. Hence not required to migrate for now
@@ -57,9 +58,11 @@ public func configure(_ app: Application) throws {
     app.migrations.add(User.AddImageToUser())
     app.migrations.add(City.AddLatLongToCity())
     app.migrations.add(Room.AddVerifiedFieldToRoom())
-    app.migrations.add(Room.UpdateImageFieldToText())
+    
     app.migrations.add(CreateAppVersion())
     app.migrations.add(Report.CreateReportMigration())
+    app.migrations.add(Room.AddFeaturedToRoom())
+    
     
     try? app.autoMigrate().wait()
 //    seed(app.db)

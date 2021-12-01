@@ -25,6 +25,15 @@ class RoomStore {
             }
     }
     
+    func getFeatured(req: Request) -> EventLoopFuture<[Room.Output]> {
+        return Room.query(on: req.db)
+            .filter(\.$featured == true)
+//            .filter(\.$occupied == false)
+            .range(...5).all().mapEach { $0.responseFrom(baseUrl: req.baseUrl)
+        }
+            
+    }
+    
     func getAllRooms(req: Request) -> EventLoopFuture<[Room.Output]> {
         let query =  Room.query(on: req.db)
          return query

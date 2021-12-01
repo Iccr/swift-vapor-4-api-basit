@@ -92,18 +92,33 @@ extension Room {
         }
     }
     
-    struct UpdateImageFieldToText: Migration {
-        func prepare(on database: Database) -> EventLoopFuture<Void> {
-            database.schema(Schema.Room)
-                .updateField("images", .sql(.text))
-                .update()
-        }
+//    struct UpdateImageFieldToText: Migration {
+//        func prepare(on database: Database) -> EventLoopFuture<Void> {
+//            database.schema(Schema.Room)
+//                .updateField("images", .sql(.text))
+//                .update()
+//        }
+//
+//        func revert(on database: Database) -> EventLoopFuture<Void> {
+//            database.schema(Schema.Room)
+//                .updateField("images", .string)
+//                .update()
+//        }
+//    }
+    
+    struct AddFeaturedToRoom: Migration {
         
-        func revert(on database: Database) -> EventLoopFuture<Void> {
-            database.schema(Schema.Room)
-                .updateField("images", .string)
-                .update()
-        }
+            func prepare(on database: Database) -> EventLoopFuture<Void> {
+                database.schema(Schema.Room)
+                    .field("featured", .bool, .sql(.default(false)))
+                    .update()
+            }
+
+            func revert(on database: Database) -> EventLoopFuture<Void> {
+                database.schema(Schema.Room)
+                    .deleteField("featured")
+                    .update()
+            }
     }
 }
 

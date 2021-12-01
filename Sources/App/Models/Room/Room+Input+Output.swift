@@ -40,6 +40,7 @@ extension Room {
         var features: [String]
         var timesAgo: String
         var verified: Bool?
+        var featured: Bool?
     }
     
     struct Update: Content {
@@ -62,6 +63,7 @@ extension Room {
         var description : String?
         var occupied : Bool?
         var preference : String?
+        var featured: Bool?
     }
     
     
@@ -85,6 +87,7 @@ extension Room {
         occupied = update.occupied ?? occupied
         preference = update.preference ?? preference
         phone = update.phone ?? phone
+        featured = update.featured ?? featured
         return self
     }
     

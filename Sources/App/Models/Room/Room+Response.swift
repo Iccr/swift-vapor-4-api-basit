@@ -43,7 +43,8 @@ extension Room {
             updatedAt: r.updatedAt,
             features: r.getFeautres(),
             timesAgo: r.createdAt?.timeAgoDisplay() ?? "",
-            verified: r.verified
+            verified: r.verified,
+            featured: r.featured
         )
     }
 
