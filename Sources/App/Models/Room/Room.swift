@@ -117,6 +117,7 @@ final class Room: Model, Content {
         self.lat = lat
         self.long = long
         self.type = type
+        self.address = address
         self.parking = parking
         self.noOfRooms = noOfRooms
         self.kitchen = kitchen
