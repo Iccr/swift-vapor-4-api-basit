@@ -109,16 +109,15 @@ final class Room: Model, Content {
          parking: String,  water: String, internet: String, phone: String, description: String?,
          occupied: Bool?, preference: String, createdAt: Date? = nil, updatedAt: Date? = nil, featured: Bool? = nil ) {
         self.id = id
-        
         self.price = price
         self.vimages = vimages.joined(separator: ",")
         self.cityName = cityName
-        //        self.vimages = vimages ?? ["sadfasdf"]
-        //        self.userId = userId
         self.$user.value = user
         self.$city.value = city
-        //        self.city = city
+        self.lat = lat
+        self.long = long
         self.type = type
+        self.parking = parking
         self.noOfRooms = noOfRooms
         self.kitchen = kitchen
         self.floor = floor
@@ -131,7 +130,6 @@ final class Room: Model, Content {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.featured = featured
-        
     }
     
     init() { }

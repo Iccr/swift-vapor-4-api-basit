@@ -89,7 +89,12 @@ class RoomStore {
             room.cityName = city.name
             return room.create(on: req.db).flatMapThrowing {
                 let id = room.id ?? -1
-                return  Room.query(on: req.db).filter(\.$id == id).first().unwrap(or: Abort(.notFound)).map({ room in
+                return  Room.query(on: req.db)
+                    .filter(\.$id == id)
+                    .with(\.$city)
+                    .first()
+                    .unwrap(or: Abort(.notFound))
+                    .map({ room in
                     return room.responseFrom(baseUrl: req.baseUrl)
                 })
                 
@@ -104,7 +109,7 @@ class RoomStore {
         guard let id = id  else { throw Abort(.notFound)}
         return Room.query(on: req.db)
             .filter(\.$id == id)
-            .with(\.$city)
+//            .with(\.$city)
             .first()
             .unwrap(or: Abort(.notFound))
     }
@@ -140,7 +145,9 @@ class RoomStore {
     }
     
     func update(req: Request, input: Room.Update) throws -> EventLoopFuture<Room.Output> {
-        return Room.find(input.id, on: req.db)
+        return Room.query(on: req.db).filter(\.$id == input.id)
+            .with(\.$city)
+            .first()
             .unwrap(or: Abort(.notFound))
             .flatMap { room in
                 let room =  room.get(update: input)
@@ -194,7 +201,8 @@ class RoomStore {
                         }
                     })
                 } catch(let error)  {
-                    return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
+//                    return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
+                    
                 }
 
                 return room.delete(on: req.db).map {
