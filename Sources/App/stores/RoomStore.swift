@@ -196,18 +196,22 @@ class RoomStore {
                 do {
                     let images = room.vimages?.components(separatedBy: ",") ?? []
                     try images.forEach({ filename in
-                        let path = uploadPath + filename
-                        let manager = FileManager.default
-                        
-                        if manager.fileExists(atPath: path ) {
-                            if let url: URL = .init(string:"file://"+path) {
-                                try manager.removeItem(at: url)
+                        if !filename.isEmpty {
+                            let path = uploadPath + filename
+                            let manager = FileManager.default
+                            
+                            if manager.fileExists(atPath: path ) {
+                                if let url: URL = .init(string:"file://"+path) {
+                                    try manager.removeItem(at: url)
+                                }
                             }
                         }
+                        
                     })
                 } catch(let error)  {
-//                    return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
-                    
+                    return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
+//                    return req.eventLoop.makeSucceededFuture(<#T##value: Success##Success#>)
+//                    request.eventLoop.makeSucceededFuture(())
                 }
 
                 return room.delete(on: req.db).map {

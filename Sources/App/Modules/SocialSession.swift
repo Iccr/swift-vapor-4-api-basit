@@ -29,6 +29,9 @@ class SocialSession {
         }
             .flatMapThrowing { res -> FacebookResponseModel in
             let response = try res.content.decode(FacebookResponseModel.self)
+                if response.error != nil {
+                    throw Abort(.unauthorized)
+                }
             return response
         }
     }
