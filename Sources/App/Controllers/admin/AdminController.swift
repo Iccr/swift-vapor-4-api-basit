@@ -29,6 +29,7 @@ class AdminController: RouteCollection {
         secure.post("city", "delete", use: cityDelete)
         secure.get("city", "edit", ":id", use: cityEdit)
         
+        
     }
     
     func new(req: Request) throws -> EventLoopFuture<View> {

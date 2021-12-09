@@ -2,19 +2,18 @@
 //  File.swift
 //  
 //
-//  Created by ccr on 02/12/2021.
+//  Created by ccr on 09/12/2021.
 //
 
-import Foundation
 import Vapor
 
-class StaticFileController: RouteCollection {
+class PagesStore {
     func boot(routes: RoutesBuilder) throws {
         let route = routes.grouped("static")
-        route.get("privacy", use: privacy)
-        route.get("terms", use: terms)
-        route.get("faq", use: faq)
-        route.get("about", use: about)
+//        route.get("privacy", use: privacy)
+//        route.get("terms", use: terms)
+//        route.get("faq", use: faq)
+//        route.get("about", use: about)
     }
     
     
@@ -35,3 +34,6 @@ class StaticFileController: RouteCollection {
         return req.view.render("static/about")
     }
 }
+
+
+

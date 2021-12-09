@@ -62,6 +62,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateAppVersion())
     app.migrations.add(Report.CreateReportMigration())
     app.migrations.add(Room.AddFeaturedToRoom())
+    app.migrations.add(AppPage.CreatePages())
     
     
     try? app.autoMigrate().wait()
