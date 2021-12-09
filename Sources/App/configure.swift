@@ -65,6 +65,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(AppPage.CreatePages())
     
     
+    
     try? app.autoMigrate().wait()
 //    seed(app.db)
     app.logger.log(level: .info, "migration complete")

@@ -34,7 +34,8 @@ func routes(_ app: Application) throws {
     // admin
     
     try app.register(collection: AdminController())
-    try app.register(collection: StaticFileController())
+//    try app.register(collection: StaticFileController())
+        try app.register(collection: PagesController())
     app.get  { req  in
         try  RoomWebController().index(req: req)
         
