@@ -63,7 +63,7 @@ class AdminController: RouteCollection {
         struct RentalContext: Content {
             var rooms: [Room.Output]
         }
-        return RoomStore().getAllRooms(req: req).flatMap { rooms in
+        return RoomStore().getAdminRooms(req: req).flatMap { rooms in
             return req.view.render("admin/pages/rentals", RentalContext(rooms: rooms))
             
         }
