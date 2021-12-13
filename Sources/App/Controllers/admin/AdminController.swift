@@ -161,7 +161,7 @@ class AdminController: RouteCollection {
                     req.redirect(to: "/admin/pages")
                 }
             }else {
-                return try CityStore().create(req: req).map { city in
+                return try PageStore().create(req: req).map { city in
                     return req.redirect(to: "/admin/pages")
                 }
             }

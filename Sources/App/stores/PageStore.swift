@@ -23,6 +23,14 @@ class PageStore {
             }
     }
     
+    func create(req: Request) throws -> EventLoopFuture<AppPage> {
+        let pages = try req.content.decode(AppPage.Input.self).page
+        return pages.create(on: req.db).map {
+            pages
+                
+        }
+    }
+    
     func find(_ id: Int?, req: Request) throws -> EventLoopFuture<AppPage?> {
         return AppPage.find(id, on: req.db)
     }
