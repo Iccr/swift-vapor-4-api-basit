@@ -47,7 +47,7 @@ extension City {
     struct AddNepaliNameToCity: Migration {
         func prepare(on database: Database) -> EventLoopFuture<Void> {
             database.schema(Schema.City)
-                .field("nepali_name", .double)
+                .field("nepali_name", .string)
                 .update()
         }
         

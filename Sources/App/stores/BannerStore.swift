@@ -47,6 +47,7 @@ class CityStore {
                 city.description = toUpdate.description ?? city.description
                 city.lat = toUpdate.lat ?? city.lat
                 city.long = toUpdate.long ?? city.long
+                city.nepaliName = toUpdate.nepaliName
                 return city.update(on: req.db).map {
                     return city
                 }

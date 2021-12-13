@@ -20,6 +20,8 @@ final class City : Model, Content {
 
     @Field(key: "name")
     var name : String?
+    @Field(key: "nepali_name")
+    var nepaliName : String?
     
     @Field(key: "status")
     var status : Bool
@@ -49,9 +51,10 @@ final class City : Model, Content {
         
     }
 
-    init(id: Int? = nil, name: String, image: String?, description: String?, lat: Double? = nil, long: Double? = nil) {
+    init(id: Int? = nil, name: String, nepaliName: String? = nil,  image: String?, description: String?, lat: Double? = nil, long: Double? = nil) {
         self.id = id
         self.name = name
+        self.nepaliName = nepaliName
         self.imageUrl = image
         self.description = description
         self.lat = lat

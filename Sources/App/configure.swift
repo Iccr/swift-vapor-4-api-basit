@@ -43,7 +43,7 @@ public func configure(_ app: Application) throws {
         as: .mysql)
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
-    
+    app.migrations.add(City.AddNepaliNameToCity())
     
     app.migrations.add(AppPage.CreatePages())
     app.migrations.add(City.CreateCityMigration())

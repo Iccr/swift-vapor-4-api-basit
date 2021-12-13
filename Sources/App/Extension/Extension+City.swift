@@ -15,7 +15,7 @@ extension City {
         if let image = city.imageUrl, !image.isEmpty {
             imageUrl =  baseUrl + image
         }
-        return .init(id: city.id , name: city.name, image: imageUrl, count: city.$rooms.value?.count, lat: city.lat, long: city.long, description: city.description)
+        return .init(id: city.id , name: city.name, nepaliName: city.nepaliName, image: imageUrl, count: city.$rooms.value?.count, lat: city.lat, long: city.long, description: city.description)
     }
 }
 

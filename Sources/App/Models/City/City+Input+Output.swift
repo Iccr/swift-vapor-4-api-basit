@@ -12,6 +12,7 @@ extension City {
     struct Output: Content {
         var id: Int?
         var name : String?
+        var nepaliName : String?
         var image : String?
         var count: Int?
         var lat: Double?
@@ -24,6 +25,7 @@ extension City {
     struct Input: Content {
         var id: Int?
         var name : String
+        var nepaliName : String
         var image : String?
         var description : String?
         var lat: Double?
@@ -43,6 +45,14 @@ extension City {
 
 extension City.Input {
     var city: City {
-        return .init(name: self.name, image: self.image, description: self.description, lat: self.lat, long: self.long)
+        return .init(
+            name: self.name,
+            nepaliName: self.nepaliName,
+            image: self.image,
+            description: self.description,
+            lat: self.lat,
+            long: self.long
+            
+        )
     }
 }
