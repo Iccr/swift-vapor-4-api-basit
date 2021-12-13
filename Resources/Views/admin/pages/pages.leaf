@@ -1,0 +1,83 @@
+
+#extend("admin/adminMaster"):
+#export("content"):
+<section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header text-right">
+                  #flasher()
+              
+                  <h3 class="card-title">Pages</h3>
+                  <a class="btn btn-success btn-sm" href="/admin/pages/new">
+                    <i class="fas fa-pencil-alt">
+                    </i>
+                    Add new
+                  </a>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th style="width: 10px">Id</th>
+                        <th>Name</th>
+                        <th>English</th>
+                        <th>Nepali</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      #for(item in pages):
+                      <tr>
+                        <td>#(item.id)</td>
+                        <td>#(item.name)</td>
+                        <td>
+                            #(item.eng)
+                        </td>
+                        <td>#(item.nep)</td>
+                        
+                        <td>
+
+                          <form action="/admin/pages/delete" method="post">
+                            <a class="btn btn-info btn-sm" href="/admin/pages/edit/#(item.id)">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Edit
+                            </a>
+
+                            <input type="hidden" name="id" value="#(item.id)">
+                            <button type="submit" class="btn btn-danger btn-sm" href="#"
+                              onClick="alert('Are Your Sure you want to delete')">
+                              <i class="fas fa-trash">
+                              </i>
+                              Delete
+                            </button>
+                          </form>
+                        </td>
+
+
+                      </tr>
+
+                      #endfor
+
+                    </tbody>
+                  </table>
+                </div>
+
+
+              </div>
+
+
+              <!-- /.card-body -->
+            </div>
+
+          </div>
+
+        </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+#endexport
+#endextend

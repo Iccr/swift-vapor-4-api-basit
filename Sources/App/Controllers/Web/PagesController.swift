@@ -46,6 +46,7 @@ class PagesController: RouteCollection {
         return try getPage(db: req.db, name: name).flatMap({ pages in
             return req.view.render("static/appPages", self.getContext(name: name, content: pages, lang: lang))
         })
+        
     }
     
     
@@ -80,6 +81,8 @@ class PagesController: RouteCollection {
         }
         return context
     }
+    
+    
 }
 
 

@@ -1,0 +1,66 @@
+
+#extend("admin/adminMaster"):
+  #export("content"):
+     <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+            #flasher()
+              <div class="card">
+                
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Add New Page</h3>
+                  </div>
+                  <form class="form-horizontal" action="/admin/pages" method="post">
+                  #if(page.id):
+                    <input type="hidden" name="id" value="#(page.id)">
+                  #endif
+                  
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label for="inputName3" class="col-sm-2 col-form-label">Name *</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" value="#(page.name)" name="name" id="inputName3" placeholder="Name" required>
+                        </div>
+                      </div>
+
+
+                        <div class="form-group row">
+                           <label for="inputDescription3" class="col-sm-2 col-form-label">English</label>
+                           <div class="col-sm-10">
+                            <textarea id="w3review"  class="form-control" name="w3review" rows="4" cols="50">
+                                #(page.eng)
+                            </textarea>
+                           </div>
+                         </div>
+
+                   
+
+                        <div class="form-group row">
+                           <label for="inputDescription3" class="col-sm-2 col-form-label">English</label>
+                           <div class="col-sm-10">
+                            <textarea id="w3review"  class="form-control" name="w3review" rows="4" cols="50">
+                                #(page.nep)
+                            </textarea>
+                           </div>
+                         </div>
+
+                    </div>
+                    </div>
+
+                     
+                    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+  #endexport
+#endextend

@@ -23,12 +23,19 @@ class AdminController: RouteCollection {
         secure.get("dashboard", use: dashboard)
         secure.get("rentals", use: rentals)
         secure.get("rentals", "verify", ":id", use: updateRoomVerify)
+        
         secure.get("city", use: city)
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
         secure.post("city", "delete", use: cityDelete)
         secure.get("city", "edit", ":id", use: cityEdit)
         
+        secure.get("pages", use: pages)
+        secure.post("pages", use: pagesCreate)
+        
+        secure.get("pages", "new", use: pagesNew)
+        secure.post("pages", "delete", use: pagesDelete)
+        secure.get("pages", "edit", ":id", use: pagesEdit)
         
     }
     
@@ -134,6 +141,64 @@ class AdminController: RouteCollection {
     }
     
     
+    func pages(req: Request) throws -> EventLoopFuture<View> {
+        try PageStore().getAllPages(req: req).flatMap { pages in
+            struct Context: Encodable {
+                var pages: [AppPage]
+                var alert: AppAlert?
+            }
+            return req.view.render("admin/pages/pages", Context(pages: pages, alert: req.alert))
+        }
+    }
+    
+    
+    func pagesCreate(req: Request) throws -> EventLoopFuture<Response> {
+        let _city = try? req.content.decode(AppPage.Input.self)
+        do {
+            if let _ = _city?.id {
+                // update if id is present
+                return try PageStore().update(req: req).map { pages in
+                    req.redirect(to: "/admin/pages")
+                }
+            }else {
+                return try CityStore().create(req: req).map { city in
+                    return req.redirect(to: "/admin/pages")
+                }
+            }
+        } catch {
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/pages/new/?alert=\(error)&priority=3"))
+        }
+    }
+    
+    func pagesNew(req: Request) throws -> EventLoopFuture<View> {
+        struct Context: Encodable {
+            var page: AppPage?
+            var edit = false
+            var alert: AppAlert?
+        }
+        return req.view.render("admin/pages/pagesForm", Context(alert: req.alert))
+    }
+    
+    
+    func pagesDelete(req: Request) throws -> EventLoopFuture<Response> {
+        try PageStore().delete(req: req).map { city in
+            return req.redirect(to: "/admin/pages")
+        }
+    }
+    
+    func pagesEdit(req: Request) throws -> EventLoopFuture<View> {
+        let id = req.parameters.get("id", as: Int.self)
+        struct Context: Encodable {
+            var page: AppPage?
+            var edit = true
+        }
+        
+        return try PageStore().find(id, req: req)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { pages in
+                req.view.render("/admin/pages/pagesForm", Context(page: pages))
+            }
+    }
     
     
 }
