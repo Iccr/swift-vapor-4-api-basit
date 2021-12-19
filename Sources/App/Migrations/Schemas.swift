@@ -16,4 +16,5 @@ struct Schema {
     static let AppVersion = "app_versions"
     static let Report = "reports"
     static let Pages = "pages"
+    static let apiKey = "apikey"
 }
