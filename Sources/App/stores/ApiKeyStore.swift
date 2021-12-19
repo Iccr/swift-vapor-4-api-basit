@@ -11,39 +11,34 @@ import Fluent
 
 
 
-class CityStore {
-    func getAllCity(req: Request) throws -> EventLoopFuture<[ApiKey]> {
-        return City.query(on: req.db).with(\.$rooms).sort(\.$createdAt, .ascending).all()
+class ApiKeyStore {
+    func getAllKeys(req: Request) throws -> EventLoopFuture<[ApiKey]> {
+        return ApiKey.query(on: req.db).sort(\.$createdAt, .ascending).all()
     }
     
     func create(req: Request) throws -> EventLoopFuture<ApiKey> {
-        let city = try req.content.decode(City.Input.self).city
-        return city.create(on: req.db).map {
-            city
+        let apiKey = try req.content.decode(ApiKey.Input.self).key
+        return apiKey.create(on: req.db).map {
+            apiKey
                 
         }
     }
     
     func delete(req: Request) throws -> EventLoopFuture<Void> {
         let toDelete = try req.content.decode(ApiKey.IDInput.self)
-        return City.query(on: req.db)
+        return ApiKey.query(on: req.db)
             .filter(\.$id == toDelete.id)
             .delete()
     }
     
-    func update(req: Request) throws -> EventLoopFuture<City> {
+    func update(req: Request) throws -> EventLoopFuture<ApiKey> {
         let toUpdate = try req.content.decode(ApiKey.Input.self)
         return try self.find(toUpdate.id, req: req)
             .unwrap(or: Abort(.badRequest))
-            .flatMap { city in
-                city.name = toUpdate.name
-                city.imageUrl = toUpdate.image ?? city.imageUrl
-                city.description = toUpdate.description ?? city.description
-                city.lat = toUpdate.lat ?? city.lat
-                city.long = toUpdate.long ?? city.long
-                city.nepaliName = toUpdate.nepaliName
-                return city.update(on: req.db).map {
-                    return city
+            .flatMap { apiKey in
+                apiKey.apiKey = toUpdate.apiKey.isEmpty ? apiKey.apiKey : toUpdate.apiKey
+                return apiKey.update(on: req.db).map {
+                    return apiKey
                 }
             }
     }

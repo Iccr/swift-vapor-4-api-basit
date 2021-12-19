@@ -11,7 +11,7 @@
                   #flasher()
               
                   <h3 class="card-title">Pages</h3>
-                  <a class="btn btn-success btn-sm" href="/admin/pages/new">
+                  <a class="btn btn-success btn-sm" href="/admin/apikey/new">
                     <i class="fas fa-pencil-alt">
                     </i>
                     Add new
@@ -28,7 +28,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      
+                    #for(item in keys):
                       <tr>
                         <td>#(item.id)</td>
                         <td>#(item.apiKey)</td>
@@ -49,6 +49,7 @@
                           </form>
                         </td>
                       </tr>
+                    #endfor
                     </tbody>
                   </table>
                 </div>

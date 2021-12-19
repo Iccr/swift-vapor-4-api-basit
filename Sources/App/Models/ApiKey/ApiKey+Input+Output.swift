@@ -12,14 +12,14 @@ extension ApiKey {
     
     struct Output: Content {
         var id: Int?
-        var apiKey : String?
+        var apiKey : String
         var createdAt: Date?
         var updatedAt: Date?
     }
     
     struct Input: Content {
         var id: Int?
-        var apiKey : String?
+        var apiKey : String
     }
     
     struct Query: Content {
@@ -34,7 +34,7 @@ extension ApiKey {
 }
 
 extension ApiKey.Input {
-    var apiKey: ApiKey {
+    var key: ApiKey {
         return .init(
             apiKey: self.apiKey
         )

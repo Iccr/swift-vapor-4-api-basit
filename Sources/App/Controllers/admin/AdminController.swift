@@ -215,26 +215,26 @@ class AdminController: RouteCollection {
     // apikey
     
     func apiKey(req: Request) throws -> EventLoopFuture<View> {
-        try PageStore().getAllPages(req: req).flatMap { pages in
+        try ApiKeyStore().getAllKeys(req: req).flatMap { pages in
             struct Context: Encodable {
-                var pages: [AppPage]
+                var keys: [ApiKey]
                 var alert: AppAlert?
             }
-            return req.view.render("admin/pages/apiKey", Context(pages: pages, alert: req.alert))
+            return req.view.render("admin/pages/apiKey", Context(keys: pages, alert: req.alert))
         }
     }
     
     
     func apiKeyCreate(req: Request) throws -> EventLoopFuture<Response> {
-        let _city = try? req.content.decode(AppPage.Input.self)
+        let _city = try? req.content.decode(ApiKey.Input.self)
         do {
             if let _ = _city?.id {
                 // update if id is present
-                return try PageStore().update(req: req).map { pages in
+                return try ApiKeyStore().update(req: req).map { pages in
                     req.redirect(to: "/admin/apiKey")
                 }
             }else {
-                return try PageStore().create(req: req).map { city in
+                return try ApiKeyStore().create(req: req).map { city in
                     return req.redirect(to: "/admin/apiKey")
                 }
             }
@@ -254,7 +254,7 @@ class AdminController: RouteCollection {
     
     
     func apiKeyDelete(req: Request) throws -> EventLoopFuture<Response> {
-        try PageStore().delete(req: req).map { city in
+        try ApiKeyStore().delete(req: req).map { city in
             return req.redirect(to: "/admin/apiKey")
         }
     }
@@ -262,19 +262,16 @@ class AdminController: RouteCollection {
     func apiKeyEdit(req: Request) throws -> EventLoopFuture<View> {
         let id = req.parameters.get("id", as: Int.self)
         struct Context: Encodable {
-            var page: AppPage?
+            var key: ApiKey?
             var edit = true
         }
         
-        return try PageStore().find(id, req: req)
+        return try ApiKeyStore().find(id, req: req)
             .unwrap(or: Abort(.notFound))
             .flatMap { pages in
-                req.view.render("/admin/pages/apiKeyForm", Context(page: pages))
+                req.view.render("/admin/pages/apiKeyForm", Context(key: pages))
             }
     }
-    
-    
-    
 }
 
 struct EnsureAdminUserMiddleware: Middleware {
