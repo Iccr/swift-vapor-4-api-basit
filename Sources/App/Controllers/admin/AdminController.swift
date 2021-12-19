@@ -21,21 +21,32 @@ class AdminController: RouteCollection {
         route.post("login", use: login)
         
         secure.get("dashboard", use: dashboard)
+        // rentals
         secure.get("rentals", use: rentals)
         secure.get("rentals", "verify", ":id", use: updateRoomVerify)
-        
+        // city
         secure.get("city", use: city)
         secure.post("city", use: cityCreate)
         secure.get("city", "new", use: cityNew)
         secure.post("city", "delete", use: cityDelete)
         secure.get("city", "edit", ":id", use: cityEdit)
         
+        // pages
         secure.get("pages", use: pages)
         secure.post("pages", use: pagesCreate)
         
         secure.get("pages", "new", use: pagesNew)
         secure.post("pages", "delete", use: pagesDelete)
         secure.get("pages", "edit", ":id", use: pagesEdit)
+        
+        // api key
+        secure.get("apiKey", use: apiKey)
+        secure.post("apiKey", use: apiKeyCreate)
+        
+        secure.get("apiKey", "new", use: apiKeyNew)
+        secure.post("apiKey", "delete", use: apiKeyDelete)
+        secure.get("apiKey", "edit", ":id", use: apiKeyEdit)
+        
         
     }
     
@@ -199,6 +210,69 @@ class AdminController: RouteCollection {
                 req.view.render("/admin/pages/pagesForm", Context(page: pages))
             }
     }
+    
+    
+    // apikey
+    
+    func apiKey(req: Request) throws -> EventLoopFuture<View> {
+        try PageStore().getAllPages(req: req).flatMap { pages in
+            struct Context: Encodable {
+                var pages: [AppPage]
+                var alert: AppAlert?
+            }
+            return req.view.render("admin/pages/apiKey", Context(pages: pages, alert: req.alert))
+        }
+    }
+    
+    
+    func apiKeyCreate(req: Request) throws -> EventLoopFuture<Response> {
+        let _city = try? req.content.decode(AppPage.Input.self)
+        do {
+            if let _ = _city?.id {
+                // update if id is present
+                return try PageStore().update(req: req).map { pages in
+                    req.redirect(to: "/admin/apiKey")
+                }
+            }else {
+                return try PageStore().create(req: req).map { city in
+                    return req.redirect(to: "/admin/apiKey")
+                }
+            }
+        } catch {
+            return req.eventLoop.makeSucceededFuture(req.redirect(to: "/admin/apiKey/new/?alert=\(error)&priority=3"))
+        }
+    }
+    
+    func apiKeyNew(req: Request) throws -> EventLoopFuture<View> {
+        struct Context: Encodable {
+            var page: AppPage?
+            var edit = false
+            var alert: AppAlert?
+        }
+        return req.view.render("admin/pages/apiKeyForm", Context(alert: req.alert))
+    }
+    
+    
+    func apiKeyDelete(req: Request) throws -> EventLoopFuture<Response> {
+        try PageStore().delete(req: req).map { city in
+            return req.redirect(to: "/admin/apiKey")
+        }
+    }
+    
+    func apiKeyEdit(req: Request) throws -> EventLoopFuture<View> {
+        let id = req.parameters.get("id", as: Int.self)
+        struct Context: Encodable {
+            var page: AppPage?
+            var edit = true
+        }
+        
+        return try PageStore().find(id, req: req)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { pages in
+                req.view.render("/admin/pages/apiKeyForm", Context(page: pages))
+            }
+    }
+    
     
     
 }

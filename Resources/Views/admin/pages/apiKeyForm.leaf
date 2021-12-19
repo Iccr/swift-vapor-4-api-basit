@@ -1,0 +1,42 @@
+
+
+#extend("admin/adminMaster"):
+  #export("content"):
+     <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+            #flasher()
+              <div class="card">
+                <div class="card card-info">
+                  <div class="card-header">
+                    <h3 class="card-title">Add New Key</h3>
+                  </div>
+                  <form class="form-horizontal" action="/admin/apiKey" method="post">
+                  #if(page.id):
+                    <input type="hidden" name="id" value="#(item.id)">
+                  #endif
+                  
+                    <div class="card-body">
+                      <div class="form-group row">
+                        <label for="inputName3" class="col-sm-2 col-form-label">apiKey *</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" value="#(page.name)" name="name" id="inputName3" placeholder="apiKey" required>
+                        </div>
+                      </div>
+
+                    </div>
+                    </div>
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-info">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+  #endexport
+#endextend

@@ -6,8 +6,9 @@
 //
 
 import Vapor
+import Fluent
 
-class CreateAppVersion: Migration {
+class CreateApiKey: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         database.schema(Schema.apiKey)
             .field("id", .int, .identifier(auto: true))
@@ -18,7 +19,7 @@ class CreateAppVersion: Migration {
     }
     
     func revert(on database: Database) -> EventLoopFuture<Void> {
-        database.schema(Schema.apiKeyi)
+        database.schema(Schema.apiKey)
             .delete()
     }
 }
