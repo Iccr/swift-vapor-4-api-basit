@@ -11,7 +11,7 @@ public func configure(_ app: Application) throws {
     
     let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
     app.middleware = .init()
-    app.middleware.use(EnsureApiDomainMiddleware())
+//    app.middleware.use(EnsureApiDomainMiddleware())
     app.middleware.use(MyErrorMiddleware())
     
     app.views.use(.leaf)

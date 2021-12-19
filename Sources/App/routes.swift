@@ -7,17 +7,25 @@ struct Todos: Content {
 }
 
 func routes(_ app: Application) throws {
+    
     app.routes.caseInsensitive = true
     let imperialController = ImperialController()
     try app.routes.register(collection: imperialController)
     
     //    api
+    
     let api = app.grouped("api", "v1")
-    try api.register(collection: RoomController())
-    try api.register(collection: LoginController())
-    try api.register(collection: CityController())
-    try api.register(collection: BannerController())
-    try api.register(collection: ReportController())
+//    api = app.grouped(EnsureApiDomainMiddleware())
+    try api.group(EnsureApiDomainMiddleware()) { api in
+        try api.register(collection: RoomController())
+        try api.register(collection: LoginController())
+        try api.register(collection: CityController())
+        try api.register(collection: BannerController())
+        try api.register(collection: ReportController())
+        try api.register(collection: AppInfoController())
+    }
+    
+    
     
     app.get("admin") { req in
         return req.view.render("admin/adminMaster")
@@ -29,7 +37,7 @@ func routes(_ app: Application) throws {
     try app.register(collection: RoomWebController())
     try app.register(collection: UserWebController())
     
-    try api.register(collection: AppInfoController())
+    
     
     // admin
     
