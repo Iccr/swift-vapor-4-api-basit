@@ -45,7 +45,7 @@ public func configure(_ app: Application) throws {
         as: .mysql)
     app.logger.log(level: .info, "database setup done")
     app.logger.log(level: .info, "starting migration")
-    app.migrations.add(CreateApiKey())
+    
     
     app.migrations.add(AppPage.CreatePages())
     app.migrations.add(City.CreateCityMigration())
@@ -67,6 +67,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Report.CreateReportMigration())
     app.migrations.add(Room.AddFeaturedToRoom())
     app.migrations.add(City.AddNepaliNameToCity())
+    app.migrations.add(CreateApiKey())
     
     
     
