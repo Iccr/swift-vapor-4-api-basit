@@ -274,19 +274,6 @@ class AdminController: RouteCollection {
     }
 }
 
-struct EnsureAdminUserMiddleware: Middleware {
-    
-    func respond(to request: Request, chainingTo next: Responder) -> EventLoopFuture<Response> {
-        
-        guard let user = request.auth.get(User.self), user.role == .admin else {
-            return request.eventLoop.future(error:  Abort.redirect(to: "/"))
-        }
-        
-        return next.respond(to: request)
-    }
-    
-}
-
 
 extension Request {
     var alert: AppAlert? {
