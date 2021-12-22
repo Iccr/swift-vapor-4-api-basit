@@ -34,7 +34,8 @@
 <link rel="stylesheet" type="text/css" href="/vendor/jquery-ui/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="/vendor/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" type="text/css" href="/css/stylesheet.css" />
-
+<link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
 </head>
 <body>
 <!-- Preloader -->
@@ -87,6 +88,8 @@
 <script src="/vendor/bootstrap-spinner/bootstrap-spinner.js"></script>
 <script src="/vendor/daterangepicker/moment.min.js"></script>
 <script src="/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="jquery.min.js"></script>
+<script src="owlcarousel/owl.carousel.min.js"></script>
 <script>
 
 
@@ -106,6 +109,20 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).ready(function(){
+  $(".owl-carousel").owlCarousel();
+});
+
+$('.owl-carousel').owlCarousel({
+    margin:10,
+    loop:true,
+    nav: true,
+    autoWidth:false,
+    items:1
+})
+
+
 
 $(function() {
  'use strict';
@@ -159,3 +176,5 @@ $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
 
 </body>
 </html>
+
+
