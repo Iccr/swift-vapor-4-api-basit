@@ -5,10 +5,7 @@
   ============================================= -->
     <h4 class="mb-0">Your Properties</h4>
     <div class="d-flex justify-content-end mb-3">
-    <form action="/rooms/new">
-       <button class="btn btn-sm btn-warning shadow-none text-nowrap"
-                                type="submit">Add Rent</button> 
-    </form>
+    
                             
                         </div>
     <div class="table-responsive-lg">

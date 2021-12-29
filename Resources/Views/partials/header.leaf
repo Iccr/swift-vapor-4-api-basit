@@ -24,9 +24,7 @@
                   
                 </li>
                 #if(user):
-                    <li class="dropdown"> <a class="dropdown-toggle" href="/rooms/new">Add Room</a>
                 #else:
-                    <li class="dropdown"> <a class="dropdown-toggle" href="#" data-toggle="modal" data-target="#login-signup"  >Add Room</a>
                 #endif
                                         
                                
