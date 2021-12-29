@@ -20,11 +20,11 @@ class RoomWebController: RouteCollection {
             .grouped(
                 User.redirectMiddleware(path: "/?loginRequired=true"))
         rooms.get(use: index) // /rooms
-        rooms.post( use: create)
+//        rooms.post( use: create)
         secureRooms.post("destroy", use: destroy) // /rooms/destroy
         secureRoutes.get("myrooms", use: showMyRooms) // /myrooms
         secureRoutes.get("profile", use: showProfile) // /profile
-        secureRooms.get("new", use: new) // rooms/new
+//        secureRooms.get("new", use: new) i// rooms/new
         secureRooms.get("edit", ":id", use: edit) // rooms/edit/1
         secureRooms.post(":id", use: update) // rooms/edit/1
     }
