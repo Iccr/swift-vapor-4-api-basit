@@ -314,6 +314,18 @@ extension RoomStore {
             }
         }
         
+        if let val = params.sortBy {
+            if val == "low_to_high" {
+                query.sort(\.$price, .ascending)
+            }else if val == "low_to_high" {
+                 query.sort(\.$price, .descending)
+            }
+            
+            if val == "latest" {
+                query.sort(\.$createdAt, .descending)
+            }
+        }
+        
         query.filter(.sql(raw: "occupied = false"))
         return query
     }

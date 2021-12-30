@@ -33,6 +33,7 @@ extension Room {
         var occupied : Bool?
         var preference : String?
         var price: String?
+        var sortBy: String?
         var page: Int? = 1
         var per: Int? = 10
         var alert: String?
