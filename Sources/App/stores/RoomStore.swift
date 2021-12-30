@@ -317,7 +317,7 @@ extension RoomStore {
         if let val = params.sortBy {
             if val == "low_to_high" {
                 query.sort(\.$price, .ascending)
-            }else if val == "low_to_high" {
+            }else if val == "high_to_low" {
                  query.sort(\.$price, .descending)
             }
             
