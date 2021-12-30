@@ -12,6 +12,7 @@ import Fluent
 class RoomStore {
     func getAllRooms(_ searchQuery: Room.Querry, req: Request) -> EventLoopFuture<Page<Room.Output>> {
         let query =  Room.query(on: req.db)
+        let user =  req.auth.get(User.self)
          return self.querries(query: query, params: searchQuery)
             .with(\.$city)
             .with(\.$user)
@@ -20,7 +21,7 @@ class RoomStore {
             .sort(\.$createdAt, .descending)
             .paginate(for: req)
             .map { page in
-                page.map { $0.responseFrom(baseUrl: req.baseUrl)
+                page.map { $0.responseFrom(baseUrl: req.baseUrl, authenticated: user != nil)
                 }
             }
     }
@@ -224,8 +225,6 @@ class RoomStore {
                     })
                 } catch(let error)  {
                     return req.eventLoop.makeFailedFuture( Abort(.badRequest, reason: error.localizedDescription))
-//                    return req.eventLoop.makeSucceededFuture(<#T##value: Success##Success#>)
-//                    request.eventLoop.makeSucceededFuture(())
                 }
 
                 return room.delete(on: req.db).map {

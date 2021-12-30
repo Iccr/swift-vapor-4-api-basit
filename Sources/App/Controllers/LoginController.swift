@@ -11,7 +11,7 @@ import Foundation
 import Fluent
 import Vapor
 import JWT
-
+    
 enum AuthProvider: String  {
     case google
     case facebook

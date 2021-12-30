@@ -11,6 +11,7 @@ import Foundation
 
 extension Room {
     func responseFrom(baseUrl: String, authenticated: Bool = false)-> Room.Output {
+        
         let r = self
         let images = r.getImages(baseUrl: baseUrl)
         let coverImage: String = images.first ?? ""
