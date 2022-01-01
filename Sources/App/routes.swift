@@ -23,6 +23,9 @@ func routes(_ app: Application) throws {
         try api.register(collection: BannerController())
         try api.register(collection: ReportController())
         try api.register(collection: AppInfoController())
+        try api.register(collection: UserAccountDeleteController())
+        
+        
     }
     
     

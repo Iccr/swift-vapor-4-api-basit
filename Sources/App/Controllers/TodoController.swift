@@ -1,35 +1,21 @@
 import Fluent
 import Vapor
 
-struct TodoController: RouteCollection {
+struct UserAccountDeleteController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
-        let todos = routes.grouped("todos")
-        todos.get(use: index)
-        todos.post(use: create)
+        let route = routes.grouped("deactivate")
+        route.get(use: index)
         
-        todos.group(":todoID") { todo in
-            todo.delete(use: delete)
-        }
     }
 
-    func index(req: Request) throws -> EventLoopFuture<[User]> {
-        return User.query(on: req.db).all()
+    func index(req: Request) throws -> EventLoopFuture<User> {
+        let user = try req.auth.require(User.self)
+       return user.$rooms.wrappedValue.map {$0.delete(on: req.db)}.flatten(on: req.db.eventLoop).flatMap({
+           return user.delete(on: req.db).map {
+                user
+            }
+        })
     }
 
-    func create(req: Request) throws -> EventLoopFuture<Todo> {
-        print(req.body)
-        print(req.content)
-        print(req.method)
-        print(req.parameters)
-        let todo = try req.content.decode(Todo.self)
-        print(todo.title)
-        return todo.save(on: req.db).map { todo }
-    }
-
-    func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return Todo.find(req.parameters.get("todoID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
-            .flatMap { $0.delete(on: req.db) }
-            .transform(to: .ok)
-    }
+  
 }
