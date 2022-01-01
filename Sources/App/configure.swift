@@ -64,10 +64,11 @@ public func configure(_ app: Application) throws {
     app.migrations.add(Room.AddVerifiedFieldToRoom())
     
     app.migrations.add(CreateAppVersion())
-    app.migrations.add(Report.CreateReportMigration())
+    
     app.migrations.add(Room.AddFeaturedToRoom())
     app.migrations.add(City.AddNepaliNameToCity())
     app.migrations.add(CreateApiKey())
+    app.migrations.add(Report.CreateReportMigration())
     
     
     
