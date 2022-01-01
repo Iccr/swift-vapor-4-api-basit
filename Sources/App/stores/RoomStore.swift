@@ -156,10 +156,11 @@ class RoomStore {
     func getMyRoomsWithPagination(req: Request, user: User) -> EventLoopFuture<Page<Room.Output>>  {
         return Room.query(on: req.db)
             .filter(\.$user.$id == user.id ?? -1)
+            .sort(\.$createdAt, .descending)
             .with(\.$city)
             .paginate(for: req)
             .map { page in
-                page.map { $0.responseFrom(baseUrl: req.baseUrl)
+                page.map { $0.responseFrom(baseUrl: req.baseUrl, authenticated: true)
                 }
             }
     }
