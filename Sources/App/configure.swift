@@ -19,7 +19,7 @@ public func configure(_ app: Application) throws {
     // cors middleware should come before default error middleware using `at: .beginning`
 
     app.middleware = .init()
-    app.middleware.use(cors, at: .beginning)
+    app.middleware.use(cors)
 //    app.middleware.use(EnsureApiDomainMiddleware())
     app.middleware.use(MyErrorMiddleware())
     
