@@ -32,14 +32,17 @@ class RoomWebController: RouteCollection {
     func index(req: Request) throws -> EventLoopFuture<View> {
         let query = try req.query.decode(Room.Querry.self)
         let user = req.auth.get(User.self)
-        return RoomStore()
-            .getAllRooms(query, req: req)
-            .flatMap { page in
-            return req.view.render(
-                "index",
-                Room.getContext(baseUrl: req.baseUrl, page: page, query: query, user: user)
-            )
+        return City.query(on: req.db).all().flatMap { cities in
+             return RoomStore()
+                .getAllRooms(query, req: req)
+                .flatMap { page in
+                return req.view.render(
+                    "index",
+                    Room.getContext(baseUrl: req.baseUrl, page: page, query: query, user: user, cities: cities.map({$0.responseFrom(baseUrl: req.baseUrl)}))
+                )
+            }
         }
+        
     }
     
     func create(req: Request) throws -> EventLoopFuture<Response> {

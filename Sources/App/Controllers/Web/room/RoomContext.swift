@@ -14,6 +14,7 @@ extension Room {
     struct Context: Encodable {
         var title: String
         var items: [Room.Output]
+        var cities: [City.Output]
         var page: Page<Room.Output>
         var query: Room.Querry
         var tags: String
@@ -28,7 +29,7 @@ extension Room {
     static func getContext(baseUrl: String,
                            page: Page<Room.Output>,
                            query: Room.Querry,
-                           user: User?) -> Room.Context {
+                           user: User?, cities: [City.Output]) -> Room.Context {
             
         let searchTags = ["type", "internet", "kitchen", "floor", "parking", "water", "preference", "city"]
         let tag = query.getQeury().filter {searchTags.contains($0.name.lowercased())}
@@ -47,6 +48,7 @@ extension Room {
         return Room.Context(
          title: "Rooms",
          items: page.items,
+         cities: cities,
          page: page,
          query: query,
          tags: tag,

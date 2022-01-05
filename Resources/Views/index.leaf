@@ -11,14 +11,8 @@
                   <div class="col-md-6 col-lg"> 
                   </div>
                   
-                  <div class="col-md-12 col-lg form-group">
-                    <input type="search"  class="form-control" id="carsCity"  placeholder="Enter City" name="city" value="#(query.city)">
-                    <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="page" value="1">
-                    <input type="hidden"  class="form-control" id="carsCity"  placeholder="Enter City" name="per" value="#(pageModel.per)">
-                  </div>
-                  <div class="col-lg-2 form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Search</button>
-                  </div>
+                 
+                 
 
                   <div class="col-md-6 col-lg"> 
                   </div>
@@ -29,6 +23,17 @@
                   <h3 class="text-5">Filter</h3>
                   <div class="accordion accordion-alternate style-2" id="toggleAlternate">
                   
+                     <select class="custom-select rounded-left-0 border-0" id="citiesSelect" name="city" required="" onchange="$('#bookingCars').submit();">
+                     
+                      <option value="">Select City</option>
+                      #for(city in  cities):
+                        <option value="#(city.name)" #if(query.city == city.name): selected  #endif >#(city.name)</option>  
+                      #endfor
+                  
+                  
+                  
+                </select>
+
                     <div class="card">
                       <div class="card-header" id="carType">
                         <h5 class="mb-0"> <a href="#" class="collapse" data-toggle="collapse" data-target="#togglecarType" aria-expanded="true" aria-controls="togglecarType">Housing Type</a> </h5>
