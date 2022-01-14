@@ -19,7 +19,9 @@ class BannerStore {
 
 class CityStore {
     func getAllCity(req: Request) throws -> EventLoopFuture<[City]> {
-        return City.query(on: req.db).with(\.$rooms).sort(\.$createdAt, .ascending).all()
+        return City.query(on: req.db).with(\.$rooms).sort(\.$createdAt, .ascending)
+            .filter(\.$status == true)
+            .all()
     }
     
     func create(req: Request) throws -> EventLoopFuture<City> {

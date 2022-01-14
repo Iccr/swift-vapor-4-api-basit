@@ -122,9 +122,11 @@ class RoomStore {
     func edit(req: Request) throws -> EventLoopFuture<Room> {
         let id = req.parameters.get("id", as: Int.self)
         guard let id = id  else { throw Abort(.notFound)}
+        
         return Room.query(on: req.db)
             .filter(\.$id == id)
 //            .with(\.$city)
+            .with(\.$user)
             .first()
             .unwrap(or: Abort(.notFound))
     }
@@ -145,12 +147,10 @@ class RoomStore {
     }
     
     func getMyRooms(req: Request, user: User) -> EventLoopFuture<[Room.Output]> {
-//        .sort(\.$createdAt, .descending)
        return Room.query(on: req.db)
             .filter(\.$user.$id == user.id ?? -1)
             .sort(\.$createdAt, .descending)
-            .all().mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
-//        return user.$rooms.get(on: req.db).mapEach {$0.responseFrom(baseUrl: req.baseUrl)}
+            .all().mapEach {$0.responseFrom(baseUrl: req.baseUrl, authenticated: user != nil)}
     }
     
     func getMyRoomsWithPagination(req: Request, user: User) -> EventLoopFuture<Page<Room.Output>>  {
@@ -166,15 +166,17 @@ class RoomStore {
     }
     
     func update(req: Request, input: Room.Update) throws -> EventLoopFuture<Room.Output> {
+        let user =  req.auth.get(User.self)
         return Room.query(on: req.db).filter(\.$id == input.id)
             .with(\.$city)
+            .with(\.$user)
             .first()
             .unwrap(or: Abort(.notFound))
             .flatMap { room in
                 let room =  room.get(update: input)
                 room.verified = false
                 return room.update(on: req.db).map {
-                    room.responseFrom(baseUrl: req.baseUrl)
+                    room.responseFrom(baseUrl: req.baseUrl, authenticated: user != nil)
                 }
             }
     }
@@ -190,15 +192,12 @@ class RoomStore {
             }
     }
     
-    
-    
     func showMyRooms(req: Request) throws -> EventLoopFuture<[Room.Output]> {
         let user = req.auth.get(User.self)
         return User.find(user?.id, on: req.db).unwrap(or: Abort(.notFound))
             .flatMap { user in
                 user.$rooms.load(on: req.db).map {
                     return user.rooms.map({$0.responseFrom(baseUrl: req.baseUrl)})
-//                    return req.view.render("myroom", ["items": result])
                 }
             }
     }
@@ -238,7 +237,6 @@ class RoomStore {
 
 
 extension RoomStore {
-    
     func querries(query: QueryBuilder<Room>, params: Room.Querry) -> QueryBuilder<Room> {
         if let val = params.city, !val.isEmpty {
             query.filter(.sql(raw: "LOWER(city_name) LIKE '%\(val.lowercased())%'"))
@@ -251,7 +249,6 @@ extension RoomStore {
             query.filter(\.$kitchen == val)
         }
         if let val = params.floor, val != "any" {
-//            query.filter(\.$floor == val)
             query.filter(.sql(raw: "LOWER(floor) LIKE '%\(val.lowercased())%'"))
         }
         
@@ -275,9 +272,6 @@ extension RoomStore {
             query.filter(\.$parking ~~ params.parking)
         }
         
-//        if let val = params.parking {
-//            query.filter(\.$parking ~~ val)
-//        }
         
         if let val = params.water {
             query.filter(.sql(raw: "LOWER(water) LIKE '%\(val.lowercased())%'"))
